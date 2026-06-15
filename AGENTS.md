@@ -31,6 +31,12 @@
 - Build usable product surfaces directly rather than placeholder landing pages unless a landing page is explicitly requested.
 - Keep UI decisions intentional, domain-specific, accessible, responsive, and consistent with the existing app structure.
 
+## Website Checking
+
+- Whenever checking, testing, inspecting, screenshotting, or interacting with a website or local web app, use the `$agent-browser` skill:
+  `C:\Users\Administrator\.agents\skills\agent-browser\SKILL.md`
+- Prefer `agent-browser` commands for navigation, snapshots, screenshots, form interactions, and responsive checks.
+
 ## Stitch Skills Available
 
 Use Stitch skills when the task involves Stitch designs, design systems, generated screens, or converting designs to code.

@@ -7,7 +7,8 @@ const ShapeGrid = ({
   squareSize = 40,
   hoverFillColor = '#222',
   shape = 'square',
-  hoverTrailAmount = 0
+  hoverTrailAmount = 0,
+  fadeColor = null
 }) => {
   const canvasRef = useRef(null);
   const requestRef = useRef(null);
@@ -191,19 +192,21 @@ const ShapeGrid = ({
         }
       }
 
-      const gradient = ctx.createRadialGradient(
-        canvas.width / 2,
-        canvas.height / 2,
-        0,
-        canvas.width / 2,
-        canvas.height / 2,
-        Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
-      );
-      gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
-      gradient.addColorStop(1, '#120F17');
+      if (fadeColor) {
+        const gradient = ctx.createRadialGradient(
+          canvas.width / 2,
+          canvas.height / 2,
+          0,
+          canvas.width / 2,
+          canvas.height / 2,
+          Math.sqrt(canvas.width ** 2 + canvas.height ** 2) / 2
+        );
+        gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        gradient.addColorStop(1, fadeColor);
 
-      ctx.fillStyle = gradient;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
     };
 
     const updateAnimation = () => {
@@ -383,7 +386,7 @@ const ShapeGrid = ({
       canvas.removeEventListener('mousemove', handleMouseMove);
       canvas.removeEventListener('mouseleave', handleMouseLeave);
     };
-  }, [direction, speed, borderColor, hoverFillColor, squareSize, shape, hoverTrailAmount]);
+  }, [direction, speed, borderColor, hoverFillColor, squareSize, shape, hoverTrailAmount, fadeColor]);
 
   return <canvas ref={canvasRef} className="w-full h-full border-none block"></canvas>;
 };

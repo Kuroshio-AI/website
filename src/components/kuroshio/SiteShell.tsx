@@ -1,10 +1,17 @@
 import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+} from "@/components/ui/navigation-menu";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
 import { navItems } from "@/data/mockData";
 import type { IconKey } from "@/data/mockData";
 import type { PageId } from "@/data/mockData";
+import { cn } from "@/lib/utils";
 
 export interface SiteShellProps {
   readonly activePage: PageId;
@@ -44,6 +51,53 @@ const footerColumns: ReadonlyArray<{
   },
 ];
 
+interface SiteNavigationProps {
+  readonly activePage: PageId;
+  readonly className?: string;
+  readonly linkClassName?: string;
+  readonly listClassName?: string;
+  readonly onNavigate: (page: PageId) => void;
+}
+
+const navLinkClassName =
+  "h-9 rounded-md px-3.5 py-2 text-sm font-medium text-primary-fixed-dim hover:bg-surface-container-lowest/10 hover:text-surface-container-lowest focus:bg-surface-container-lowest/10 focus:text-surface-container-lowest";
+
+function SiteNavigation({
+  activePage,
+  className,
+  linkClassName,
+  listClassName,
+  onNavigate,
+}: Readonly<SiteNavigationProps>) {
+  return (
+    <NavigationMenu className={cn("max-w-none flex-none justify-start", className)} viewport={false}>
+      <NavigationMenuList className={cn("justify-start gap-1", listClassName)}>
+        {navItems.map((item) => {
+          const isActive = activePage === item.id;
+
+          return (
+            <NavigationMenuItem key={item.id}>
+              <NavigationMenuLink
+                aria-current={isActive ? "page" : undefined}
+                asChild
+                className={cn(
+                  navLinkClassName,
+                  isActive && "bg-secondary-fixed/15 text-secondary-fixed",
+                  linkClassName
+                )}
+              >
+                <button onClick={() => onNavigate(item.id)} type="button">
+                  {item.label}
+                </button>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          );
+        })}
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+}
+
 export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShellProps>) {
   return (
     <div className="min-h-screen bg-hero-navy text-on-surface">
@@ -57,23 +111,7 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
             Kuroshio <span className="text-secondary-fixed">AI</span>
           </button>
 
-          <div className="hidden items-center gap-9 md:flex">
-            {navItems.map((item) => {
-              const isActive = activePage === item.id;
-              return (
-                <button
-                  className={`text-sm font-medium transition-colors hover:text-surface-container-lowest ${
-                    isActive ? "text-secondary-fixed" : "text-primary-fixed-dim"
-                  }`}
-                  key={item.id}
-                  onClick={() => onNavigate(item.id)}
-                  type="button"
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
+          <SiteNavigation activePage={activePage} className="hidden md:flex" onNavigate={onNavigate} />
 
           <Button
             className="hidden h-10 rounded-md bg-secondary px-5 text-sm font-bold text-on-secondary hover:bg-secondary/90 sm:inline-flex"
@@ -84,19 +122,14 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
           </Button>
         </nav>
 
-        <div className="flex gap-5 overflow-x-auto border-t border-primary-fixed-dim/15 bg-hero-navy px-gutter py-3 md:hidden">
-          {navItems.map((item) => (
-            <button
-              className={`shrink-0 text-sm font-medium transition-colors hover:text-surface-container-lowest ${
-                activePage === item.id ? "text-secondary-fixed" : "text-primary-fixed-dim"
-              }`}
-              key={item.id}
-              onClick={() => onNavigate(item.id)}
-              type="button"
-            >
-              {item.label}
-            </button>
-          ))}
+        <div className="overflow-x-auto border-t border-primary-fixed-dim/15 bg-hero-navy px-gutter py-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:hidden">
+          <SiteNavigation
+            activePage={activePage}
+            className="w-max"
+            linkClassName="shrink-0"
+            listClassName="min-w-max flex-none"
+            onNavigate={onNavigate}
+          />
         </div>
       </header>
 

@@ -1,11 +1,9 @@
-import { Button } from "@/components/ui/button";
-import { KuroshioIcon } from "@/components/kuroshio/IconMap";
-import { PageHero } from "@/components/kuroshio/PageHero";
 import {
   AnchorNav,
   ArchitectureSection,
   MachineTable,
   MetricCard,
+  PlatformHero,
   ProductFeatureSection,
 } from "@/components/kuroshio/PlatformSections";
 import { platformPage } from "@/data/mockData";
@@ -17,38 +15,31 @@ export interface PlatformPageProps {
 
 export function PlatformPage({ onNavigate }: Readonly<PlatformPageProps>) {
   return (
-    <main>
-      <PageHero
-        action={platformPage.hero.action}
-        description={platformPage.hero.description}
-        image={platformPage.hero.image}
-        imageAlt="Dark industrial analytics dashboard composition."
-        onAction={() => document.getElementById("architecture")?.scrollIntoView({ behavior: "smooth" })}
-        title={platformPage.hero.title}
-      />
+    <main className="relative isolate bg-hero-navy text-[#eef4ff]">
+      <PlatformHero onNavigate={onNavigate} />
       <AnchorNav items={platformPage.anchorNav} />
 
-      <section className="mx-auto max-w-[1280px] scroll-mt-40 px-gutter py-section-gap-md" id="energy-iq">
-        <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+      <section className="mx-auto max-w-[1180px] scroll-mt-[204px] px-gutter py-20 md:scroll-mt-36 md:py-28" id="energy-iq">
+        <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
-            <div className="mb-2 flex items-center gap-3">
-              <h2 className="text-3xl font-bold text-on-surface md:text-4xl">EnergyIQ</h2>
-              <span className="inline-flex items-center gap-2 rounded bg-primary-fixed px-3 py-1 text-xs font-bold uppercase text-primary">
-                <span className="size-2 rounded-full bg-primary" />
+            <div className="mb-3 flex items-center gap-3">
+              <h2 className="text-3xl font-bold text-[#eef4ff] md:text-4xl">EnergyIQ</h2>
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#0e9e8e]/30 bg-[#0e9e8e]/15 px-3 py-1 text-xs font-bold uppercase text-[#82f6e3]">
+                <span className="size-2 rounded-full bg-[#0e9e8e]" />
                 Live Data
               </span>
             </div>
-            <p className="text-base leading-6 text-on-surface-variant">
-              Today's plant-level energy consumption and operational efficiency.
+            <p className="max-w-xl text-base leading-8 text-[#b4cdf0]/70">
+              Real-time energy intelligence across every production asset, from active load to avoidable idle waste.
             </p>
           </div>
-          <div className="text-sm text-on-surface-variant md:text-right">
+          <div className="text-sm text-[#b4cdf0]/60 md:text-right">
             <div>24 OCT 2023</div>
             <div className="mt-1 text-xs uppercase">14:30:00 UTC</div>
           </div>
         </div>
 
-        <div className="mb-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {platformPage.metrics.map((metric) => (
             <MetricCard key={metric.label} metric={metric} />
           ))}
@@ -72,26 +63,6 @@ export function PlatformPage({ onNavigate }: Readonly<PlatformPageProps>) {
         title={platformPage.logbook.title}
         visual="logbook"
       />
-
-      <section className="mx-auto max-w-[1280px] px-gutter pb-section-gap-md">
-        <div className="rounded-xl border border-border-cool bg-surface-teal p-6 text-primary shadow-sm">
-          <div className="flex flex-col gap-stack-md md:flex-row md:items-center md:justify-between">
-            <div className="flex items-start gap-3">
-              <KuroshioIcon className="mt-1 size-6 text-secondary" name="leaf" />
-              <div>
-                <h2 className="text-2xl font-bold">Carbon & Sustainability</h2>
-                <p className="mt-2 max-w-3xl text-base leading-7 text-on-secondary-fixed-variant">
-                  Convert machine energy behavior into operational evidence for waste reduction, compliance reporting,
-                  and facility-level carbon accounting.
-                </p>
-              </div>
-            </div>
-            <Button className="h-11 rounded-lg bg-secondary px-5 text-on-secondary hover:bg-secondary/90" onClick={() => onNavigate("contact")} type="button">
-              Discuss Reporting
-            </Button>
-          </div>
-        </div>
-      </section>
 
       <ArchitectureSection onNavigate={onNavigate} />
     </main>

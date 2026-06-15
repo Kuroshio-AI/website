@@ -1,5 +1,5 @@
-import ShapeGrid from "@/components/ShapeGrid";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
+import ShapeGrid from "@/components/ShapeGrid";
 import { Button } from "@/components/ui/button";
 import { homePage } from "@/data/mockData";
 import type { PageId } from "@/data/mockData";
@@ -15,32 +15,62 @@ const heroStats = [
   { value: "500", accent: "+", label: "Industrial Deployments" },
 ] as const;
 
+interface HomeCallToActionProps {
+  readonly onNavigate: (page: PageId) => void;
+}
+
+function HomeCallToAction({ onNavigate }: Readonly<HomeCallToActionProps>) {
+  return (
+    <section aria-label="Homepage call to action" className="mx-auto mt-6 max-w-5xl md:mt-8">
+      <div className="space-y-4 text-center">
+        <h2 className="text-balance text-xl font-semibold leading-tight text-[#eef4ff] md:text-2xl">
+          Start with one machine. Scale across the floor.
+        </h2>
+        <div className="flex flex-col justify-center gap-3 sm:flex-row">
+          <Button
+            className="h-11 w-full rounded-md bg-secondary px-8 text-sm font-bold text-on-secondary hover:bg-secondary/90 sm:w-auto"
+            onClick={() => onNavigate("contact")}
+            size="lg"
+            type="button"
+          >
+            {homePage.primaryAction}
+          </Button>
+          <Button
+            className="h-11 w-full rounded-md border-primary-fixed-dim/15 bg-transparent px-8 text-sm font-medium text-primary-fixed-dim hover:bg-primary-fixed-dim/10 hover:text-surface-container-lowest sm:w-auto"
+            onClick={() => onNavigate("platform")}
+            size="lg"
+            type="button"
+            variant="outline"
+          >
+            {homePage.secondaryAction}
+            <KuroshioIcon className="ml-1 size-4" name="arrowRight" />
+          </Button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export function HomePage({ onNavigate }: Readonly<HomePageProps>) {
   return (
     <main className="bg-hero-navy text-surface-container-lowest">
       <section className="relative isolate flex min-h-[calc(100svh-118px)] overflow-hidden md:h-[calc(100svh-131px)] md:min-h-0">
-        <div className="absolute inset-0 z-0 opacity-55">
+        <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
           <ShapeGrid
-            borderColor="rgba(172, 199, 255, 0.24)"
+            borderColor="rgba(172, 199, 255, 0.16)"
             direction="diagonal"
-            hoverFillColor="rgba(100, 217, 200, 0.18)"
-            hoverTrailAmount={7}
+            hoverFillColor="rgba(100, 217, 200, 0)"
+            hoverTrailAmount={0}
             shape="square"
-            speed={0.18}
-            squareSize={60}
+            speed={0.12}
+            squareSize={64}
           />
         </div>
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_18%,rgba(0,107,95,0.28),transparent_28%),linear-gradient(180deg,rgba(17,38,72,0.18)_0%,rgba(17,38,72,0.72)_72%,#112648_100%)]" />
         <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-primary-fixed-dim/15" />
 
         <div className="relative z-10 flex w-full flex-col">
           <div className="mx-auto flex w-full max-w-[1180px] flex-1 items-center justify-center px-gutter py-4 text-center md:py-14">
             <div className="mx-auto max-w-4xl">
-              <div className="mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-secondary-fixed/25 bg-secondary/15 px-4 py-2 text-xs font-medium uppercase tracking-[0.16em] text-secondary-fixed md:mb-9">
-                <span className="size-1.5 rounded-full bg-secondary-fixed" />
-                Industrial IoT - AI-powered
-              </div>
-
               <h1 className="text-balance text-[clamp(2.75rem,4.4vw,4.35rem)] font-bold leading-[1.05] tracking-normal text-[#eef4ff]">
                 <span className="block md:whitespace-nowrap">Industrial Intelligence</span>
                 <span className="mt-3 block text-secondary-fixed-dim">at Your Fingertips</span>
@@ -50,24 +80,7 @@ export function HomePage({ onNavigate }: Readonly<HomePageProps>) {
                 {homePage.description}
               </p>
 
-              <div className="mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-11 md:gap-4">
-                <Button
-                  className="h-10 w-full rounded-md bg-secondary px-7 text-sm font-bold text-on-secondary hover:bg-secondary/90 md:h-11 sm:w-auto"
-                  onClick={() => onNavigate("contact")}
-                  type="button"
-                >
-                  {homePage.primaryAction}
-                </Button>
-                <Button
-                  className="h-10 w-full rounded-md border-primary-fixed-dim/15 bg-transparent px-7 text-sm font-medium text-primary-fixed-dim hover:bg-primary-fixed-dim/10 hover:text-surface-container-lowest md:h-11 sm:w-auto"
-                  onClick={() => onNavigate("platform")}
-                  type="button"
-                  variant="outline"
-                >
-                  {homePage.secondaryAction}
-                  <KuroshioIcon className="ml-1 size-4" name="arrowRight" />
-                </Button>
-              </div>
+              <HomeCallToAction onNavigate={onNavigate} />
             </div>
           </div>
 
