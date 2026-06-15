@@ -16,6 +16,13 @@
 - Generated UI primitives go under `src/components/ui`; put composed product components outside that folder.
 - When implementing Stitch designs, use shadcn/ui primitives wherever they fit before writing custom UI from scratch.
 
+## React Bits MCP
+
+- React Bits is available through the shadcn MCP server, not a separate project package.
+- `components.json` includes the `@react-bits` registry: `https://reactbits.dev/r/{name}.json`.
+- Use the shadcn MCP tools or CLI to browse, search, and install React Bits items, for example `bunx shadcn@latest add @react-bits/Dither-JS-TW`.
+- Prefer the JavaScript variants for this project unless TypeScript is introduced.
+
 ## Frontend Design Work
 
 - When implementing or improving frontend UI, use the `$frontend-design` skill:

@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+# Local design/reference artifacts. Ignored by Git only; files remain readable on disk.
+.stitch/
+public/kuroshio/home-hero.jpg
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
