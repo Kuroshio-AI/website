@@ -8,6 +8,14 @@
 - Prefer `bun add <package>` and `bun add -d <package>` over npm equivalents.
 - Do not add or refresh `package-lock.json`; use `bun.lock` when dependencies are installed with Bun.
 
+## shadcn/ui CLI
+
+- shadcn/ui is initialized for this Vite app with `components.json`.
+- Use Bun: `bunx shadcn@latest add button`, `bunx shadcn@latest view button`, `bunx shadcn@latest docs button`, and `bunx shadcn@latest info`.
+- Preview risky changes with `bunx shadcn@latest add dialog --dry-run --diff`.
+- Generated UI primitives go under `src/components/ui`; put composed product components outside that folder.
+- When implementing Stitch designs, use shadcn/ui primitives wherever they fit before writing custom UI from scratch.
+
 ## Frontend Design Work
 
 - When implementing or improving frontend UI, use the `$frontend-design` skill:
