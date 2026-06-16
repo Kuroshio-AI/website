@@ -23,6 +23,7 @@ export type IconKey =
   | "radio"
   | "settings"
   | "shield"
+  | "terminal"
   | "waves"
   | "wrench"
   | "zap";
@@ -50,10 +51,12 @@ export const footerGroups = [
 ] as const;
 
 export const homePage = {
+  eyebrow: "Enterprise Autonomous Systems",
   title: "Industrial Intelligence at Your Fingertips",
   description:
-    "Monitor energy consumption in real-time, predict equipment failures before they happen, and drive operational excellence with our AI-powered industrial IoT platform.",
-  image: "/kuroshio/home-hero.jpg",
+    "Real-time edge analytics and predictive modeling for the world's most demanding physical environments. Powered by the Kuroshio deep-tech engine.",
+  image: "/kuroshio/home-grid-hero.jpg",
+  imageAlt: "Kuroshio AI industrial dashboard with real-time analytics and machine scan visualizations.",
   primaryAction: "Request a Demo",
   secondaryAction: "Explore the Platform",
 } as const;

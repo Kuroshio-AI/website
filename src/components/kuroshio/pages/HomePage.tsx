@@ -11,50 +11,70 @@ export interface HomePageProps {
 const heroStats = [
   { value: "99", accent: ".9%", label: "Platform Uptime" },
   { value: "40", accent: "%", label: "Energy Cost Reduction" },
-  { value: "3", accent: "x", label: "Faster Failure Detection" },
-  { value: "500", accent: "+", label: "Industrial Deployments" },
+  { value: "24", accent: "/7", label: "Predictive Monitoring" },
+  { value: "15", accent: "ms", label: "Edge Latency" },
 ] as const;
 
 interface HomeCallToActionProps {
   readonly onNavigate: (page: PageId) => void;
 }
 
+interface HeroStatsProps {
+  readonly className?: string;
+}
+
+function HeroStats({ className = "" }: Readonly<HeroStatsProps>) {
+  return (
+    <div className={`border-y border-outline-variant/10 bg-primary-container/30 backdrop-blur-sm ${className}`}>
+      <dl className="mx-auto grid w-full max-w-[1280px] grid-cols-2 gap-8 px-gutter py-10 md:grid-cols-4 md:py-12">
+        {heroStats.map((stat) => (
+          <div
+            className="flex flex-col items-center gap-2 border-outline-variant/20 px-2 text-center md:border-r md:last:border-r-0"
+            key={stat.label}
+          >
+            <dt className="order-2 text-[0.72rem] font-medium uppercase tracking-wider text-on-primary-container">
+              {stat.label}
+            </dt>
+            <dd className="order-1 text-3xl font-bold leading-none text-secondary-fixed md:text-4xl">
+              {stat.value}
+              <span>{stat.accent}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  );
+}
+
 function HomeCallToAction({ onNavigate }: Readonly<HomeCallToActionProps>) {
   return (
-    <section aria-label="Homepage call to action" className="mx-auto mt-6 max-w-5xl md:mt-8">
-      <div className="space-y-4 text-center">
-        <h2 className="text-balance text-xl font-semibold leading-tight text-[#eef4ff] md:text-2xl">
-          Start with one machine. Scale across the floor.
-        </h2>
-        <div className="flex flex-col justify-center gap-3 sm:flex-row">
-          <Button
-            className="h-11 w-full rounded-md bg-secondary px-8 text-sm font-bold text-on-secondary hover:bg-secondary/90 sm:w-auto"
-            onClick={() => onNavigate("contact")}
-            size="lg"
-            type="button"
-          >
-            {homePage.primaryAction}
-          </Button>
-          <Button
-            className="h-11 w-full rounded-md border-primary-fixed-dim/15 bg-transparent px-8 text-sm font-medium text-primary-fixed-dim hover:bg-primary-fixed-dim/10 hover:text-surface-container-lowest sm:w-auto"
-            onClick={() => onNavigate("platform")}
-            size="lg"
-            type="button"
-            variant="outline"
-          >
-            {homePage.secondaryAction}
-            <KuroshioIcon className="ml-1 size-4" name="arrowRight" />
-          </Button>
-        </div>
-      </div>
-    </section>
+    <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+      <Button
+        className="h-14 w-full rounded-full bg-secondary px-8 text-sm font-bold text-white shadow-[0_18px_50px_rgba(0,107,95,0.28)] transition-all hover:bg-secondary/90 hover:shadow-[0_22px_58px_rgba(0,107,95,0.34)] sm:w-auto"
+        onClick={() => onNavigate("contact")}
+        size="lg"
+        type="button"
+      >
+        {homePage.primaryAction}
+        <KuroshioIcon className="size-4" name="arrowRight" strokeWidth={2.5} />
+      </Button>
+      <Button
+        className="h-14 w-full rounded-full border-2 border-outline bg-transparent px-8 text-sm font-bold text-white transition-colors hover:bg-white/[0.06] hover:text-white sm:w-auto"
+        onClick={() => onNavigate("platform")}
+        size="lg"
+        type="button"
+        variant="outline"
+      >
+        {homePage.secondaryAction}
+      </Button>
+    </div>
   );
 }
 
 export function HomePage({ onNavigate }: Readonly<HomePageProps>) {
   return (
-    <main className="bg-hero-navy text-surface-container-lowest">
-      <section className="relative isolate flex min-h-[calc(100svh-118px)] overflow-hidden md:h-[calc(100svh-131px)] md:min-h-0">
+    <main className="relative z-10 bg-hero-navy text-on-primary">
+      <section className="relative isolate flex min-h-[calc(100svh-70px)] flex-col justify-center overflow-hidden bg-hero-navy">
         <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
           <ShapeGrid
             borderColor="rgba(172, 199, 255, 0.16)"
@@ -68,38 +88,38 @@ export function HomePage({ onNavigate }: Readonly<HomePageProps>) {
         </div>
         <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-primary-fixed-dim/15" />
 
-        <div className="relative z-10 flex w-full flex-col">
-          <div className="mx-auto flex w-full max-w-[1180px] flex-1 items-center justify-center px-gutter py-4 text-center md:py-14">
-            <div className="mx-auto max-w-4xl">
-              <h1 className="text-balance text-[clamp(2.75rem,4.4vw,4.35rem)] font-bold leading-[1.05] tracking-normal text-[#eef4ff]">
-                <span className="block md:whitespace-nowrap">Industrial Intelligence</span>
-                <span className="mt-3 block text-secondary-fixed-dim">at Your Fingertips</span>
-              </h1>
+        <div className="relative z-10 mx-auto grid w-full max-w-[1280px] grid-cols-1 items-center gap-12 px-gutter py-20 lg:grid-cols-2 lg:pb-48 lg:pt-section-gap-md">
+          <div className="max-w-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.24em] text-secondary-fixed md:text-sm">
+              {homePage.eyebrow}
+            </p>
+            <h1 className="mt-6 text-4xl font-bold leading-[1.08] tracking-normal text-white md:text-5xl">
+              Industrial Intelligence
+              <span className="block text-secondary-fixed">at Your Fingertips</span>
+            </h1>
+            <p className="mt-6 max-w-lg text-base leading-8 text-on-primary-container md:text-lg">
+              {homePage.description}
+            </p>
 
-              <p className="mx-auto mt-5 max-w-2xl text-balance text-base leading-6 text-primary-fixed-dim md:mt-8 md:text-lg md:leading-8">
-                {homePage.description}
-              </p>
-
-              <HomeCallToAction onNavigate={onNavigate} />
-            </div>
+            <HomeCallToAction onNavigate={onNavigate} />
           </div>
 
-          <dl className="grid w-full grid-cols-2 border-y border-primary-fixed-dim/15 bg-primary-container/20 backdrop-blur-sm lg:grid-cols-4">
-            {heroStats.map((stat) => (
-              <div
-                className="flex min-h-16 flex-col items-center justify-center border-primary-fixed-dim/15 px-3 py-2 text-center even:border-l nth-[n+3]:border-t md:min-h-28 md:px-6 md:py-7 lg:border-l lg:nth-[n+3]:border-t-0 first:lg:border-l-0"
-                key={stat.label}
-              >
-                <dt className="order-2 mt-1 text-[0.62rem] font-medium tracking-[0.06em] text-primary-fixed-dim/70 md:text-xs">{stat.label}</dt>
-                <dd className="order-1 text-xl font-bold leading-none text-[#eef4ff] md:text-4xl">
-                  {stat.value}
-                  <span className="text-secondary-fixed-dim">{stat.accent}</span>
-                </dd>
-              </div>
-            ))}
-          </dl>
+          <div className="relative">
+            <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_center,rgba(130,246,227,0.08)_0%,transparent_70%)] blur-3xl" />
+            <div className="relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-2xl">
+              <img
+                alt={homePage.imageAlt}
+                className="aspect-[16/9] w-full object-cover transition-transform duration-1000 hover:scale-105"
+                src={homePage.image}
+              />
+            </div>
+          </div>
         </div>
+
+        <HeroStats className="relative z-10 hidden lg:absolute lg:inset-x-0 lg:bottom-0 lg:block lg:w-full" />
       </section>
+
+      <HeroStats className="lg:hidden" />
     </main>
   );
 }

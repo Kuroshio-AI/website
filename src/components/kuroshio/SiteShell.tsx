@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
 import { navItems } from "@/data/mockData";
-import type { IconKey } from "@/data/mockData";
 import type { PageId } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 
@@ -22,7 +21,7 @@ export interface SiteShellProps {
 const footerColumns: ReadonlyArray<{
   readonly title: string;
   readonly links: ReadonlyArray<{
-    readonly icon: IconKey;
+    readonly icon: "book" | "building" | "factory" | "gauge" | "mail" | "shield";
     readonly id: PageId;
     readonly label: string;
     readonly muted?: boolean;
@@ -160,27 +159,27 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
                 {column.links.map((item) => {
                   const isActive = !item.muted && activePage === item.id;
                   return (
-                  <button
-                    className={`group flex w-fit items-center gap-3 text-sm font-medium transition-colors hover:text-secondary-fixed ${
-                      isActive
-                        ? "text-secondary-fixed"
-                        : item.muted
-                          ? "text-primary-fixed-dim"
-                          : "text-surface-container-highest"
-                    }`}
-                    key={item.label}
-                    onClick={() => onNavigate(item.id)}
-                    type="button"
-                  >
-                    <KuroshioIcon
-                      className={`size-4 transition-colors group-hover:text-secondary-fixed ${
-                        isActive ? "text-secondary-fixed" : "text-primary-fixed-dim"
+                    <button
+                      className={`group flex w-fit items-center gap-3 text-sm font-medium transition-colors hover:text-secondary-fixed ${
+                        isActive
+                          ? "text-secondary-fixed"
+                          : item.muted
+                            ? "text-primary-fixed-dim"
+                            : "text-surface-container-highest"
                       }`}
-                      name={item.icon}
-                      strokeWidth={1.8}
-                    />
-                    {item.label}
-                  </button>
+                      key={item.label}
+                      onClick={() => onNavigate(item.id)}
+                      type="button"
+                    >
+                      <KuroshioIcon
+                        className={`size-4 transition-colors group-hover:text-secondary-fixed ${
+                          isActive ? "text-secondary-fixed" : "text-primary-fixed-dim"
+                        }`}
+                        name={item.icon}
+                        strokeWidth={1.8}
+                      />
+                      {item.label}
+                    </button>
                   );
                 })}
               </div>
