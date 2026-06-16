@@ -20,6 +20,7 @@ export type IconKey =
   | "mail"
   | "mapPin"
   | "network"
+  | "phone"
   | "radio"
   | "settings"
   | "shield"
@@ -548,7 +549,24 @@ export const contactPage = {
     "Other",
   ],
   direct: [
-    { label: "Email", value: "info@kuroshioai.ae" },
+    {
+      icon: "mail",
+      label: "Email",
+      links: [{ href: "mailto:info@kuroshioai.com", value: "info@kuroshioai.com" }],
+    },
+    {
+      icon: "phone",
+      label: "India",
+      links: [
+        { href: "tel:+919746779817", value: "+91 9746779817" },
+        { href: "tel:+918590920120", value: "+91 8590920120" },
+      ],
+    },
+    {
+      icon: "phone",
+      label: "UAE",
+      links: [{ href: "tel:+971509420423", value: "+971 509420423" }],
+    },
   ],
   offices: [
     {

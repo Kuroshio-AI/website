@@ -172,12 +172,16 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
               </h2>
               <div className="space-y-5">
                 {contactPage.direct.map((item) => (
-                  <div key={item.value}>
+                  <div key={item.label}>
                     <p className="mb-2 text-[0.68rem] uppercase tracking-[0.07em] text-[#b4cdf0]/35">{item.label}</p>
-                    <a className="flex items-center gap-2 text-sm font-semibold text-[#eef4ff] transition-colors hover:text-[#82f6e3]" href={`mailto:${item.value}`}>
-                      <KuroshioIcon className="size-4 text-[#b4cdf0]/35" name="mail" strokeWidth={1.8} />
-                      {item.value}
-                    </a>
+                    <div className="space-y-2">
+                      {item.links.map((link) => (
+                        <a className="flex items-center gap-2 text-sm font-semibold text-[#eef4ff] transition-colors hover:text-[#82f6e3]" href={link.href} key={link.value}>
+                          <KuroshioIcon className="size-4 text-[#b4cdf0]/35" name={item.icon} strokeWidth={1.8} />
+                          {link.value}
+                        </a>
+                      ))}
+                    </div>
                   </div>
                 ))}
               </div>

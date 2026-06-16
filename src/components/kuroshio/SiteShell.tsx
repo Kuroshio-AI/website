@@ -197,7 +197,7 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
       {children}
 
       <footer className="border-t border-primary-fixed-dim/20 bg-hero-navy px-gutter py-16 text-on-primary-container md:px-12 md:py-20 xl:px-20">
-        <div className="mx-auto grid w-full max-w-[1680px] grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-[1.35fr_0.9fr_1.05fr_0.9fr_1.25fr] md:gap-12 xl:gap-16">
+        <div className="mx-auto grid w-full max-w-[1680px] grid-cols-1 gap-12 md:grid-cols-2 md:gap-12 lg:grid-cols-[minmax(14rem,1.1fr)_minmax(12rem,0.9fr)_minmax(13rem,1fr)] xl:grid-cols-[1.35fr_0.9fr_1.05fr_0.9fr_1.25fr] xl:gap-16">
           <div className="max-w-sm">
             <button
               className="text-xl font-bold text-surface-container-lowest transition-opacity hover:opacity-90"
@@ -223,7 +223,7 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
                   const isActive = activePage === item.id;
                   return (
                     <button
-                      className={`group flex w-fit items-center gap-3 text-sm font-medium transition-colors hover:text-secondary-fixed ${
+                      className={`group grid w-fit max-w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-3 text-left text-sm font-medium leading-6 transition-colors hover:text-secondary-fixed ${
                         isActive ? "text-secondary-fixed" : "text-surface-container-highest"
                       }`}
                       key={item.label}
@@ -231,7 +231,7 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
                       type="button"
                     >
                       <KuroshioIcon
-                        className={`size-4 transition-colors group-hover:text-secondary-fixed ${
+                        className={`mt-1 size-4 shrink-0 transition-colors group-hover:text-secondary-fixed ${
                           isActive ? "text-secondary-fixed" : "text-primary-fixed-dim"
                         }`}
                         name={item.icon}
@@ -263,12 +263,20 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
                 </div>
               ))}
               <div>
-                <p className="mb-2 text-[0.68rem] font-bold uppercase tracking-[0.1em] text-secondary-fixed">Email</p>
+                <p className="mb-2 text-[0.68rem] font-bold uppercase tracking-[0.1em] text-secondary-fixed">Direct Contact</p>
                 <div className="flex flex-col gap-2">
                   {contactPage.direct.map((item) => (
-                    <a className="text-sm font-medium text-surface-container-highest transition-colors hover:text-secondary-fixed" href={`mailto:${item.value}`} key={item.value}>
-                      {item.value}
-                    </a>
+                    <div key={item.label}>
+                      <p className="mb-1 text-[0.68rem] font-bold uppercase tracking-[0.1em] text-secondary-fixed/80">{item.label}</p>
+                      <div className="flex flex-col gap-1.5">
+                        {item.links.map((link) => (
+                          <a className="grid w-fit max-w-full grid-cols-[1rem_minmax(0,1fr)] items-start gap-3 text-sm font-medium leading-6 text-surface-container-highest transition-colors hover:text-secondary-fixed" href={link.href} key={link.value}>
+                            <KuroshioIcon className="mt-1 size-4 shrink-0 text-primary-fixed-dim" name={item.icon} strokeWidth={1.8} />
+                            {link.value}
+                          </a>
+                        ))}
+                      </div>
+                    </div>
                   ))}
                 </div>
               </div>
