@@ -298,11 +298,31 @@ export const aboutPage = {
     ["IIT Madras", "Research Affiliate"],
   ],
   leadership: [
-    ["Ajas Khan", "Founder & CEO"],
-    ["Noufal", "Co-Founder & CTO"],
-    ["Parthiv Roshan", "Head of Engineering"],
-    ["Sree Harinandan", "Lead AI Researcher"],
-    ["Farzana", "Operations Director"],
+    {
+      name: "Ajas Khan",
+      role: "Co-founder & CTO",
+      bio: "B.Tech EEE, TKM College of Engineering. IIT Madras Data Science. Prior experience as Electrical Engineer at MRF Tyres.",
+    },
+    {
+      name: "Noufal",
+      role: "Co-founder & CEO",
+      bio: "UAE operations, business development, client relationships.",
+    },
+    {
+      name: "Parthiv Roshan",
+      role: "IoT Engineer",
+      bio: "Hardware design, firmware development, edge device assembly.",
+    },
+    {
+      name: "Sree Harinandan",
+      role: "Full-Stack Developer",
+      bio: "Platform development, cloud infrastructure, AI integration.",
+    },
+    {
+      name: "Farzana",
+      role: "HR and Operations",
+      bio: "",
+    },
   ],
   presence: [
     {

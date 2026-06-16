@@ -72,12 +72,13 @@ export function AboutPage(_props: Readonly<AboutPageProps>) {
               A multidisciplinary team of engineers, data scientists, and industrial experts.
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-gutter md:grid-cols-3 lg:grid-cols-5">
-            {aboutPage.leadership.map(([name, role]) => (
-              <Card className="border-border-cool bg-surface-container-lowest p-0 transition-colors hover:border-secondary" key={name}>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-5">
+            {aboutPage.leadership.map((person) => (
+              <Card className="border-border-cool bg-surface-container-lowest p-0 transition-colors hover:border-secondary" key={person.name}>
                 <CardContent className="p-stack-md">
-                  <h3 className="text-xl font-bold text-on-surface">{name}</h3>
-                  <p className="mt-1 text-sm font-medium text-secondary">{role}</p>
+                  <h3 className="text-xl font-bold text-on-surface">{person.name}</h3>
+                  <p className="mt-1 text-sm font-medium text-secondary">{person.role}</p>
+                  {person.bio && <p className="mt-4 text-sm leading-6 text-on-surface-variant">{person.bio}</p>}
                 </CardContent>
               </Card>
             ))}

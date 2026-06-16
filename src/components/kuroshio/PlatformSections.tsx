@@ -1,6 +1,16 @@
 import { useEffect, useState } from "react";
 
+import FadeContent from "@/components/FadeContent";
 import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
 import { platformPage } from "@/data/mockData";
 import type { IconKey, PageId } from "@/data/mockData";
@@ -12,6 +22,9 @@ const glassPanel =
 const tintPanel = "border border-white/[0.08] bg-[#112648]/60";
 
 const mutedText = "text-[#b4cdf0]/65";
+
+const tooltipClassName =
+  "border border-[#0e9e8e]/25 bg-[#071b33] text-[#eef4ff] shadow-[0_14px_35px_rgba(0,0,0,0.28)]";
 
 const metricToneClasses = {
   primary: {
@@ -247,7 +260,20 @@ export function MetricCard({ metric }: Readonly<MetricCardProps>) {
     <div className={cn("rounded-xl p-5 transition-colors hover:border-[#0e9e8e]/38", glassPanel, tone.border)}>
       <div className="flex items-start justify-between gap-4">
         <span className="text-[0.68rem] font-bold uppercase text-[#b4cdf0]/45">{metric.label}</span>
-        <KuroshioIcon className={cn("size-4", tone.icon)} name={metric.icon as IconKey} />
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span
+              aria-label={`${metric.label}: ${metric.helper}`}
+              className="inline-flex size-5 items-center justify-center rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-[#82f6e3]/45"
+              tabIndex={0}
+            >
+              <KuroshioIcon className={cn("size-4", tone.icon)} name={metric.icon as IconKey} />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent className={tooltipClassName} sideOffset={8}>
+            {metric.label} · {metric.helper}
+          </TooltipContent>
+        </Tooltip>
       </div>
       <div className={cn("mt-5 text-3xl font-bold leading-none", tone.value)}>
         {metric.value}
@@ -273,65 +299,77 @@ export function MachineTable({ rows }: Readonly<MachineTableProps>) {
           <h3 className="text-xl font-bold text-[#eef4ff]">Machine Energy Profiles</h3>
           <p className={cn("mt-1 text-sm", mutedText)}>Live machine state, idle exposure, and cost impact.</p>
         </div>
-        <Button
-          className="h-10 w-fit rounded-md border-white/12 bg-white/[0.03] px-4 text-xs font-bold uppercase text-[#82f6e3] hover:bg-white/[0.08]"
-          type="button"
-          variant="outline"
-        >
-          <KuroshioIcon className="size-4" name="download" />
-          Export CSV
-        </Button>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              className="h-10 w-fit rounded-md border-white/12 bg-white/[0.03] px-4 text-xs font-bold uppercase text-[#82f6e3] hover:bg-white/[0.08]"
+              type="button"
+              variant="outline"
+            >
+              <KuroshioIcon className="size-4" name="download" />
+              Export CSV
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent className={tooltipClassName} sideOffset={8}>
+            Download the visible machine profile table
+          </TooltipContent>
+        </Tooltip>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full min-w-[820px] border-collapse text-left">
-          <thead>
-            <tr className="border-b border-white/[0.08] bg-[#112648]/72 text-[0.68rem] uppercase text-[#b4cdf0]/42">
-              <th className="px-5 py-4 font-bold">Machine</th>
-              <th className="px-5 py-4 font-bold">State</th>
-              <th className="px-5 py-4 text-right font-bold">Idle Time</th>
-              <th className="px-5 py-4 text-right font-bold">Energy Today</th>
-              <th className="px-5 py-4 text-right font-bold">Cost</th>
-              <th className="px-5 py-4 font-bold">24h Timeline</th>
-              <th className="px-5 py-4 text-right font-bold">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/[0.08] text-sm">
-            {rows.map((row) => {
-              const statusTone = statusToneClasses[row.tone];
+      <Table className="min-w-[820px] border-collapse text-left">
+        <TableHeader>
+          <TableRow className="border-white/[0.08] bg-[#112648]/72 text-[0.68rem] uppercase text-[#b4cdf0]/42 hover:bg-[#112648]/72">
+            <TableHead className="px-5 py-4 font-bold text-[#b4cdf0]/42">Machine</TableHead>
+            <TableHead className="px-5 py-4 font-bold text-[#b4cdf0]/42">State</TableHead>
+            <TableHead className="px-5 py-4 text-right font-bold text-[#b4cdf0]/42">Idle Time</TableHead>
+            <TableHead className="px-5 py-4 text-right font-bold text-[#b4cdf0]/42">Energy Today</TableHead>
+            <TableHead className="px-5 py-4 text-right font-bold text-[#b4cdf0]/42">Cost</TableHead>
+            <TableHead className="px-5 py-4 font-bold text-[#b4cdf0]/42">24h Timeline</TableHead>
+            <TableHead className="px-5 py-4 text-right font-bold text-[#b4cdf0]/42">Action</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody className="text-sm">
+          {rows.map((row) => {
+            const statusTone = statusToneClasses[row.tone];
 
-              return (
-                <tr className="transition-colors hover:bg-[#0e9e8e]/[0.06]" key={row.machine}>
-                  <td className="px-5 py-4">
-                    <div className="font-semibold text-[#eef4ff]">{row.machine}</div>
-                    <div className="mt-1 text-xs text-[#b4cdf0]/45">{row.type}</div>
-                  </td>
-                  <td className="px-5 py-4">
-                    <span className={cn("inline-flex rounded-full border px-2.5 py-1 text-[0.68rem] font-bold uppercase", statusTone)}>
-                      {row.state}
-                    </span>
-                  </td>
-                  <td className={cn("px-5 py-4 text-right", mutedText)}>{row.idle}</td>
-                  <td className={cn("px-5 py-4 text-right", mutedText)}>{row.energy}</td>
-                  <td className={cn("px-5 py-4 text-right", mutedText)}>{row.cost}</td>
-                  <td className="px-5 py-4">
-                    <div className="flex h-2 overflow-hidden rounded-full bg-white/[0.06]">
-                      <div className="bg-[#0e9e8e]" style={{ width: `${row.load}%` }} />
-                      {row.accent > 0 && <div className="bg-[#e5b94b]" style={{ width: `${row.accent}%` }} />}
-                    </div>
-                  </td>
-                  <td className="px-5 py-4 text-right">
-                    <Button className="h-8 px-0 text-xs font-bold uppercase text-[#82f6e3]" type="button" variant="link">
-                      Details
-                      <KuroshioIcon className="size-4" name="arrowRight" />
-                    </Button>
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
+            return (
+              <TableRow className="border-white/[0.08] transition-colors hover:bg-[#0e9e8e]/[0.06]" key={row.machine}>
+                <TableCell className="px-5 py-4">
+                  <div className="font-semibold text-[#eef4ff]">{row.machine}</div>
+                  <div className="mt-1 text-xs text-[#b4cdf0]/45">{row.type}</div>
+                </TableCell>
+                <TableCell className="px-5 py-4">
+                  <span className={cn("inline-flex rounded-full border px-2.5 py-1 text-[0.68rem] font-bold uppercase", statusTone)}>
+                    {row.state}
+                  </span>
+                </TableCell>
+                <TableCell className={cn("px-5 py-4 text-right", mutedText)}>{row.idle}</TableCell>
+                <TableCell className={cn("px-5 py-4 text-right", mutedText)}>{row.energy}</TableCell>
+                <TableCell className={cn("px-5 py-4 text-right", mutedText)}>{row.cost}</TableCell>
+                <TableCell className="px-5 py-4">
+                  <div className="flex h-2 overflow-hidden rounded-full bg-white/[0.06]">
+                    <div className="bg-[#0e9e8e]" style={{ width: `${row.load}%` }} />
+                    {row.accent > 0 && <div className="bg-[#e5b94b]" style={{ width: `${row.accent}%` }} />}
+                  </div>
+                </TableCell>
+                <TableCell className="px-5 py-4 text-right">
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button className="h-8 px-0 text-xs font-bold uppercase text-[#82f6e3]" type="button" variant="link">
+                        Details
+                        <KuroshioIcon className="size-4" name="arrowRight" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className={tooltipClassName} sideOffset={8}>
+                      Open {row.machine} profile
+                    </TooltipContent>
+                  </Tooltip>
+                </TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
     </div>
   );
 }
@@ -472,7 +510,7 @@ export function ProductFeatureSection({
 
   return (
     <section className={cn("scroll-mt-36 py-20 md:scroll-mt-14 md:py-28", !isLogbook && "bg-[#1b3a6b]/18")} id={id}>
-      <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-12 px-gutter lg:grid-cols-2 lg:gap-20">
+      <FadeContent className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-12 px-gutter lg:grid-cols-2 lg:gap-20" duration={650} threshold={0.18}>
         {isLogbook ? (
           <>
             {copy}
@@ -484,7 +522,7 @@ export function ProductFeatureSection({
             {copy}
           </>
         )}
-      </div>
+      </FadeContent>
     </section>
   );
 }
@@ -496,7 +534,7 @@ export interface ArchitectureSectionProps {
 export function ArchitectureSection({ onNavigate }: Readonly<ArchitectureSectionProps>) {
   return (
     <section className="scroll-mt-36 bg-[#1b3a6b]/18 py-20 md:scroll-mt-14 md:py-28" id="architecture">
-      <div className="mx-auto max-w-[1180px] px-gutter">
+      <FadeContent className="mx-auto max-w-[1180px] px-gutter" duration={650} threshold={0.18}>
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <h2 className="text-3xl font-bold text-[#eef4ff] md:text-4xl">Technical Architecture</h2>
           <h3 className="mt-4 text-2xl font-bold leading-tight text-[#eef4ff] md:text-3xl">
@@ -567,7 +605,7 @@ export function ArchitectureSection({ onNavigate }: Readonly<ArchitectureSection
             {platformPage.cta.action}
           </Button>
         </div>
-      </div>
+      </FadeContent>
     </section>
   );
 }
