@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
 import FadeContent from "@/components/FadeContent";
+import ShapeGrid from "@/components/ShapeGrid";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -97,91 +98,109 @@ export function PlatformHero({ onNavigate }: Readonly<PlatformHeroProps>) {
   const bars = [38, 64, 46, 76, 58, 88, 72, 44, 80, 68, 94, 56];
 
   return (
-    <section className="mx-auto grid min-h-[calc(100vh-70px)] max-w-[1180px] grid-cols-1 items-center gap-12 px-gutter py-20 md:py-24 lg:grid-cols-[1fr_0.95fr]">
-      <div>
-        <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-[#0e9e8e]/30 bg-[#0e9e8e]/15 px-4 py-2 text-xs font-bold uppercase text-[#82f6e3]">
-          <span className="size-1.5 rounded-full bg-[#0e9e8e]" />
-          Platform Overview
-        </div>
-
-        <h1 className="max-w-3xl text-4xl font-bold leading-[1.08] text-[#eef4ff] md:text-5xl lg:text-6xl">
-          One Operational View for <span className="text-[#0e9e8e]">Every Machine</span>
-        </h1>
-
-        <p className="mt-6 max-w-xl text-base leading-8 text-[#b4cdf0]/70 md:text-lg">
-          Integrate data from legacy PLCs, modern sensors, and enterprise systems into a single industrial
-          intelligence platform built for factory-floor decisions.
-        </p>
-
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button
-            className="h-12 rounded-lg bg-[#0e9e8e] px-6 text-sm font-bold text-white shadow-[0_18px_45px_rgba(14,158,142,0.22)] hover:bg-[#0b8478]"
-            onClick={() => onNavigate("contact")}
-            type="button"
-          >
-            Request a Demo
-          </Button>
-          <Button
-            className="h-12 rounded-lg border-white/15 bg-white/[0.03] px-6 text-sm font-bold text-[#eef4ff] hover:bg-white/[0.08]"
-            onClick={() => scrollToPlatformSection("energy-iq")}
-            type="button"
-            variant="outline"
-          >
-            Explore Platform
-            <KuroshioIcon className="size-4" name="arrowRight" />
-          </Button>
-        </div>
+    <section className="relative isolate overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0 opacity-40">
+        <ShapeGrid
+          borderColor="rgba(172, 199, 255, 0.16)"
+          direction="diagonal"
+          hoverFillColor="rgba(100, 217, 200, 0)"
+          hoverTrailAmount={0}
+          shape="square"
+          speed={0.12}
+          squareSize={64}
+        />
       </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(17,38,72,0.5)_0%,rgba(17,38,72,0.78)_72%,rgba(17,38,72,1)_100%)]"
+      />
 
-      <div className={cn("relative overflow-hidden rounded-2xl p-5", glassPanel)}>
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(14,158,142,0.22),transparent_46%)]" />
-        <div className="relative">
-          <div className="mb-5 flex items-center gap-2">
-            <span className="size-2.5 rounded-full bg-[#e05b5b]" />
-            <span className="size-2.5 rounded-full bg-[#e5b94b]" />
-            <span className="size-2.5 rounded-full bg-[#0e9e8e]" />
-            <span className="ml-auto text-xs font-semibold text-[#b4cdf0]/60">Factory Operations</span>
+      <div className="relative z-10 mx-auto grid min-h-[calc(100vh-70px)] max-w-[1180px] grid-cols-1 items-center gap-12 px-gutter py-20 md:py-24 lg:grid-cols-[1fr_0.95fr]">
+        <div>
+          <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-[#0e9e8e]/30 bg-[#0e9e8e]/15 px-4 py-2 text-xs font-bold uppercase text-[#82f6e3]">
+            <span className="size-1.5 rounded-full bg-[#0e9e8e]" />
+            Platform Overview
           </div>
 
-          <div className="mb-4 flex items-center justify-between">
-            <div>
-              <div className="text-xs uppercase text-[#b4cdf0]/40">Plant Status</div>
-              <div className="mt-1 text-xl font-bold text-[#eef4ff]">North Line Dashboard</div>
+          <h1 className="max-w-3xl text-4xl font-bold leading-[1.08] text-[#eef4ff] md:text-5xl lg:text-6xl">
+            One Operational View for <span className="text-[#0e9e8e]">Every Machine</span>
+          </h1>
+
+          <p className="mt-6 max-w-xl text-base leading-8 text-[#b4cdf0]/70 md:text-lg">
+            Integrate data from legacy PLCs, modern sensors, and enterprise systems into a single industrial
+            intelligence platform built for factory-floor decisions.
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button
+              className="h-12 rounded-lg bg-[#0e9e8e] px-6 text-sm font-bold text-white shadow-[0_18px_45px_rgba(14,158,142,0.22)] hover:bg-[#0b8478]"
+              onClick={() => onNavigate("contact")}
+              type="button"
+            >
+              Request a Demo
+            </Button>
+            <Button
+              className="h-12 rounded-lg border-white/15 bg-white/[0.03] px-6 text-sm font-bold text-[#eef4ff] hover:bg-white/[0.08]"
+              onClick={() => scrollToPlatformSection("energy-iq")}
+              type="button"
+              variant="outline"
+            >
+              Explore Platform
+              <KuroshioIcon className="size-4" name="arrowRight" />
+            </Button>
+          </div>
+        </div>
+
+        <div className={cn("relative overflow-hidden rounded-2xl p-5", glassPanel)}>
+          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(14,158,142,0.22),transparent_46%)]" />
+          <div className="relative">
+            <div className="mb-5 flex items-center gap-2">
+              <span className="size-2.5 rounded-full bg-[#e05b5b]" />
+              <span className="size-2.5 rounded-full bg-[#e5b94b]" />
+              <span className="size-2.5 rounded-full bg-[#0e9e8e]" />
+              <span className="ml-auto text-xs font-semibold text-[#b4cdf0]/60">Factory Operations</span>
             </div>
-            <LiveBadge />
-          </div>
 
-          <div className="mb-4 grid grid-cols-2 gap-3">
-            {[
-              ["Uptime", "98.2%", "+1.4%"],
-              ["Machines", "42", "38 active"],
-              ["Energy", "12.4MWh", "today"],
-              ["Alerts", "3", "review"],
-            ].map(([label, value, helper]) => (
-              <div className={cn("rounded-lg p-4", tintPanel)} key={label}>
-                <div className="text-[0.65rem] font-bold uppercase text-[#b4cdf0]/40">{label}</div>
-                <div className="mt-2 text-2xl font-bold text-[#eef4ff]">{value}</div>
-                <div className="mt-1 text-xs text-[#0e9e8e]">{helper}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className={cn("rounded-lg p-4", tintPanel)}>
             <div className="mb-4 flex items-center justify-between">
-              <span className="text-[0.68rem] font-bold uppercase text-[#b4cdf0]/40">Energy Load</span>
-              <span className="text-xs font-semibold text-[#82f6e3]">Last 12 hours</span>
+              <div>
+                <div className="text-xs uppercase text-[#b4cdf0]/40">Plant Status</div>
+                <div className="mt-1 text-xl font-bold text-[#eef4ff]">North Line Dashboard</div>
+              </div>
+              <LiveBadge />
             </div>
-            <div className="flex h-24 items-end gap-1.5">
-              {bars.map((height, index) => (
-                <div
-                  className={cn(
-                    "w-full rounded-t bg-[#0e9e8e]/32 transition-colors hover:bg-[#0e9e8e]",
-                    index > 8 && "bg-[#0e9e8e]"
-                  )}
-                  key={`${height}-${String(index)}`}
-                  style={{ height: `${height}%` }}
-                />
+
+            <div className="mb-4 grid grid-cols-2 gap-3">
+              {[
+                ["Uptime", "98.2%", "+1.4%"],
+                ["Machines", "42", "38 active"],
+                ["Energy", "12.4MWh", "today"],
+                ["Alerts", "3", "review"],
+              ].map(([label, value, helper]) => (
+                <div className={cn("rounded-lg p-4", tintPanel)} key={label}>
+                  <div className="text-[0.65rem] font-bold uppercase text-[#b4cdf0]/40">{label}</div>
+                  <div className="mt-2 text-2xl font-bold text-[#eef4ff]">{value}</div>
+                  <div className="mt-1 text-xs text-[#0e9e8e]">{helper}</div>
+                </div>
               ))}
+            </div>
+
+            <div className={cn("rounded-lg p-4", tintPanel)}>
+              <div className="mb-4 flex items-center justify-between">
+                <span className="text-[0.68rem] font-bold uppercase text-[#b4cdf0]/40">Energy Load</span>
+                <span className="text-xs font-semibold text-[#82f6e3]">Last 12 hours</span>
+              </div>
+              <div className="flex h-24 items-end gap-1.5">
+                {bars.map((height, index) => (
+                  <div
+                    className={cn(
+                      "w-full rounded-t bg-[#0e9e8e]/32 transition-colors hover:bg-[#0e9e8e]",
+                      index > 8 && "bg-[#0e9e8e]"
+                    )}
+                    key={`${height}-${String(index)}`}
+                    style={{ height: `${height}%` }}
+                  />
+                ))}
+              </div>
             </div>
           </div>
         </div>
