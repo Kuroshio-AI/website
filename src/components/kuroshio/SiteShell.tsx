@@ -103,7 +103,7 @@ export function SiteShell({ activePage, children, onNavigate }: Readonly<SiteShe
       <header className="sticky top-0 z-50 border-b border-primary-fixed-dim/20 bg-hero-navy/95 backdrop-blur-md">
         <nav className="mx-auto flex h-[70px] max-w-[1180px] items-center justify-between px-gutter">
           <button
-            className="text-base font-bold text-surface-container-lowest transition-opacity hover:opacity-90"
+            className="text-xl font-bold text-surface-container-lowest transition-opacity hover:opacity-90 md:text-2xl"
             onClick={() => onNavigate("home")}
             type="button"
           >

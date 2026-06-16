@@ -55,7 +55,7 @@ export const homePage = {
   title: "Industrial Intelligence at Your Fingertips",
   description:
     "Real-time edge analytics and predictive modeling for the world's most demanding physical environments. Powered by the Kuroshio deep-tech engine.",
-  image: "/kuroshio/home-grid-hero.jpg",
+  image: "/homepage.webp",
   imageAlt: "Kuroshio AI industrial dashboard with real-time analytics and machine scan visualizations.",
   primaryAction: "Request a Demo",
   secondaryAction: "Explore the Platform",
