@@ -51,14 +51,164 @@ export const footerGroups = [
 ] as const;
 
 export const homePage = {
-  eyebrow: "Enterprise Autonomous Systems",
-  title: "Industrial Intelligence at Your Fingertips",
+  eyebrow: "Industrial intelligence for GCC manufacturing",
+  title: "Industrial Intelligence for UAE Manufacturing",
   description:
-    "Real-time edge analytics and predictive modeling for the world's most demanding physical environments. Powered by the Kuroshio deep-tech engine.",
+    "Monitor energy, predict failures, and digitise maintenance - from a single platform that installs in hours and never touches your control system.",
   image: "/homepage.webp",
   imageAlt: "Kuroshio AI industrial dashboard with real-time analytics and machine scan visualizations.",
   primaryAction: "Request a Demo",
-  secondaryAction: "Explore the Platform",
+  secondaryAction: "Learn More",
+  problems: [
+    {
+      title: "Energy Waste",
+      body: "You receive one DEWA bill for the entire plant. You do not know which machine is consuming what, how much is wasted on idle running, or whether your power factor is costing you penalty charges every month.",
+      icon: "zap",
+    },
+    {
+      title: "Equipment Failures",
+      body: "Bearing wear, winding degradation, element failure - all happen gradually over weeks. Without monitoring, the first sign of a problem is when the machine stops. Emergency repairs are expensive. Planned maintenance is cheap.",
+      icon: "settings",
+    },
+    {
+      title: "Paper Maintenance Records",
+      body: "Maintenance history is scattered across paper logbooks. No searchable record. No link between what failed and what was done. New engineers have no visibility of machine history.",
+      icon: "book",
+    },
+    {
+      title: "Carbon Footprint & Sustainability",
+      body: "Regulators, customers, and investors are demanding verified emissions data. Without per-machine carbon tracking, sustainability targets remain aspirational rather than measurable and provable.",
+      icon: "leaf",
+    },
+  ],
+  products: [
+    {
+      tag: "EnergyIQ",
+      title: "Real-Time Energy Monitoring",
+      icon: "activity",
+      bullets: [
+        "Live kW consumption per machine, updated every 60 seconds",
+        "Idle detection alerts when equipment runs with no production output",
+        "DEWA tariff mapping to translate readings into exact cost savings",
+      ],
+    },
+    {
+      tag: "Predictive Maintenance",
+      title: "Motor & Bearing Intelligence",
+      icon: "gauge",
+      bullets: [
+        "Continuous motor health scoring with anomaly baselines",
+        "Bearing fault detection from current signature analysis",
+        "7-30 day failure prediction to schedule maintenance without surprises",
+      ],
+    },
+    {
+      tag: "Digital Logbook",
+      title: "Maintenance History, Digitised",
+      icon: "book",
+      bullets: [
+        "Full maintenance history linked directly to each machine's health data",
+        "One-click PDF export for audits, compliance, and ISO documentation",
+        "Technician notes and photo attachments at the point of work",
+      ],
+    },
+    {
+      tag: "Carbon & Sustainability",
+      title: "Per-Machine Emissions Tracking",
+      icon: "leaf",
+      bullets: [
+        "CO2 equivalent calculated per machine per hour based on actual energy use",
+        "Monthly emissions reports with verified reduction figures",
+        "Scope 2 data ready for ESG reporting and customer sustainability audits",
+      ],
+    },
+  ],
+  process: [
+    {
+      title: "Install Sensors",
+      body: "Clamp-on meters and sensors are installed without PLC or control-system access.",
+    },
+    {
+      title: "Read Every 60 Seconds",
+      body: "The edge unit captures current, vibration, temperature, and energy data.",
+    },
+    {
+      title: "Send by Cellular SIM",
+      body: "Encrypted data moves through our Etisalat/du SIM. Your network is never used.",
+    },
+    {
+      title: "Process in UAE",
+      body: "Azure UAE North generates health scores, anomalies, and energy analytics.",
+    },
+    {
+      title: "Open Dashboard",
+      body: "Use the live dashboard from any browser, tablet, or mobile within 24 hours.",
+    },
+  ],
+  industries: [
+    {
+      title: "Glass Processing",
+      body: "Furnace temperature anomalies and conveyor motor health monitoring for flat and container glass lines.",
+      icon: "factory",
+    },
+    {
+      title: "Plastics",
+      body: "Injection moulding and extrusion energy profiling with cycle-time deviation alerts and idle detection.",
+      icon: "flask",
+    },
+    {
+      title: "Aluminium Extrusion",
+      body: "Billet furnace efficiency, press motor diagnostics, and cooling-line energy optimisation in real time.",
+      icon: "settings",
+    },
+    {
+      title: "Rubber Recycling",
+      body: "Shredder and granulator bearing health tracking with energy-per-tonne output metrics.",
+      icon: "wrench",
+    },
+    {
+      title: "Minerals Processing",
+      body: "Mill and crusher motor health scoring, dust suppression pump monitoring, and shift-level energy reporting.",
+      icon: "network",
+    },
+    {
+      title: "Building & Utilities",
+      body: "HVAC, chiller, and pump efficiency monitoring with demand-side management alerts for commercial facilities.",
+      icon: "building",
+    },
+  ],
+  numbers: [
+    {
+      value: "4",
+      title: "Emirates",
+      body: "RAK, Dubai, Sharjah, and Umm Al Quwain",
+      icon: "mapPin",
+    },
+    {
+      value: "6",
+      title: "Industries",
+      body: "Glass, plastics, aluminium, rubber, minerals, and buildings",
+      icon: "factory",
+    },
+    {
+      value: "4",
+      title: "Capabilities",
+      body: "EnergyIQ, Predictive Maintenance, Digital Logbook, and Carbon Tracking",
+      icon: "gauge",
+    },
+    {
+      value: "1",
+      title: "Platform",
+      body: "One dashboard for all your machines, all your data, across every site",
+      icon: "cloud",
+    },
+  ],
+  cta: {
+    title: "Start with One Machine. Risk Free.",
+    body: "Our Proof of Concept covers one machine for 4 weeks. If you do not see clear value, we refund 75% of the fee. Your maximum risk is AED 1,500. We are that confident.",
+    badge: "No PLC access. No client network. Live in hours.",
+    action: "Request a Demo",
+  },
 } as const;
 
 export const platformPage = {
@@ -278,24 +428,53 @@ export const aboutPage = {
   hero: {
     title: "Built by Engineers Who Understand Factory Floors",
     description:
-      "We did not start in a boardroom. We started on the production line, identifying the real-world gaps between theoretical AI and practical industrial application.",
+      "Kuroshio AI was founded by Ajas Khan and Noufal - engineers who saw firsthand that UAE and GCC manufacturing plants were running blind.",
   },
   story: {
-    title: "The Kuroshio Current",
-    aside: "A powerful, warm ocean current providing stability and vital energy to marine ecosystems.",
+    title: "Company Story",
+    aside: "Built in Kerala, India - deployed across UAE and GCC. Technology export model.",
     paragraphs: [
-      "Just as the Kuroshio current flows silently beneath the surface to drive massive global ecosystems, Kuroshio AI operates beneath the surface of your industrial operations. We observe, analyze, and optimize without disrupting the flow of production.",
-      "Our origin story is not about software developers trying to disrupt manufacturing. It is about industrial engineers who needed better tools. Frustrated by generic AI solutions that demanded excessive connectivity and complex integrations, we built what we needed: an expert observer that respects the sanctity of the factory floor.",
+      "Kuroshio AI was founded by engineers who spent years on factory floors and saw the same problem everywhere - machines running blind, energy being wasted invisibly, and maintenance teams reacting to failures rather than preventing them.",
+      "We built Kuroshio AI to change that. Our platform brings the intelligence of enterprise monitoring systems to every manufacturing plant in the UAE and GCC - at a fraction of the cost, deployable in hours, and without touching the existing control infrastructure.",
+      "We are named after the Kuroshio Current - the powerful warm ocean current that flows along the coast of Japan, shaping climates and enabling navigation for centuries. Like the current, we bring intelligence and direction to industrial operations.",
+      "We are built in Kerala, India - one of Asia's strongest engineering talent hubs - and deployed across the UAE and GCC. Our technology crosses oceans. Our clients stay ahead.",
     ],
-    calloutTitle: "Engineer-Led, Field-Tested",
+    calloutTitle: "Named for Movement and Direction",
     calloutBody:
-      "We bridge the gap between heavy industry and deep tech, translating complex operational data into actionable, secure intelligence.",
+      "Named after the Kuroshio Current - the powerful ocean current of the Pacific, a force that shapes climates and trade routes. Like the current, we move intelligence through industry.",
   },
   credentials: [
-    ["DPIIT Recognised", "Deep Tech Startup"],
-    ["Kerala Makers Village", "Incubated"],
-    ["RAK Innovation City", "Partner"],
-    ["IIT Madras", "Research Affiliate"],
+    ["DPIIT Recognised Deep Tech Startup", "Government of India"],
+    ["Kerala Makers Village", "R&D Centre, Kochi, Kerala"],
+    ["RAK Innovation City, RAKEZ", "UAE entity, Ras Al Khaimah"],
+    ["IIT Madras", "Technology partnership and research affiliation"],
+  ],
+  approach: [
+    {
+      title: "No Client Network Access",
+      body: "We never connect to client networks - cellular uplink only",
+      icon: "radio",
+    },
+    {
+      title: "No Control System Access",
+      body: "We never touch client control systems - our own sensor layer",
+      icon: "shield",
+    },
+    {
+      title: "UAE Data Residency",
+      body: "UAE data residency - Azure UAE North",
+      icon: "database",
+    },
+    {
+      title: "Deploy in Hours",
+      body: "Deploy in hours - not months",
+      icon: "clock",
+    },
+    {
+      title: "Built for GCC",
+      body: "Built for GCC - Arabic language support planned",
+      icon: "globe",
+    },
   ],
   leadership: [
     {
@@ -324,17 +503,21 @@ export const aboutPage = {
       bio: "",
     },
   ],
-  presence: [
+  entities: [
     {
-      title: "India (Kochi / Chennai)",
-      badge: "R&D Core",
-      body: "Our primary research and development hub, focusing on core AI algorithms, edge computing infrastructure, and deep tech innovation.",
+      title: "Kuroshio AI Private Limited",
+      country: "Kerala, India",
+      role: "R&D and Engineering",
+      location: "Kerala Makers Village, Kochi",
+      credential: "DPIIT Recognised",
       icon: "flask",
     },
     {
-      title: "UAE (Ras Al Khaimah)",
-      badge: "Commercial HQ",
-      body: "Our commercial and operational base for the MENA region, driving sales, strategic partnerships, and industrial deployments.",
+      title: "Kuroshio AI Ltd",
+      country: "Ras Al Khaimah, UAE",
+      role: "Sales, Deployment, Client Success",
+      location: "RAK Innovation City, RAKEZ",
+      credential: "UAE registered entity",
       icon: "globe",
     },
   ],
@@ -365,19 +548,18 @@ export const contactPage = {
     "Other",
   ],
   direct: [
-    { label: "General Inquiries", value: "contact@kuroshio.ai" },
-    { label: "Technical Support", value: "support@kuroshio.ai" },
+    { label: "Email", value: "info@kuroshioai.ae" },
   ],
   offices: [
     {
-      city: "Dubai, UAE",
+      city: "UAE",
       tone: "secondary",
-      address: ["Dubai Silicon Oasis", "Tech Hub Building, Level 4", "Dubai, United Arab Emirates"],
+      address: ["RAK Innovation City, RAKEZ", "Ras Al Khaimah, UAE"],
     },
     {
-      city: "Bengaluru, India",
+      city: "India",
       tone: "primary",
-      address: ["HSR Layout Sector 2", "Innovation Park, Tower B", "Bengaluru, Karnataka 560102"],
+      address: ["Kerala Makers Village", "Thiruvananthapuram, Kerala, India - 695 581"],
     },
   ],
 } as const;

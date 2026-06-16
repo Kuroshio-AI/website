@@ -31,7 +31,8 @@ function toSelectValue(value: string) {
 }
 
 export function ContactPage(_props: Readonly<ContactPageProps>) {
-  const { submitted, handleSubmit } = useContactForm();
+  const { errorMessage, submitted, status, successMessage, handleSubmit } = useContactForm();
+  const isSending = status === "sending";
 
   return (
     <main className="relative isolate overflow-hidden bg-[#112648] text-[#eef4ff]">
@@ -54,7 +55,7 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
           <CardContent className="p-6 md:p-10">
             <form onSubmit={handleSubmit}>
               <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-                {submitted && (
+                {status === "success" && (
                   <div className="flex items-start gap-3 rounded-xl border border-[#0e9e8e]/30 bg-[#0e9e8e]/10 p-4 md:col-span-2">
                     <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#0e9e8e]">
                       <KuroshioIcon className="size-3 text-white" name="check" strokeWidth={2.6} />
@@ -62,13 +63,25 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
                     <div>
                       <h2 className="text-sm font-bold text-[#eef4ff]">Message Sent</h2>
                       <p className="mt-1 text-sm leading-6 text-[#b4cdf0]/68">
-                        Our technical team will be in touch within one business day.
+                        {successMessage}
                       </p>
                     </div>
                   </div>
                 )}
 
-                <fieldset className="contents" disabled={submitted}>
+                {status === "error" && (
+                  <div className="flex items-start gap-3 rounded-xl border border-[#e05b5b]/30 bg-[#e05b5b]/10 p-4 md:col-span-2">
+                    <span className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-[#e05b5b]">
+                      <KuroshioIcon className="size-3 text-white" name="mail" strokeWidth={2.6} />
+                    </span>
+                    <div>
+                      <h2 className="text-sm font-bold text-[#eef4ff]">Message Not Sent</h2>
+                      <p className="mt-1 text-sm leading-6 text-[#b4cdf0]/68">{errorMessage}</p>
+                    </div>
+                  </div>
+                )}
+
+                <fieldset className="contents" disabled={submitted || isSending}>
                   {contactPage.fields.map((field) => (
                     <div className="space-y-2" key={field.id}>
                       <Label className={labelClassName} htmlFor={field.id}>
@@ -78,6 +91,7 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
                       <Input
                         className={inputClassName}
                         id={field.id}
+                        name={field.id}
                         placeholder={field.placeholder}
                         required={field.required}
                         type={field.type}
@@ -87,7 +101,7 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
 
                   <div className="space-y-2">
                     <Label className={labelClassName}>Country / Region</Label>
-                    <Select disabled={submitted} name="region">
+                    <Select disabled={submitted || isSending} name="region">
                       <SelectTrigger className={selectTriggerClassName}>
                         <SelectValue placeholder="Select Region" />
                       </SelectTrigger>
@@ -105,7 +119,7 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
                     <Label className={labelClassName}>
                       Primary Industry <span className="ml-1 text-[#82f6e3]">*</span>
                     </Label>
-                    <Select disabled={submitted} name="industry" required>
+                    <Select disabled={submitted || isSending} name="industry" required>
                       <SelectTrigger className={selectTriggerClassName}>
                         <SelectValue placeholder="Select Industry" />
                       </SelectTrigger>
@@ -126,6 +140,7 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
                     <Textarea
                       className="min-h-28 resize-y rounded-lg border-white/[0.08] bg-[#0e2040] px-4 py-3 text-sm leading-7 text-[#eef4ff] placeholder:text-[#b4cdf0]/35 focus-visible:border-[#0e9e8e]/45 focus-visible:ring-[#0e9e8e]/18 disabled:opacity-30"
                       id="message"
+                      name="message"
                       placeholder="Tell us about your facility, machines, or the problem you're trying to solve..."
                     />
                   </div>
@@ -135,9 +150,10 @@ export function ContactPage(_props: Readonly<ContactPageProps>) {
                   <div className="flex justify-end border-t border-white/[0.08] pt-5 md:col-span-2">
                     <Button
                       className="h-12 rounded-lg bg-[#0e9e8e] px-7 text-sm font-bold text-white shadow-[0_16px_35px_rgba(14,158,142,0.18)] hover:bg-[#0b8478]"
+                      disabled={isSending}
                       type="submit"
                     >
-                      Request a Demo
+                      {isSending ? "Sending..." : "Request a Demo"}
                       <KuroshioIcon className="size-4" name="arrowRight" />
                     </Button>
                   </div>

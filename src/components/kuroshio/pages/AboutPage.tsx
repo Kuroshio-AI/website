@@ -50,10 +50,10 @@ export function AboutPage(_props: Readonly<AboutPageProps>) {
 
       <section className="border-y border-border-cool bg-surface-light px-gutter py-section-gap-md">
         <div className="mx-auto max-w-[1280px]">
-          <h2 className="mb-stack-lg text-center text-3xl font-bold text-primary">Recognized & Supported By</h2>
+          <h2 className="mb-stack-lg text-center text-3xl font-bold text-primary">Recognition & Credentials</h2>
           <div className="grid grid-cols-2 gap-gutter md:grid-cols-4">
             {aboutPage.credentials.map(([name, detail]) => (
-              <Card className="h-32 border-border-cool bg-surface-container-lowest p-0 text-center shadow-sm" key={name}>
+              <Card className="min-h-36 border-border-cool bg-surface-container-lowest p-0 text-center shadow-sm" key={name}>
                 <CardContent className="flex size-full flex-col items-center justify-center p-stack-lg">
                   <span className="font-semibold text-on-surface">{name}</span>
                   <span className="text-sm text-outline">{detail}</span>
@@ -66,10 +66,34 @@ export function AboutPage(_props: Readonly<AboutPageProps>) {
 
       <section className="bg-surface px-gutter py-section-gap-md">
         <div className="mx-auto max-w-[1280px]">
+          <div className="mb-stack-lg max-w-3xl">
+            <h2 className="text-3xl font-bold text-primary md:text-4xl">Our Approach</h2>
+            <p className="mt-stack-md text-base leading-7 text-on-surface-variant">
+              We deploy industrial intelligence without adding risk to the plant floor.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-5">
+            {aboutPage.approach.map((item) => (
+              <Card className="border-border-cool bg-surface-container-lowest p-0 transition-colors hover:border-secondary" key={item.title}>
+                <CardContent className="p-stack-lg">
+                  <div className="mb-stack-md flex size-11 items-center justify-center rounded-lg border border-secondary-container bg-surface-teal text-secondary">
+                    <KuroshioIcon className="size-5" name={item.icon as IconKey} strokeWidth={1.9} />
+                  </div>
+                  <h3 className="text-lg font-bold text-on-surface">{item.title}</h3>
+                  <p className="mt-stack-sm text-sm leading-6 text-on-surface-variant">{item.body}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-surface px-gutter py-section-gap-md">
+        <div className="mx-auto max-w-[1280px]">
           <div className="mx-auto mb-section-gap-md max-w-3xl text-center">
-            <h2 className="mb-stack-md text-3xl font-bold text-primary md:text-4xl">Leadership</h2>
+            <h2 className="mb-stack-md text-3xl font-bold text-primary md:text-4xl">Team</h2>
             <p className="text-base leading-7 text-on-surface-variant">
-              A multidisciplinary team of engineers, data scientists, and industrial experts.
+              Engineers and operators building Kuroshio AI across India and the UAE.
             </p>
           </div>
           <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-5">
@@ -88,17 +112,30 @@ export function AboutPage(_props: Readonly<AboutPageProps>) {
 
       <section className="bg-surface-container-low px-gutter py-section-gap-md">
         <div className="mx-auto max-w-[1280px]">
-          <h2 className="mb-stack-lg text-center text-3xl font-bold text-primary">Global Presence</h2>
+          <h2 className="mb-stack-lg text-center text-3xl font-bold text-primary">Two Entities - One Mission</h2>
           <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
-            {aboutPage.presence.map((location) => (
-              <Card className="relative overflow-hidden border-border-cool bg-surface-container-lowest p-0" key={location.title}>
-                <KuroshioIcon className="absolute right-5 top-5 size-16 text-outline opacity-15" name={location.icon as IconKey} />
+            {aboutPage.entities.map((entity) => (
+              <Card className="relative overflow-hidden border-border-cool bg-surface-container-lowest p-0" key={entity.title}>
+                <KuroshioIcon className="absolute right-5 top-5 size-16 text-outline opacity-15" name={entity.icon as IconKey} />
                 <CardContent className="relative z-10 p-stack-lg">
-                  <h3 className="mb-stack-sm text-2xl font-bold text-primary">{location.title}</h3>
+                  <h3 className="mb-stack-sm text-2xl font-bold text-primary">{entity.title}</h3>
                   <span className="mb-stack-md inline-block rounded-full bg-surface-teal px-3 py-1 text-sm font-semibold text-secondary">
-                    {location.badge}
+                    {entity.country}
                   </span>
-                  <p className="text-base leading-7 text-on-surface-variant">{location.body}</p>
+                  <dl className="space-y-stack-sm text-sm leading-6 text-on-surface-variant">
+                    <div>
+                      <dt className="font-semibold text-on-surface">Mission</dt>
+                      <dd>{entity.role}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-on-surface">Base</dt>
+                      <dd>{entity.location}</dd>
+                    </div>
+                    <div>
+                      <dt className="font-semibold text-on-surface">Status</dt>
+                      <dd>{entity.credential}</dd>
+                    </div>
+                  </dl>
                 </CardContent>
               </Card>
             ))}
