@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
@@ -54,10 +54,6 @@ const pipelineDetails: Readonly<Record<string, string>> = {
   "Azure Cloud": "UAE North data residency",
   Dashboard: "Real-time web + mobile",
 };
-
-function SectionEyebrow({ children }: Readonly<{ children: ReactNode }>) {
-  return <div className="mb-4 text-xs font-bold uppercase text-[#0e9e8e]">{children}</div>;
-}
 
 function FeatureCheck() {
   return (
@@ -451,11 +447,12 @@ export function ProductFeatureSection({
   visual,
 }: Readonly<ProductFeatureSectionProps>) {
   const isLogbook = visual === "logbook";
+  const sectionTitle = isLogbook ? "Digital Logbook" : "Predictive Maintenance";
 
   const copy = (
     <div>
-      <SectionEyebrow>{isLogbook ? "Digital Logbook" : "Predictive Maintenance"}</SectionEyebrow>
-      <h2 className="max-w-xl text-3xl font-bold leading-tight text-[#eef4ff] md:text-4xl">
+      <h2 className="text-3xl font-bold text-[#eef4ff] md:text-4xl">{sectionTitle}</h2>
+      <h3 className="mt-4 max-w-xl text-2xl font-bold leading-tight text-[#eef4ff] md:text-3xl">
         {title.includes("weeks") ? (
           <>
             Catch failures <span className="text-[#0e9e8e]">weeks</span> before they happen
@@ -465,7 +462,7 @@ export function ProductFeatureSection({
             Replace paper logs <span className="text-[#0e9e8e]">forever</span>
           </>
         )}
-      </h2>
+      </h3>
       <p className="mt-5 max-w-xl text-base leading-8 text-[#b4cdf0]/70">{description}</p>
       <FeatureList items={features} />
     </div>
@@ -474,7 +471,7 @@ export function ProductFeatureSection({
   const panel = isLogbook ? <LogbookPanel /> : <HealthPanel />;
 
   return (
-    <section className={cn("scroll-mt-[204px] py-20 md:scroll-mt-36 md:py-28", !isLogbook && "bg-[#1b3a6b]/18")} id={id}>
+    <section className={cn("scroll-mt-36 py-20 md:scroll-mt-14 md:py-28", !isLogbook && "bg-[#1b3a6b]/18")} id={id}>
       <div className="mx-auto grid max-w-[1180px] grid-cols-1 items-center gap-12 px-gutter lg:grid-cols-2 lg:gap-20">
         {isLogbook ? (
           <>
@@ -498,13 +495,13 @@ export interface ArchitectureSectionProps {
 
 export function ArchitectureSection({ onNavigate }: Readonly<ArchitectureSectionProps>) {
   return (
-    <section className="scroll-mt-[204px] bg-[#1b3a6b]/18 py-20 md:scroll-mt-36 md:py-28" id="architecture">
+    <section className="scroll-mt-36 bg-[#1b3a6b]/18 py-20 md:scroll-mt-14 md:py-28" id="architecture">
       <div className="mx-auto max-w-[1180px] px-gutter">
         <div className="mx-auto mb-14 max-w-2xl text-center">
-          <SectionEyebrow>Technical Architecture</SectionEyebrow>
-          <h2 className="text-3xl font-bold leading-tight text-[#eef4ff] md:text-4xl">
+          <h2 className="text-3xl font-bold text-[#eef4ff] md:text-4xl">Technical Architecture</h2>
+          <h3 className="mt-4 text-2xl font-bold leading-tight text-[#eef4ff] md:text-3xl">
             Works on any machine. <span className="text-[#0e9e8e]">No PLC access required.</span>
-          </h2>
+          </h3>
           <p className="mt-5 text-base leading-8 text-[#b4cdf0]/70">
             Energy meters on machine incomer, private cellular uplink, and cloud processing designed for industrial
             data residency.

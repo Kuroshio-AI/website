@@ -19,7 +19,7 @@ export function PlatformPage({ onNavigate }: Readonly<PlatformPageProps>) {
       <PlatformHero onNavigate={onNavigate} />
       <AnchorNav items={platformPage.anchorNav} />
 
-      <section className="mx-auto max-w-[1180px] scroll-mt-[204px] px-gutter py-20 md:scroll-mt-36 md:py-28" id="energy-iq">
+      <section className="mx-auto max-w-[1180px] scroll-mt-36 px-gutter py-20 md:scroll-mt-14 md:py-28" id="energy-iq">
         <div className="mb-10 flex flex-col justify-between gap-5 md:flex-row md:items-end">
           <div>
             <div className="mb-3 flex items-center gap-3">
