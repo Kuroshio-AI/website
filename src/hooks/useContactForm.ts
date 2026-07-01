@@ -3,9 +3,9 @@ import { useCallback, useState } from "react";
 
 import { send } from "@emailjs/browser";
 
-const CONTACT_FORM_RECIPIENTS = ["info@kuroshioai.com"] as const;
+const CONTACT_FORM_RECIPIENTS = ["info@kuroshioai.com", "noufal@kuroshioai.com"] as const;
 
-const FAILURE_MESSAGE = "Something went wrong. Please email us directly at info@kuroshioai.com";
+const FAILURE_MESSAGE = "Something went wrong. Please email us directly at info@kuroshioai.ae";
 const SUCCESS_MESSAGE = "Thank you. We will contact you within 24 hours.";
 
 type ContactFormStatus = "idle" | "sending" | "success" | "error";
@@ -16,6 +16,11 @@ export interface UseContactFormResult {
   readonly status: ContactFormStatus;
   readonly successMessage: string;
   readonly handleSubmit: (event: FormEvent<HTMLFormElement>) => Promise<void>;
+}
+
+function getFormValue(formData: FormData, name: string): string {
+  const value = formData.get(name);
+  return typeof value === "string" ? value.trim() : "";
 }
 
 export function useContactForm(): Readonly<UseContactFormResult> {
@@ -35,6 +40,14 @@ export function useContactForm(): Readonly<UseContactFormResult> {
 
     const form = event.currentTarget;
     const formData = new FormData(form);
+    const company = getFormValue(formData, "company");
+    const email = getFormValue(formData, "email");
+    const industry = getFormValue(formData, "industry");
+    const message = getFormValue(formData, "message");
+    const name = getFormValue(formData, "name");
+    const phone = getFormValue(formData, "phone");
+    const region = getFormValue(formData, "region");
+    const role = getFormValue(formData, "role");
 
     setStatus("sending");
 
@@ -43,14 +56,21 @@ export function useContactForm(): Readonly<UseContactFormResult> {
         serviceId,
         templateId,
         {
-          company_name: formData.get("company") ?? "",
-          country: formData.get("region") ?? "",
-          designation_role: formData.get("role") ?? "",
-          from_name: formData.get("name") ?? "",
-          industry: formData.get("industry") ?? "",
-          message: formData.get("message") ?? "",
-          phone_number: formData.get("phone") ?? "",
-          reply_to: formData.get("email") ?? "",
+          company,
+          company_name: company,
+          country: region,
+          designation_role: role,
+          email,
+          from_name: name,
+          industry,
+          message,
+          name,
+          phone,
+          phone_number: phone,
+          reply_to: email,
+          role,
+          time: new Date().toLocaleString(),
+          title: "Website contact form",
           to_email: CONTACT_FORM_RECIPIENTS.join(", "),
           to_emails: CONTACT_FORM_RECIPIENTS.join(", "),
         },
