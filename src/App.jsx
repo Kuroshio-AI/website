@@ -1,11 +1,20 @@
-import { KuroshioSite } from './components/kuroshio/KuroshioSite'
-import { TooltipProvider } from './components/ui/tooltip'
+import Feature from "@/components/feature"
+import Footer from "@/components/footer"
+import Hero from "@/components/hero"
+import Navbar from "@/components/navbar"
+import Stats from "@/components/stats"
 
 function App() {
   return (
-    <TooltipProvider delayDuration={120}>
-      <KuroshioSite />
-    </TooltipProvider>
+    <div className="min-h-screen bg-background text-foreground">
+      <Navbar />
+      <main className="flex flex-col gap-36 pb-24 pt-28 md:gap-44 md:pt-36">
+        <Hero />
+        <Feature />
+        <Stats />
+      </main>
+      <Footer />
+    </div>
   )
 }
 

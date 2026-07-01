@@ -1,4 +1,4 @@
-@import "@fontsource-variable/geist";
+@import "@fontsource-variable/inter";
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
@@ -7,8 +7,7 @@
 
 @theme inline {
   --font-heading: var(--font-sans);
-  --font-sans: "Geist Variable", sans-serif;
-
+  --font-sans: "Inter Variable", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -32,161 +31,40 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-
-  --color-surface: var(--surface);
-  --color-surface-dim: var(--surface-dim);
-  --color-surface-bright: var(--surface-bright);
-  --color-surface-container-lowest: var(--surface-container-lowest);
-  --color-surface-container-low: var(--surface-container-low);
-  --color-surface-container: var(--surface-container);
-  --color-surface-container-high: var(--surface-container-high);
-  --color-surface-container-highest: var(--surface-container-highest);
-  --color-on-surface: var(--on-surface);
-  --color-on-surface-variant: var(--on-surface-variant);
-  --color-outline: var(--outline);
-  --color-outline-variant: var(--outline-variant);
-  --color-primary-container: var(--primary-container);
-  --color-on-primary-container: var(--on-primary-container);
-  --color-on-secondary: var(--on-secondary);
-  --color-secondary-container: var(--secondary-container);
-  --color-on-secondary-container: var(--on-secondary-container);
-  --color-tertiary: var(--tertiary);
-  --color-tertiary-fixed: var(--tertiary-fixed);
-  --color-error: var(--error);
-  --color-error-container: var(--error-container);
-  --color-on-error-container: var(--on-error-container);
-  --color-primary-fixed: var(--primary-fixed);
-  --color-primary-fixed-dim: var(--primary-fixed-dim);
-  --color-secondary-fixed: var(--secondary-fixed);
-  --color-secondary-fixed-dim: var(--secondary-fixed-dim);
-  --color-on-secondary-fixed-variant: var(--on-secondary-fixed-variant);
-  --color-surface-variant: var(--surface-variant);
-  --color-hero-navy: var(--hero-navy);
-  --color-surface-light: var(--surface-light);
-  --color-surface-teal: var(--surface-teal);
-  --color-border-cool: var(--border-cool);
-  --color-warning: var(--warning);
-  --color-critical: var(--critical);
-
-  --spacing-section-gap-lg: 7.5rem;
-  --spacing-section-gap-md: 6rem;
-  --spacing-container-padding: 2rem;
-  --spacing-gutter: 1.5rem;
-  --spacing-stack-sm: 0.5rem;
-  --spacing-stack-md: 1rem;
-  --spacing-stack-lg: 1.5rem;
-
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.4);
   --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
-  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
-  @keyframes shimmer-slide {
-  to {
-    transform: translate(calc(100cqw - 100%), 0);
-    }
-  }
-  @keyframes spin-around {
-  0% {
-    transform: translateZ(0) rotate(0);
-    }
-  15%, 35% {
-    transform: translateZ(0) rotate(90deg);
-    }
-  65%, 85% {
-    transform: translateZ(0) rotate(270deg);
-    }
-  100% {
-    transform: translateZ(0) rotate(360deg);
-    }
-  }
 }
 
 :root {
-  --background: #fcf9f8;
-  --foreground: #1c1b1b;
+  --background: #fbfaf7;
+  --foreground: #0b0b0a;
   --card: #ffffff;
-  --card-foreground: #1c1b1b;
+  --card-foreground: #0b0b0a;
   --popover: #ffffff;
-  --popover-foreground: #1c1b1b;
-  --primary: #002452;
+  --popover-foreground: #0b0b0a;
+  --primary: #000000;
   --primary-foreground: #ffffff;
-  --secondary: #006b5f;
+  --secondary: #8d7a5c;
   --secondary-foreground: #ffffff;
-  --muted: #f0eded;
-  --muted-foreground: #44474f;
-  --accent: #f0fdfa;
-  --accent-foreground: #002452;
-  --destructive: #ba1a1a;
-  --border: #e2e8f0;
-  --input: #e2e8f0;
-  --ring: #006b5f;
-  --chart-1: #1b3a6b;
-  --chart-2: #006b5f;
-  --chart-3: #d97706;
-  --chart-4: #747780;
-  --chart-5: #dc2626;
-  --radius: 0.625rem;
-
-  --surface: #fcf9f8;
-  --surface-dim: #dcd9d9;
-  --surface-bright: #fcf9f8;
-  --surface-container-lowest: #ffffff;
-  --surface-container-low: #f6f3f2;
-  --surface-container: #f0eded;
-  --surface-container-high: #eae7e7;
-  --surface-container-highest: #e5e2e1;
-  --on-surface: #1c1b1b;
-  --on-surface-variant: #44474f;
-  --outline: #747780;
-  --outline-variant: #c4c6d0;
-  --primary-container: #1b3a6b;
-  --on-primary-container: #89a5dd;
-  --on-secondary: #ffffff;
-  --secondary-container: #82f6e3;
-  --on-secondary-container: #007165;
-  --tertiary: #3c1e00;
-  --tertiary-fixed: #ffdcc1;
-  --error: #ba1a1a;
-  --error-container: #ffdad6;
-  --on-error-container: #93000a;
-  --primary-fixed: #d7e2ff;
-  --primary-fixed-dim: #acc7ff;
-  --secondary-fixed: #82f6e3;
-  --secondary-fixed-dim: #64d9c8;
-  --on-secondary-fixed-variant: #005047;
-  --surface-variant: #e5e2e1;
-  --hero-navy: #112648;
-  --surface-light: #f5f5f5;
-  --surface-teal: #f0fdfa;
-  --border-cool: #e2e8f0;
-  --warning: #d97706;
-  --critical: #dc2626;
-}
-
-.dark {
-  --background: #112648;
-  --foreground: #f3f0ef;
-  --card: #1b3a6b;
-  --card-foreground: #f3f0ef;
-  --popover: #1b3a6b;
-  --popover-foreground: #f3f0ef;
-  --primary: #acc7ff;
-  --primary-foreground: #001a40;
-  --secondary: #64d9c8;
-  --secondary-foreground: #00201c;
-  --muted: #313030;
-  --muted-foreground: #c4c6d0;
-  --accent: #294678;
-  --accent-foreground: #f3f0ef;
-  --destructive: #ffdad6;
-  --border: #294678;
-  --input: #294678;
-  --ring: #64d9c8;
+  --muted: #f0ede8;
+  --muted-foreground: #6b6258;
+  --accent: #efe6d7;
+  --accent-foreground: #0b0b0a;
+  --destructive: #b42318;
+  --border: #e5dfd6;
+  --input: #e5dfd6;
+  --ring: #111111;
+  --chart-1: #0f766e;
+  --chart-2: #f0b35a;
+  --chart-3: #0b0b0a;
+  --chart-4: #83776b;
+  --chart-5: #ef4444;
+  --dashboard-accent: #63d8c7;
+  --dashboard-track: #3b352d;
+  --radius: 0.72rem;
 }
 
 @layer base {
@@ -195,14 +73,30 @@
   }
 
   html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
     scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
   }
 
   body {
     @apply bg-background text-foreground;
     min-width: 320px;
     margin: 0;
-    font-family: "Geist Variable", sans-serif;
+    font-family: "Inter Variable", sans-serif;
+    font-weight: 300;
+  }
+
+  body::before {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    content: "";
+    background:
+      radial-gradient(circle at 6% 0%, rgb(127 111 88 / 0.28), transparent 28rem),
+      linear-gradient(90deg, rgb(218 209 195 / 0.42), transparent 38%),
+      var(--background);
   }
 
   button,
@@ -210,5 +104,639 @@
   textarea,
   select {
     font: inherit;
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  img {
+    outline: 1px solid rgb(0 0 0 / 0.1);
+    outline-offset: -1px;
+  }
+
+  ::selection {
+    background: #ddd0bd;
+  }
+}
+
+@layer components {
+  .axis-theme-toggle {
+    display: inline-flex;
+    min-height: 2.5rem;
+    align-items: center;
+    gap: 0.1rem;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.42);
+    padding: 0.18rem;
+    color: rgb(11 11 10 / 0.52);
+    transition-property: background-color, color, border-color;
+    transition-duration: 150ms;
+    transition-timing-function: ease-out;
+  }
+
+  .axis-theme-toggle:hover {
+    background: rgb(255 255 255 / 0.74);
+    color: var(--foreground);
+  }
+
+  .axis-theme-toggle span {
+    display: grid;
+    width: 1.45rem;
+    height: 1.45rem;
+    place-items: center;
+    border-radius: 999px;
+  }
+
+  .axis-theme-toggle span + span {
+    background: #f6f3ef;
+    color: var(--foreground);
+    box-shadow: inset 0 0 0 1px rgb(0 0 0 / 0.06);
+  }
+
+  .axis-theme-toggle svg {
+    width: 0.82rem;
+    height: 0.82rem;
+  }
+
+  .axis-hero-copy {
+    min-height: 13.5rem;
+  }
+
+  .axis-preview-frame {
+    position: relative;
+    min-height: 36rem;
+    overflow: hidden;
+    border-radius: 1.75rem;
+    background: #1b1710;
+    box-shadow: 0 44px 110px rgb(40 31 17 / 0.16);
+  }
+
+  .axis-preview-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: sepia(0.68) saturate(0.82) brightness(0.78) contrast(1.08);
+    opacity: 0.82;
+    transform: scale(1.05);
+  }
+
+  .axis-preview-warmth {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgb(220 174 92 / 0.35), rgb(0 0 0 / 0.42) 55%, rgb(0 0 0 / 0.88)),
+      radial-gradient(circle at 18% 6%, rgb(255 217 127 / 0.26), transparent 26rem);
+  }
+
+  .axis-dashboard {
+    position: absolute;
+    inset: 3rem 3rem 0;
+    display: grid;
+    grid-template-columns: 3.7rem 1fr;
+    overflow: hidden;
+    border: 1px solid rgb(255 255 255 / 0.28);
+    border-bottom: 0;
+    border-radius: 0.9rem 0.9rem 0 0;
+    color: #f7f4ec;
+    background: linear-gradient(145deg, rgb(20 18 15 / 0.94), rgb(6 6 5 / 0.92));
+    box-shadow: 0 20px 80px rgb(0 0 0 / 0.34);
+    backdrop-filter: blur(16px);
+  }
+
+  .axis-dashboard-rail {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-block: 1rem;
+    border-right: 1px solid rgb(255 255 255 / 0.07);
+    background: rgb(0 0 0 / 0.34);
+    color: rgb(255 255 255 / 0.52);
+  }
+
+  .axis-dashboard-rail svg {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .rail-logo {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 0.55rem;
+    background: rgb(255 255 255 / 0.15);
+    color: white;
+    font-weight: 700;
+  }
+
+  .axis-dashboard-main {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.95rem;
+    padding: 1rem;
+  }
+
+  .axis-dashboard-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: rgb(255 255 255 / 0.9);
+  }
+
+  .axis-dashboard-header p {
+    font-size: 0.74rem;
+    color: rgb(255 255 255 / 0.36);
+  }
+
+  .axis-dashboard-header h2 {
+    margin-top: 0.2rem;
+    font-size: 0.98rem;
+    font-weight: 650;
+    letter-spacing: -0.02em;
+  }
+
+  .live-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 2rem;
+    padding-inline: 0.75rem;
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.11);
+    font-size: 0.77rem;
+    font-weight: 650;
+  }
+
+  .live-pill span {
+    width: 0.45rem;
+    height: 0.45rem;
+    border-radius: 999px;
+    background: var(--dashboard-accent);
+    box-shadow: 0 0 18px var(--dashboard-accent);
+  }
+
+  .axis-dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(15rem, 0.62fr) minmax(0, 1.38fr);
+    gap: 0.65rem;
+    min-height: 0;
+  }
+
+  .machine-card,
+  .telemetry-card,
+  .trend-card,
+  .note-box,
+  .reading-tile,
+  .activity-item {
+    border: 1px solid rgb(255 255 255 / 0.055);
+    background: rgb(255 255 255 / 0.075);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.04);
+  }
+
+  .machine-card,
+  .telemetry-card {
+    border-radius: 1rem;
+    padding: 1.05rem;
+  }
+
+  .machine-heading {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .machine-icon {
+    display: grid;
+    width: 2.55rem;
+    height: 2.55rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 50%;
+    background: rgb(255 255 255 / 0.12);
+    color: var(--dashboard-accent);
+  }
+
+  .machine-icon svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .machine-heading h3 {
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .machine-heading p {
+    margin-top: 0.16rem;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: rgb(255 255 255 / 0.42);
+  }
+
+  .machine-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    margin-top: 0.6rem;
+  }
+
+  .machine-tags span {
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.1);
+    padding: 0.38rem 0.56rem;
+    font-size: 0.7rem;
+    color: rgb(255 255 255 / 0.67);
+  }
+
+  .telemetry-card {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
+    gap: 0.65rem;
+    background: rgb(255 255 255 / 0.055);
+  }
+
+  .note-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 4.5rem;
+    border-radius: 0.9rem;
+    padding: 0.9rem;
+    color: rgb(255 255 255 / 0.42);
+  }
+
+  .note-box button {
+    min-height: 2.25rem;
+    border-radius: 999px;
+    background: #f4f2ee;
+    padding-inline: 1.05rem;
+    color: #111;
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .reading-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .reading-tile {
+    min-width: 0;
+    border-radius: 0.82rem;
+    padding: 0.82rem;
+  }
+
+  .reading-tile span,
+  .reading-tile small {
+    display: block;
+    color: rgb(255 255 255 / 0.42);
+    font-size: 0.68rem;
+  }
+
+  .reading-tile strong {
+    display: block;
+    margin-top: 0.18rem;
+    color: white;
+    font-size: 1.2rem;
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .trend-card {
+    overflow: hidden;
+    border-radius: 0.9rem;
+    padding: 0.9rem 0.9rem 0.2rem;
+  }
+
+  .trend-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .trend-header span {
+    display: block;
+    color: rgb(255 255 255 / 0.42);
+    font-size: 0.68rem;
+  }
+
+  .trend-header strong {
+    display: block;
+    color: white;
+    font-size: 0.86rem;
+  }
+
+  .trend-header svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--dashboard-accent);
+  }
+
+  .activity-list {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .activity-item {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    border-radius: 0.76rem;
+    padding: 0.62rem 0.72rem;
+  }
+
+  .activity-item span {
+    display: grid;
+    width: 1.8rem;
+    height: 1.8rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 0.55rem;
+    background: rgb(99 216 199 / 0.12);
+    color: var(--dashboard-accent);
+  }
+
+  .activity-item .activity-alert {
+    background: rgb(240 179 90 / 0.16);
+    color: #f0b35a;
+  }
+
+  .activity-item svg {
+    width: 0.95rem;
+    height: 0.95rem;
+  }
+
+  .activity-item p {
+    overflow: hidden;
+    display: -webkit-box;
+    color: rgb(255 255 255 / 0.58);
+    font-size: 0.72rem;
+    line-height: 1.35;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+  }
+
+  .k-live-line {
+    stroke-dasharray: 520;
+    stroke-dashoffset: 520;
+    animation: k-line-draw 4.8s ease-in-out infinite;
+  }
+
+  .axis-note-card {
+    min-height: 25rem;
+    border: 1px solid #cfc8bd;
+    border-radius: 1.05rem;
+    padding: 1.45rem;
+    background:
+      radial-gradient(circle at 100% 100%, rgb(214 199 176 / 0.7), transparent 18rem),
+      linear-gradient(120deg, #d8d4cc, #f3efe5);
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+  }
+
+  .axis-note-card > div:first-child,
+  .axis-note-card > div:nth-child(2) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .axis-note-card button,
+  .axis-note-card > div:nth-child(2) span {
+    border-radius: 999px;
+    background: #111;
+    padding: 0.58rem 1.05rem;
+    color: white;
+    font-size: 0.82rem;
+    font-weight: 700;
+  }
+
+  .axis-note-card > div:nth-child(2) {
+    justify-content: flex-start;
+    margin-top: 3rem;
+  }
+
+  .axis-note-card > div:nth-child(2) span + span {
+    border: 1px solid #bdb5a8;
+    background: transparent;
+    color: #111;
+  }
+
+  .axis-note-card h3 {
+    margin-top: 1.15rem;
+    font-size: 1.7rem;
+    font-weight: 650;
+    letter-spacing: -0.04em;
+  }
+
+  .axis-note-card p {
+    margin-top: 0.9rem;
+    max-width: 34rem;
+    color: #171411;
+    line-height: 1.72;
+  }
+
+  .axis-note-callout {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-top: 2rem;
+    border-radius: 999px;
+    background: white;
+    padding: 0.95rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .axis-note-callout svg {
+    flex-shrink: 0;
+  }
+}
+
+@keyframes k-line-draw {
+  0% {
+    stroke-dashoffset: 520;
+    opacity: 0.35;
+  }
+  38%,
+  72% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: -520;
+    opacity: 0.45;
+  }
+}
+
+@media (max-width: 1024px) {
+  .axis-hero-copy {
+    min-height: 0;
+    text-align: center;
+  }
+
+  .axis-hero-copy > div {
+    margin-inline: auto;
+  }
+
+  .axis-preview-frame {
+    min-height: 24rem;
+    border-radius: 1.1rem;
+  }
+
+  .axis-dashboard {
+    inset: 1rem 1rem 0;
+    grid-template-columns: 2.5rem 1fr;
+  }
+
+  .axis-dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .machine-card {
+    display: none;
+  }
+
+  .axis-dashboard-main {
+    padding: 0.65rem;
+  }
+
+  .note-box,
+  .reading-grid {
+    display: none;
+  }
+
+  .axis-dashboard-header h2 {
+    font-size: 0.8rem;
+  }
+
+  .telemetry-card {
+    padding: 0.65rem;
+  }
+
+  .activity-item:nth-child(n + 3) {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  body::before {
+    background:
+      radial-gradient(circle at 0% 0%, rgb(127 111 88 / 0.28), transparent 17rem),
+      var(--background);
+  }
+
+  .axis-preview-frame {
+    min-height: 11.2rem;
+  }
+
+  .axis-dashboard {
+    inset: 0.72rem 0.72rem 0;
+    grid-template-columns: 1.65rem 1fr;
+    border-radius: 0.42rem 0.42rem 0 0;
+  }
+
+  .axis-dashboard-rail {
+    gap: 0.42rem;
+    padding-block: 0.45rem;
+  }
+
+  .axis-dashboard-rail svg {
+    width: 0.58rem;
+    height: 0.58rem;
+  }
+
+  .rail-logo {
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 0.26rem;
+    font-size: 0.46rem;
+  }
+
+  .axis-dashboard-main {
+    gap: 0.38rem;
+    padding: 0.42rem;
+  }
+
+  .axis-dashboard-header p,
+  .live-pill {
+    display: none;
+  }
+
+  .axis-dashboard-header h2 {
+    margin: 0;
+    font-size: 0.58rem;
+  }
+
+  .telemetry-card {
+    gap: 0.36rem;
+    padding: 0.4rem;
+    border-radius: 0.44rem;
+  }
+
+  .trend-card {
+    border-radius: 0.42rem;
+    padding: 0.42rem 0.42rem 0;
+  }
+
+  .trend-header span {
+    font-size: 0.46rem;
+  }
+
+  .trend-header strong {
+    font-size: 0.54rem;
+  }
+
+  .trend-card svg {
+    height: 3.6rem;
+  }
+
+  .activity-list {
+    gap: 0.28rem;
+  }
+
+  .activity-item {
+    gap: 0.35rem;
+    border-radius: 0.36rem;
+    padding: 0.35rem;
+  }
+
+  .activity-item span {
+    width: 1.05rem;
+    height: 1.05rem;
+    border-radius: 0.24rem;
+  }
+
+  .activity-item svg {
+    width: 0.55rem;
+    height: 0.55rem;
+  }
+
+  .activity-item p {
+    font-size: 0.48rem;
+  }
+
+  .axis-note-card {
+    min-height: auto;
+    padding: 1rem;
+  }
+
+  .axis-note-card > div:nth-child(2) {
+    margin-top: 2rem;
+  }
+
+  .axis-note-callout {
+    align-items: flex-start;
+    border-radius: 1rem;
   }
 }
