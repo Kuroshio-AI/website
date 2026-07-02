@@ -167,11 +167,28 @@
 
   .axis-preview-frame {
     position: relative;
-    min-height: 36rem;
+    min-height: 40rem;
     overflow: hidden;
     border-radius: 1.75rem;
     background: #1b1710;
     box-shadow: 0 44px 110px rgb(40 31 17 / 0.16);
+  }
+
+  .axis-preview-frame::after {
+    position: absolute;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 2;
+    height: 48%;
+    pointer-events: none;
+    content: "";
+    background: linear-gradient(
+      180deg,
+      rgb(0 0 0 / 0) 0%,
+      rgb(0 0 0 / 0.38) 40%,
+      rgb(0 0 0 / 0.9) 78%,
+      rgb(0 0 0 / 0.98) 100%
+    );
   }
 
   .axis-preview-bg {
@@ -196,6 +213,7 @@
   .axis-dashboard {
     position: absolute;
     inset: 3rem 3rem 0;
+    z-index: 1;
     display: grid;
     grid-template-columns: 3.7rem 1fr;
     overflow: hidden;
@@ -493,73 +511,16 @@
     animation: k-line-draw 4.8s ease-in-out infinite;
   }
 
-  .axis-note-card {
-    min-height: 25rem;
-    border: 1px solid #cfc8bd;
-    border-radius: 1.05rem;
-    padding: 1.45rem;
-    background:
-      radial-gradient(circle at 100% 100%, rgb(214 199 176 / 0.7), transparent 18rem),
-      linear-gradient(120deg, #d8d4cc, #f3efe5);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6);
+  .feature-art-frame {
+    display: block;
+    width: 100%;
   }
 
-  .axis-note-card > div:first-child,
-  .axis-note-card > div:nth-child(2) {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 0.75rem;
-  }
-
-  .axis-note-card button,
-  .axis-note-card > div:nth-child(2) span {
-    border-radius: 999px;
-    background: #111;
-    padding: 0.58rem 1.05rem;
-    color: white;
-    font-size: 0.82rem;
-    font-weight: 700;
-  }
-
-  .axis-note-card > div:nth-child(2) {
-    justify-content: flex-start;
-    margin-top: 3rem;
-  }
-
-  .axis-note-card > div:nth-child(2) span + span {
-    border: 1px solid #bdb5a8;
-    background: transparent;
-    color: #111;
-  }
-
-  .axis-note-card h3 {
-    margin-top: 1.15rem;
-    font-size: 1.7rem;
-    font-weight: 650;
-    letter-spacing: -0.04em;
-  }
-
-  .axis-note-card p {
-    margin-top: 0.9rem;
-    max-width: 34rem;
-    color: #171411;
-    line-height: 1.72;
-  }
-
-  .axis-note-callout {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    margin-top: 2rem;
-    border-radius: 999px;
-    background: white;
-    padding: 0.95rem 1rem;
-    font-size: 0.9rem;
-  }
-
-  .axis-note-callout svg {
-    flex-shrink: 0;
+  .feature-art {
+    display: block;
+    width: 100%;
+    height: auto;
+    outline: 0;
   }
 }
 
@@ -590,7 +551,7 @@
   }
 
   .axis-preview-frame {
-    min-height: 24rem;
+    min-height: 26rem;
     border-radius: 1.1rem;
   }
 
@@ -637,106 +598,146 @@
   }
 
   .axis-preview-frame {
-    min-height: 11.2rem;
+    min-height: clamp(16rem, 72vw, 21rem);
+    border-radius: 1rem;
+  }
+
+  .axis-preview-frame::after {
+    height: 50%;
+  }
+
+  .axis-preview-bg {
+    transform: scale(1.03);
   }
 
   .axis-dashboard {
-    inset: 0.72rem 0.72rem 0;
-    grid-template-columns: 1.65rem 1fr;
-    border-radius: 0.42rem 0.42rem 0 0;
+    inset: 0.72rem auto auto 0.55rem;
+    width: 206%;
+    height: 29rem;
+    grid-template-columns: 3.2rem 1fr;
+    border-radius: 0.76rem 0.76rem 0 0;
+    transform: scale(0.47);
+    transform-origin: top left;
   }
 
   .axis-dashboard-rail {
-    gap: 0.42rem;
-    padding-block: 0.45rem;
+    gap: 0.8rem;
+    padding-block: 0.8rem;
   }
 
   .axis-dashboard-rail svg {
-    width: 0.58rem;
-    height: 0.58rem;
+    width: 0.9rem;
+    height: 0.9rem;
   }
 
   .rail-logo {
-    width: 1.05rem;
-    height: 1.05rem;
-    border-radius: 0.26rem;
-    font-size: 0.46rem;
+    width: 1.8rem;
+    height: 1.8rem;
+    border-radius: 0.48rem;
+    font-size: 0.82rem;
   }
 
   .axis-dashboard-main {
-    gap: 0.38rem;
-    padding: 0.42rem;
+    gap: 0.72rem;
+    padding: 0.78rem;
   }
 
-  .axis-dashboard-header p,
+  .axis-dashboard-header p {
+    display: block;
+    font-size: 0.66rem;
+  }
+
   .live-pill {
-    display: none;
+    display: inline-flex;
+    min-height: 1.75rem;
+    padding-inline: 0.66rem;
+    font-size: 0.68rem;
   }
 
   .axis-dashboard-header h2 {
-    margin: 0;
-    font-size: 0.58rem;
+    margin-top: 0.15rem;
+    font-size: 0.9rem;
+  }
+
+  .axis-dashboard-grid {
+    grid-template-columns: minmax(13.5rem, 0.62fr) minmax(0, 1.38fr);
+    gap: 0.55rem;
+  }
+
+  .machine-card {
+    display: block;
+    padding: 0.82rem;
+    border-radius: 0.86rem;
   }
 
   .telemetry-card {
-    gap: 0.36rem;
-    padding: 0.4rem;
-    border-radius: 0.44rem;
+    gap: 0.55rem;
+    padding: 0.82rem;
+    border-radius: 0.86rem;
+  }
+
+  .note-box {
+    display: flex;
+    min-height: 3.35rem;
+    padding: 0.65rem;
+    border-radius: 0.76rem;
+  }
+
+  .reading-grid {
+    display: grid;
+    gap: 0.42rem;
+  }
+
+  .reading-tile {
+    padding: 0.62rem;
+    border-radius: 0.68rem;
   }
 
   .trend-card {
-    border-radius: 0.42rem;
-    padding: 0.42rem 0.42rem 0;
+    border-radius: 0.76rem;
+    padding: 0.72rem 0.72rem 0.1rem;
   }
 
   .trend-header span {
-    font-size: 0.46rem;
+    font-size: 0.62rem;
   }
 
   .trend-header strong {
-    font-size: 0.54rem;
+    font-size: 0.78rem;
   }
 
   .trend-card svg {
-    height: 3.6rem;
+    height: 5.2rem;
   }
 
   .activity-list {
-    gap: 0.28rem;
+    gap: 0.42rem;
   }
 
   .activity-item {
-    gap: 0.35rem;
-    border-radius: 0.36rem;
-    padding: 0.35rem;
+    gap: 0.52rem;
+    border-radius: 0.58rem;
+    padding: 0.5rem;
   }
 
   .activity-item span {
-    width: 1.05rem;
-    height: 1.05rem;
-    border-radius: 0.24rem;
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: 0.38rem;
   }
 
   .activity-item svg {
-    width: 0.55rem;
-    height: 0.55rem;
+    width: 0.75rem;
+    height: 0.75rem;
   }
 
   .activity-item p {
-    font-size: 0.48rem;
+    font-size: 0.62rem;
   }
 
-  .axis-note-card {
-    min-height: auto;
-    padding: 1rem;
-  }
-
-  .axis-note-card > div:nth-child(2) {
-    margin-top: 2rem;
-  }
-
-  .axis-note-callout {
-    align-items: flex-start;
-    border-radius: 1rem;
+  .feature-art-frame {
+    width: calc(100% - 2rem);
+    max-width: 345px;
+    margin-inline: auto;
   }
 }

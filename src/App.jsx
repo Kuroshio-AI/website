@@ -8,7 +8,7 @@ function App() {
   return (
     <div className="min-h-screen bg-background text-foreground">
       <Navbar />
-      <main className="flex flex-col gap-36 pb-24 pt-28 md:gap-44 md:pt-36">
+      <main className="flex flex-col gap-16 pb-24 pt-28 md:gap-16 md:pt-36">
         <Hero />
         <Feature />
         <Stats />
