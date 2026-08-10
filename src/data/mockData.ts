@@ -577,7 +577,11 @@ export const contactPage = {
     {
       city: "India",
       tone: "primary",
-      address: ["Kerala Makers Village", "Thiruvananthapuram, Kerala, India - 695 581"],
+      address: [
+        "Kuroshio AI, STPI Building,",
+        "Technopark Phase 1, Kazhakkoottam,",
+        "Trivandrum, Kerala",
+      ],
     },
   ],
 } as const;
