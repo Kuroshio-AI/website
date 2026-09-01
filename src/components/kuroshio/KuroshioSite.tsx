@@ -1,3 +1,5 @@
+import { useEffect, useRef } from "react";
+
 import { SiteShell } from "@/components/kuroshio/SiteShell";
 import { AboutPage } from "@/components/kuroshio/pages/AboutPage";
 import { ContactPage } from "@/components/kuroshio/pages/ContactPage";
@@ -5,6 +7,7 @@ import { HomePage } from "@/components/kuroshio/pages/HomePage";
 import { IndustriesPage } from "@/components/kuroshio/pages/IndustriesPage";
 import { PlatformPage } from "@/components/kuroshio/pages/PlatformPage";
 import { useActivePage } from "@/hooks/useActivePage";
+import { usePageMetadata } from "@/hooks/usePageMetadata";
 import type { PageId } from "@/data/mockData";
 
 const pages = {
@@ -20,9 +23,24 @@ export interface KuroshioSiteProps {}
 export function KuroshioSite(_props: Readonly<KuroshioSiteProps>) {
   const { activePage, navigate } = useActivePage();
   const ActivePage = pages[activePage];
+  const previousPageRef = useRef(activePage);
+  usePageMetadata(activePage);
+
+  useEffect(() => {
+    if (previousPageRef.current === activePage) {
+      return undefined;
+    }
+
+    previousPageRef.current = activePage;
+    const frameId = window.requestAnimationFrame(() => {
+      document.querySelector<HTMLElement>("main")?.focus({ preventScroll: true });
+    });
+
+    return () => window.cancelAnimationFrame(frameId);
+  }, [activePage]);
 
   return (
-    <SiteShell activePage={activePage} onNavigate={navigate}>
+    <SiteShell activePage={activePage}>
       <ActivePage onNavigate={navigate} />
     </SiteShell>
   );

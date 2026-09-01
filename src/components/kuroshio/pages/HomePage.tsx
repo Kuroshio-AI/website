@@ -1,316 +1,355 @@
+import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { Suspense, lazy, useRef, useState } from "react";
+
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
-import ShapeGrid from "@/components/ShapeGrid";
-import { Button } from "@/components/ui/button";
-import { ShimmerButton } from "@/components/ui/shimmer-button";
+import { PageLink } from "@/components/kuroshio/PageLink";
+import { Band, SectionHead } from "@/components/kuroshio/Sections";
+import { HeroSection } from "@/components/kuroshio/home/HeroSection";
+import { PipelineSection } from "@/components/kuroshio/home/PipelineSection";
 import { homePage } from "@/data/mockData";
-import type { IconKey, PageId } from "@/data/mockData";
+import type { PageId } from "@/data/mockData";
+import { usePageMotion } from "@/hooks/usePageMotion";
+import { ScrollTrigger, countUp } from "@/lib/motion";
+import { cn } from "@/lib/utils";
 
-export interface HomePageProps {
-  readonly onNavigate: (page: PageId) => void;
-}
+// Remotion + the composition are ~40% of the bundle; keep them out of the
+// critical path and stream them in behind a reserved, correctly-sized frame.
+const PlatformDemo = lazy(() =>
+  import("@/components/kuroshio/PlatformDemo").then((module) => ({
+    default: module.PlatformDemo,
+  }))
+);
 
-interface HomeCallToActionProps {
-  readonly onNavigate: (page: PageId) => void;
-}
-
-interface SectionHeaderProps {
-  readonly eyebrow: string;
-  readonly title: string;
-  readonly description?: string;
-  readonly align?: "center" | "left";
-}
-
-function SectionHeader({
-  eyebrow,
-  title,
-  description,
-  align = "center",
-}: Readonly<SectionHeaderProps>) {
-  const isCentered = align === "center";
-
+function DemoSkeleton() {
   return (
-    <div className={isCentered ? "mx-auto mb-12 max-w-3xl text-center md:mb-16" : "mb-10 max-w-3xl md:mb-14"}>
-      <p className="text-xs font-bold uppercase tracking-[0.18em] text-secondary-fixed">{eyebrow}</p>
-      <h2 className="mt-4 text-3xl font-bold leading-[1.12] text-white [text-wrap:balance] md:text-4xl">
-        {title}
-      </h2>
-      {description && (
-        <p
-          className={`mt-4 text-base leading-7 text-[#b4cdf0]/68 [text-wrap:pretty] md:text-lg ${
-            isCentered ? "mx-auto max-w-2xl" : "max-w-2xl"
-          }`}
+    <div aria-hidden="true" className="panel corner-marks overflow-hidden">
+      <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
+        <span className="tag text-bone-faint">Loading walkthrough</span>
+        <span className="readout text-xs text-bone-faint">00:00 / 00:35</span>
+      </div>
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-abyss-deep">
+        <div className="grid-field absolute inset-0 opacity-50" />
+        <div className="absolute inset-y-0 left-0 w-1/3 animate-sweep bg-gradient-to-r from-transparent via-signal/10 to-transparent" />
+      </div>
+      <div className="h-16 border-t border-hairline" />
+    </div>
+  );
+}
+
+interface PageProps {
+  readonly onNavigate: (page: PageId) => void;
+}
+
+const CAPABILITY_META = [
+  { anchor: "energy-iq", metric: "60s", metricLabel: "sample interval" },
+  { anchor: "predictive-maintenance", metric: "12d", metricLabel: "typical lead time" },
+  { anchor: "digital-logbook", metric: "0", metricLabel: "paper logbooks" },
+  { anchor: "carbon-tracking", metric: "Scope 2", metricLabel: "audit ready" },
+];
+
+function ProblemList() {
+  return (
+    <ol className="mt-14 flex flex-col border-t border-hairline">
+      {homePage.problems.map((problem, index) => (
+        <li
+          className="group relative grid gap-4 border-b border-hairline py-8 md:grid-cols-[8rem_minmax(0,22rem)_minmax(0,1fr)] md:items-start md:gap-10 md:py-10"
+          data-reveal="up"
+          key={problem.title}
         >
-          {description}
-        </p>
-      )}
-    </div>
-  );
-}
-
-function HomeCallToAction({ onNavigate }: Readonly<HomeCallToActionProps>) {
-  return (
-    <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-      <Button
-        className="h-14 w-full rounded-full bg-secondary px-8 text-sm font-bold text-white shadow-[0_18px_50px_rgba(0,107,95,0.28)] transition-[background-color,box-shadow,transform] duration-150 ease-out hover:bg-secondary/90 hover:shadow-[0_22px_58px_rgba(0,107,95,0.34)] active:scale-[0.98] sm:w-auto"
-        onClick={() => onNavigate("contact")}
-        size="lg"
-        type="button"
-      >
-        {homePage.primaryAction}
-        <KuroshioIcon className="size-4" name="arrowRight" strokeWidth={2.5} />
-      </Button>
-      <Button
-        className="h-14 w-full rounded-full border-2 border-outline bg-transparent px-8 text-sm font-bold text-white transition-[background-color,border-color,transform] duration-150 ease-out hover:border-secondary-fixed/70 hover:bg-white/[0.06] hover:text-white active:scale-[0.98] sm:w-auto"
-        onClick={() => onNavigate("platform")}
-        size="lg"
-        type="button"
-        variant="outline"
-      >
-        {homePage.secondaryAction}
-      </Button>
-    </div>
-  );
-}
-
-function ProblemCard({ item }: Readonly<{ item: (typeof homePage.problems)[number] }>) {
-  return (
-    <article className="rounded-xl border border-white/[0.08] bg-[#112648]/75 p-6 shadow-[0_20px_55px_rgba(0,0,0,0.18)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1 hover:border-[#0e9e8e]/38 hover:bg-[#162f58]/80 hover:shadow-[0_26px_70px_rgba(0,0,0,0.28)]">
-      <div className="mb-5 flex size-12 items-center justify-center rounded-lg border border-[#0e9e8e]/30 bg-[#0e9e8e]/12 text-[#82f6e3]">
-        <KuroshioIcon className="size-5" name={item.icon as IconKey} strokeWidth={1.9} />
-      </div>
-      <h3 className="text-lg font-bold text-white [text-wrap:balance]">{item.title}</h3>
-      <p className="mt-3 text-sm leading-6 text-[#b4cdf0]/68 [text-wrap:pretty]">{item.body}</p>
-    </article>
-  );
-}
-
-function ProductCard({
-  item,
-  onNavigate,
-}: Readonly<{ item: (typeof homePage.products)[number]; onNavigate: (page: PageId) => void }>) {
-  return (
-    <article className="flex min-h-full flex-col rounded-xl border border-white/[0.08] bg-[#112648]/70 p-6 shadow-[0_20px_55px_rgba(0,0,0,0.18)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1 hover:border-[#0e9e8e]/40 hover:bg-[#162f58]/82 hover:shadow-[0_26px_70px_rgba(0,0,0,0.28)]">
-      <div className="mb-5 flex size-12 items-center justify-center rounded-lg border border-[#0e9e8e]/30 bg-[#0e9e8e]/12 text-[#82f6e3]">
-        <KuroshioIcon className="size-5" name={item.icon as IconKey} strokeWidth={1.9} />
-      </div>
-      <p className="text-[0.68rem] font-bold uppercase tracking-[0.14em] text-[#82f6e3]">{item.tag}</p>
-      <h3 className="mt-2 text-xl font-bold leading-tight text-white [text-wrap:balance]">{item.title}</h3>
-      <ul className="mt-5 flex flex-1 flex-col gap-3">
-        {item.bullets.map((bullet) => (
-          <li className="flex items-start gap-3 text-sm leading-6 text-[#b4cdf0]/70 [text-wrap:pretty]" key={bullet}>
-            <span className="mt-2 size-1.5 shrink-0 rounded-full bg-[#0e9e8e]" />
-            <span>{bullet}</span>
-          </li>
-        ))}
-      </ul>
-      <button
-        className="mt-6 inline-flex min-h-10 w-fit items-center gap-2 rounded-md text-sm font-bold text-[#82f6e3] transition-[color,gap,transform] duration-150 ease-out hover:gap-3 hover:text-white active:scale-[0.98]"
-        onClick={() => onNavigate("platform")}
-        type="button"
-      >
-        Learn More
-        <KuroshioIcon className="size-4" name="arrowRight" strokeWidth={2.2} />
-      </button>
-    </article>
-  );
-}
-
-function ProcessStep({ item, index }: Readonly<{ item: (typeof homePage.process)[number]; index: number }>) {
-  const stepNumber = String(index + 1).padStart(2, "0");
-
-  return (
-    <article className="relative flex min-h-[220px] flex-col rounded-xl border border-white/[0.08] bg-[#112648]/68 p-6 text-left shadow-[0_16px_42px_rgba(0,0,0,0.16)] transition-[border-color,background-color,box-shadow] duration-200 ease-out hover:border-[#0e9e8e]/34 hover:bg-[#162f58]/76 hover:shadow-[0_20px_54px_rgba(0,0,0,0.22)]">
-      <div className="mb-7 inline-flex w-fit items-center gap-2 rounded-full border border-[#0e9e8e]/24 bg-[#0e9e8e]/10 px-3 py-1.5 text-[#82f6e3]">
-        <span className="text-[0.62rem] font-bold uppercase tracking-[0.14em] text-[#82f6e3]/70">Step</span>
-        <span className="text-sm font-bold leading-none [font-variant-numeric:tabular-nums]">{stepNumber}</span>
-      </div>
-      <h3 className="text-base font-bold leading-tight text-white [text-wrap:balance]">{item.title}</h3>
-      <p className="mt-4 text-sm leading-6 text-[#b4cdf0]/68 [text-wrap:pretty]">{item.body}</p>
-    </article>
-  );
-}
-
-function IndustryTile({
-  item,
-  onNavigate,
-}: Readonly<{ item: (typeof homePage.industries)[number]; onNavigate: (page: PageId) => void }>) {
-  return (
-    <button
-      className="group flex min-h-36 items-start gap-4 rounded-xl border border-white/[0.08] bg-[#112648]/66 p-5 text-left shadow-[0_18px_45px_rgba(0,0,0,0.16)] transition-[border-color,background-color,box-shadow,transform] duration-200 ease-out hover:-translate-y-1 hover:border-[#0e9e8e]/36 hover:bg-[#162f58]/82 hover:shadow-[0_24px_62px_rgba(0,0,0,0.24)] active:scale-[0.99]"
-      onClick={() => onNavigate("industries")}
-      type="button"
-    >
-      <span className="flex size-11 shrink-0 items-center justify-center rounded-lg border border-[#0e9e8e]/26 bg-[#0e9e8e]/12 text-[#82f6e3] transition-[background-color,border-color] duration-150 ease-out group-hover:border-[#0e9e8e]/55 group-hover:bg-[#0e9e8e]/18">
-        <KuroshioIcon className="size-5" name={item.icon as IconKey} strokeWidth={1.9} />
-      </span>
-      <span>
-        <span className="block text-base font-bold text-white [text-wrap:balance]">{item.title}</span>
-        <span className="mt-2 block text-sm leading-6 text-[#b4cdf0]/66 [text-wrap:pretty]">{item.body}</span>
-      </span>
-    </button>
-  );
-}
-
-function NumberBlock({ item }: Readonly<{ item: (typeof homePage.numbers)[number] }>) {
-  return (
-    <article className="rounded-xl border border-white/[0.08] bg-[#112648]/68 p-6 shadow-[0_18px_45px_rgba(0,0,0,0.16)]">
-      <div className="mb-6 flex items-center justify-between">
-        <KuroshioIcon className="size-5 text-[#82f6e3]" name={item.icon as IconKey} strokeWidth={1.9} />
-        <span className="h-px flex-1 bg-[#0e9e8e]/18 ml-4" />
-      </div>
-      <div className="text-5xl font-bold leading-none text-[#82f6e3] [font-variant-numeric:tabular-nums]">
-        {item.value}
-      </div>
-      <h3 className="mt-4 text-lg font-bold text-white">{item.title}</h3>
-      <p className="mt-2 text-sm leading-6 text-[#b4cdf0]/66 [text-wrap:pretty]">{item.body}</p>
-    </article>
-  );
-}
-
-export function HomePage({ onNavigate }: Readonly<HomePageProps>) {
-  return (
-    <main className="relative z-10 bg-[#07182d] text-on-primary">
-      <section className="relative isolate flex min-h-[calc(92svh-70px)] flex-col justify-center overflow-hidden bg-hero-navy">
-        <div className="pointer-events-none absolute inset-0 z-0 opacity-45">
-          <ShapeGrid
-            borderColor="rgba(172, 199, 255, 0.16)"
-            direction="diagonal"
-            hoverFillColor="rgba(100, 217, 200, 0)"
-            hoverTrailAmount={0}
-            shape="square"
-            speed={0.12}
-            squareSize={64}
+          <span
+            aria-hidden="true"
+            className="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-signal transition-transform duration-700 ease-out group-hover:scale-x-100"
           />
-        </div>
-        <div className="pointer-events-none absolute inset-0 z-0 bg-[linear-gradient(180deg,rgba(17,38,72,0.08)_0%,rgba(17,38,72,0.84)_100%)]" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-0 h-px bg-primary-fixed-dim/15" />
-
-        <div className="relative z-10 mx-auto grid w-full max-w-[1280px] grid-cols-1 items-center gap-12 px-gutter py-20 lg:grid-cols-2 lg:py-24">
-          <div className="max-w-2xl">
-            <p className="flex items-center gap-3 text-xs font-bold uppercase tracking-[0.2em] text-secondary-fixed md:text-sm">
-              <span className="h-px w-8 bg-secondary" />
-              {homePage.eyebrow}
-            </p>
-            <h1 className="mt-6 max-w-3xl text-4xl font-bold leading-[1.06] tracking-normal text-white [text-wrap:balance] md:text-5xl lg:text-6xl">
-              Industrial Intelligence for
-              <span className="block text-secondary-fixed">UAE Manufacturing</span>
-            </h1>
-            <p className="mt-6 max-w-xl text-base leading-8 text-on-primary-container [text-wrap:pretty] md:text-lg">
-              {homePage.description}
-            </p>
-
-            <HomeCallToAction onNavigate={onNavigate} />
+          <div className="flex items-center gap-4">
+            <span className="readout text-2xl leading-none text-bone-faint transition-colors duration-300 group-hover:text-signal">
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            <KuroshioIcon
+              className="size-5 text-bone-faint transition-colors duration-300 group-hover:text-signal"
+              name={problem.icon}
+              strokeWidth={1.5}
+            />
           </div>
+          <h3 className="display-md text-bone">{problem.title}</h3>
+          <p className="text-[0.9375rem] leading-relaxed text-bone-dim">{problem.body}</p>
+        </li>
+      ))}
+    </ol>
+  );
+}
 
-          <div className="relative">
-            <div className="relative overflow-hidden rounded-xl border border-outline-variant/20 shadow-2xl ring-1 ring-white/10">
-              <img
-                alt={homePage.imageAlt}
-                className="aspect-[16/9] w-full object-cover outline outline-1 -outline-offset-1 outline-white/10 transition-transform duration-700 ease-out hover:scale-[1.025]"
-                src={homePage.image}
-              />
-              <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(14,158,142,0.16),transparent_44%,rgba(7,24,45,0.28))]" />
+function Capabilities() {
+  const [active, setActive] = useState(0);
+  const listRef = useRef<HTMLDivElement>(null);
+
+  usePageMotion(listRef, (scope: HTMLElement) => {
+    scope.querySelectorAll<HTMLElement>("[data-capability]").forEach((node, index) => {
+      ScrollTrigger.create({
+        trigger: node,
+        start: "top 60%",
+        end: "bottom 55%",
+        onToggle: (self) => {
+          if (self.isActive) setActive(index);
+        },
+      });
+    });
+  });
+
+  return (
+    <div className="mt-16 grid gap-12 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-20" ref={listRef}>
+      <nav aria-label="Capabilities" className="hidden lg:block">
+        <ol className="sticky top-32 flex flex-col gap-1">
+          {homePage.products.map((product, index) => (
+            <li key={product.tag}>
+              <a
+                aria-current={active === index ? "true" : undefined}
+                className={cn(
+                  "flex items-center gap-3 border-l py-3 pl-4 text-sm tracking-tight transition-colors",
+                  active === index
+                    ? "border-signal text-bone"
+                    : "border-hairline text-bone-faint hover:text-bone-dim"
+                )}
+                href={`#${CAPABILITY_META[index].anchor}`}
+              >
+                <span className="readout text-[0.6875rem]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                {product.tag}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </nav>
+
+      <div className="flex flex-col gap-6">
+        {homePage.products.map((product, index) => (
+          <article
+            className="panel corner-marks group grid gap-8 p-6 transition-colors duration-500 hover:border-hairline-strong md:grid-cols-[minmax(0,1fr)_15rem] md:p-9"
+            data-capability
+            data-reveal="up"
+            id={CAPABILITY_META[index].anchor}
+            key={product.tag}
+          >
+            <div className="flex flex-col gap-5">
+              <div className="flex items-center gap-3">
+                <span className="flex size-9 items-center justify-center border border-signal/40 bg-signal/8 text-signal">
+                  <KuroshioIcon className="size-4" name={product.icon} strokeWidth={1.75} />
+                </span>
+                <span className="tag-signal">{product.tag}</span>
+              </div>
+
+              <h3 className="display-md max-w-md text-bone">{product.title}</h3>
+
+              <ul className="flex flex-col gap-3">
+                {product.bullets.map((bullet) => (
+                  <li className="flex gap-3 text-[0.9375rem] leading-relaxed text-bone-dim" key={bullet}>
+                    <span
+                      aria-hidden="true"
+                      className="mt-[0.55em] size-1 shrink-0 bg-signal"
+                    />
+                    {bullet}
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
-        </div>
-      </section>
 
-      <section className="relative overflow-hidden bg-[#07182d] px-gutter py-20 md:py-28">
-        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:56px_56px] [mask-image:linear-gradient(to_bottom,black,transparent_85%)]" />
-        <div className="relative z-10 mx-auto max-w-[1280px]">
-          <SectionHeader eyebrow="The Problem" title="What Is Happening in Your Plant Right Now" />
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {homePage.problems.map((item) => (
-              <ProblemCard item={item} key={item.title} />
-            ))}
-          </div>
-        </div>
-      </section>
+            <div className="flex flex-col justify-between gap-6 border-hairline md:border-l md:pl-8">
+              <div className="flex flex-col gap-1.5">
+                <span className="readout text-4xl leading-none text-signal">
+                  {CAPABILITY_META[index].metric}
+                </span>
+                <span className="tag">{CAPABILITY_META[index].metricLabel}</span>
+              </div>
+              <PageLink
+                className="flex w-fit items-center gap-2 text-sm font-medium tracking-tight text-bone-dim transition-colors hover:text-signal"
+                page="platform"
+              >
+                Technical detail
+                <ArrowUpRight aria-hidden="true" className="size-4" />
+              </PageLink>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  );
+}
 
-      <section className="relative overflow-hidden bg-[#112648] px-gutter py-20 md:py-28">
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-white/[0.08]" />
-        <div className="relative z-10 mx-auto max-w-[1280px]">
-          <SectionHeader
-            description="Everything you need to monitor, predict, document, and decarbonise in a single dashboard."
-            eyebrow="The Platform"
-            title="One Platform. Four Capabilities."
+function Numbers() {
+  const ref = useRef<HTMLDivElement>(null);
+
+  usePageMotion(ref, (scope: HTMLElement) => {
+    scope.querySelectorAll<HTMLElement>("[data-count]").forEach((node) => {
+      countUp(node, Number(node.dataset.count));
+    });
+  });
+
+  return (
+    <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4" ref={ref}>
+      {homePage.numbers.map((item) => (
+        <div
+          className="group flex flex-col gap-3 bg-abyss px-6 py-8 transition-colors hover:bg-panel/60"
+          key={item.title}
+        >
+          <KuroshioIcon
+            className="size-5 text-bone-faint transition-colors group-hover:text-signal"
+            name={item.icon}
+            strokeWidth={1.5}
           />
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-            {homePage.products.map((item) => (
-              <ProductCard item={item} key={item.tag} onNavigate={onNavigate} />
-            ))}
+          <div className="flex items-baseline gap-2">
+            <span className="readout text-5xl leading-none text-signal" data-count={item.value}>
+              0
+            </span>
+            <span className="display-md text-bone">{item.title}</span>
+          </div>
+          <p className="text-sm leading-relaxed text-bone-dim">{item.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function HomePage({ onNavigate }: Readonly<PageProps>) {
+  const rootRef = useRef<HTMLElement>(null);
+  usePageMotion(rootRef);
+
+  return (
+    <main className="outline-none" ref={rootRef} tabIndex={-1}>
+      <HeroSection />
+
+      {/* -------------------------------------------------- the walkthrough */}
+      <Band id="walkthrough" tone="trench">
+        <div className="shell">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <SectionHead
+              className="max-w-2xl"
+              eyebrow="Product walkthrough"
+              index="01"
+              title={
+                <>
+                  Thirty-five seconds <span className="text-signal">inside</span> the
+                  platform.
+                </>
+              }
+            />
+            <p className="lede max-w-md lg:text-right" data-reveal="up">
+              From a blind plant floor to a searchable maintenance record. Jump
+              to any chapter — it plays live in your browser.
+            </p>
+          </div>
+
+          <div className="mt-12" data-reveal="scale">
+            <Suspense fallback={<DemoSkeleton />}>
+              <PlatformDemo />
+            </Suspense>
           </div>
         </div>
-      </section>
+      </Band>
 
-      <section className="relative overflow-hidden bg-[#07182d] px-gutter py-20 md:py-28">
-        <div className="relative z-10 mx-auto max-w-[1280px]">
-          <SectionHeader
-            description="No IT integration, no network changes, no system downtime. We bring everything."
-            eyebrow="Installation"
-            title="Simple. Non-Invasive. Live in Hours."
+      {/* ------------------------------------------------------ the problem */}
+      <Band>
+        <div className="shell">
+          <SectionHead
+            body="Every plant we walk into has the same four blind spots. None of them are exotic. All of them are expensive."
+            eyebrow="What it costs you"
+            index="02"
+            title={
+              <>
+                Four things your plant
+                <br />
+                cannot currently see.
+              </>
+            }
           />
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-5 md:gap-5 xl:gap-6">
-            {homePage.process.map((item, index) => (
-              <ProcessStep index={index} item={item} key={item.title} />
-            ))}
-          </div>
+          <ProblemList />
         </div>
-      </section>
+      </Band>
 
-      <section className="relative overflow-hidden bg-[#112648] px-gutter py-20 md:py-28">
-        <div className="relative z-10 mx-auto max-w-[1280px]">
-          <SectionHeader
-            description="Deployed across industrial sectors with different energy profiles, maintenance patterns, and compliance needs."
-            eyebrow="Industries"
-            title="Built for UAE and GCC Manufacturing"
+      {/* --------------------------------------------------- what you get */}
+      <Band tone="trench">
+        <div className="shell">
+          <SectionHead
+            body="One platform, four working surfaces. Each one runs on the same measured signal, so energy, health, and history never disagree."
+            eyebrow="Capabilities"
+            index="03"
+            title={
+              <>
+                Measured signal in.
+                <br />
+                <span className="text-signal">Decisions</span> out.
+              </>
+            }
           />
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {homePage.industries.map((item) => (
-              <IndustryTile item={item} key={item.title} onNavigate={onNavigate} />
+          <Capabilities />
+        </div>
+      </Band>
+
+      <PipelineSection />
+
+      {/* -------------------------------------------------------- industries */}
+      <Band>
+        <div className="shell">
+          <SectionHead
+            body="Heavy, hot, and hard on equipment. These are the lines we already read."
+            eyebrow="Where it runs"
+            index="04"
+            title="Built around the machines you already own."
+          />
+
+          <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-3">
+            {homePage.industries.map((industry) => (
+              <article
+                className="group relative flex flex-col gap-4 bg-abyss p-7 transition-colors duration-300 hover:bg-panel/70"
+                data-reveal="up"
+                key={industry.title}
+              >
+                <KuroshioIcon
+                  className="size-6 text-bone-faint transition-colors duration-300 group-hover:text-signal"
+                  name={industry.icon}
+                  strokeWidth={1.4}
+                />
+                <h3 className="text-xl leading-tight font-semibold tracking-tight text-bone">
+                  {industry.title}
+                </h3>
+                <p className="text-sm leading-relaxed text-bone-dim">{industry.body}</p>
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-500 ease-out group-hover:scale-x-100"
+                />
+              </article>
             ))}
           </div>
-        </div>
-      </section>
 
-      <section className="relative overflow-hidden bg-[#07182d] px-gutter py-20 md:py-28">
-        <div className="mx-auto max-w-[1280px]">
-          <SectionHeader eyebrow="By the Numbers" title="Where We Operate" />
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4">
-            {homePage.numbers.map((item) => (
-              <NumberBlock item={item} key={item.title} />
-            ))}
-          </div>
+          <Numbers />
         </div>
-      </section>
+      </Band>
 
-      <section className="bg-[#112648] px-gutter py-16 md:py-24">
-        <div className="mx-auto max-w-[1280px] rounded-xl bg-[#07182d] px-6 py-12 text-center md:px-12 md:py-14">
-          <h2 className="mx-auto max-w-3xl text-3xl font-bold leading-tight text-white [text-wrap:balance] md:text-4xl">
+      {/* --------------------------------------------------------------- cta */}
+      <section className="relative overflow-hidden border-t border-hairline bg-abyss-deep">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <div className="grid-field-fine absolute inset-0 opacity-60" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(18,160,140,0.22),transparent_70%)]" />
+        </div>
+
+        <div className="shell relative flex flex-col items-start gap-8 py-24 md:py-32">
+          <span className="tag-signal" data-reveal="fade">
+            {homePage.cta.badge}
+          </span>
+          <h2 className="display-lg max-w-3xl" data-reveal="up">
             {homePage.cta.title}
           </h2>
-          <p className="mx-auto mt-5 max-w-3xl text-base leading-8 text-[#b4cdf0]/72 [text-wrap:pretty] md:text-lg">
+          <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
             {homePage.cta.body}
           </p>
-          <ShimmerButton
-            background="var(--secondary)"
-            borderRadius="999px"
-            className="mx-auto mt-8 h-12 px-7 text-sm font-bold text-on-secondary shadow-[0_16px_38px_rgba(0,107,95,0.2)] transition-[box-shadow,filter] duration-150 ease-out hover:brightness-110 hover:shadow-[0_18px_46px_rgba(0,107,95,0.3)]"
-            onClick={() => onNavigate("contact")}
-            shimmerColor="#ffffff"
-            shimmerDuration="2.1s"
-            shimmerSize="4px"
-            shimmerSpread="140deg"
-            type="button"
-          >
-            <span className="relative z-10 inline-flex items-center gap-2">
+          <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
+            <button className="btn-signal" onClick={() => onNavigate("contact")} type="button">
               {homePage.cta.action}
-              <KuroshioIcon className="size-4" name="arrowRight" strokeWidth={2.3} />
-            </span>
-          </ShimmerButton>
-          <p className="mx-auto mt-5 max-w-xl text-xs font-semibold uppercase tracking-[0.12em] text-[#b4cdf0]/58">
-            {homePage.cta.badge}
-          </p>
+              <ArrowRight aria-hidden="true" className="size-4" />
+            </button>
+            <PageLink className="btn-ghost" page="platform">
+              Read the architecture
+            </PageLink>
+          </div>
         </div>
       </section>
     </main>

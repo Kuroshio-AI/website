@@ -31,7 +31,7 @@ import type { LucideIcon } from "lucide-react";
 
 import type { IconKey } from "@/data/mockData";
 
-export const iconMap: Readonly<Record<IconKey, LucideIcon>> = {
+const iconMap: Readonly<Record<IconKey, LucideIcon>> = {
   activity: Activity,
   arrowRight: ArrowRight,
   ban: Ban,

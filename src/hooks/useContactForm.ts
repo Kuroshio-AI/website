@@ -5,7 +5,7 @@ import { send } from "@emailjs/browser";
 
 const CONTACT_FORM_RECIPIENTS = ["info@kuroshioai.com", "noufal@kuroshioai.com"] as const;
 
-const FAILURE_MESSAGE = "Something went wrong. Please email us directly at info@kuroshioai.ae";
+const FAILURE_MESSAGE = "Something went wrong. Please email us directly at info@kuroshioai.com";
 const SUCCESS_MESSAGE = "Thank you. We will contact you within 24 hours.";
 
 type ContactFormStatus = "idle" | "sending" | "success" | "error";

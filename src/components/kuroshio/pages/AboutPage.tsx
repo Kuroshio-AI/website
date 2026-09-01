@@ -1,144 +1,220 @@
-import { Card, CardContent } from "@/components/ui/card";
-import { KuroshioIcon } from "@/components/kuroshio/IconMap";
-import { aboutPage } from "@/data/mockData";
-import type { IconKey } from "@/data/mockData";
+import { ArrowRight } from "lucide-react";
+import { useRef } from "react";
 
-export interface AboutPageProps {
-  readonly onNavigate?: () => void;
+import { CurrentField } from "@/components/kuroshio/CurrentField";
+import { KuroshioIcon } from "@/components/kuroshio/IconMap";
+import { PageLink } from "@/components/kuroshio/PageLink";
+import { Band, SectionHead } from "@/components/kuroshio/Sections";
+import { aboutPage } from "@/data/mockData";
+import type { PageId } from "@/data/mockData";
+import { usePageMotion } from "@/hooks/usePageMotion";
+
+interface PageProps {
+  readonly onNavigate: (page: PageId) => void;
 }
 
-export function AboutPage(_props: Readonly<AboutPageProps>) {
+function initials(name: string) {
+  return name
+    .split(" ")
+    .map((part) => part[0])
+    .slice(0, 2)
+    .join("");
+}
+
+export function AboutPage({ onNavigate }: Readonly<PageProps>) {
+  const rootRef = useRef<HTMLElement>(null);
+  usePageMotion(rootRef);
+
   return (
-    <main>
-      <section className="relative overflow-hidden bg-hero-navy px-gutter py-section-gap-md text-surface-container-lowest">
-        <div className="absolute inset-0 opacity-10">
-          <svg className="size-full">
-            <defs>
-              <pattern height="40" id="about-grid" patternUnits="userSpaceOnUse" width="40">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect fill="url(#about-grid)" height="100%" width="100%" />
-          </svg>
+    <main className="outline-none" ref={rootRef} tabIndex={-1}>
+      <section className="relative overflow-hidden border-b border-hairline">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <CurrentField className="absolute inset-0 size-full" density={0.7} opacity={0.7} />
+          <div className="grid-field absolute inset-0 opacity-40" />
+          <div className="vignette absolute inset-0" />
         </div>
-        <div className="relative z-10 mx-auto max-w-[1280px]">
-          <h1 className="max-w-3xl text-4xl font-bold leading-tight md:text-5xl lg:text-6xl">{aboutPage.hero.title}</h1>
-          <p className="mt-stack-md max-w-2xl text-lg leading-8 text-surface-dim md:text-xl">{aboutPage.hero.description}</p>
+
+        <div className="shell relative flex flex-col gap-7 py-24 md:py-32">
+          <div className="flex items-center gap-4" data-reveal="fade">
+            <span className="tag-signal">About</span>
+            <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
+            <span className="tag">Kerala engineering · UAE deployment</span>
+          </div>
+          <h1 className="display-xl max-w-[17ch]" data-reveal="up">
+            Built by engineers who understand{" "}
+            <span className="text-signal">factory floors.</span>
+          </h1>
+          <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
+            {aboutPage.hero.description}
+          </p>
         </div>
       </section>
 
-      <section className="bg-surface px-gutter py-section-gap-md">
-        <div className="mx-auto grid max-w-[1280px] grid-cols-1 gap-gutter md:grid-cols-12">
-          <aside className="h-fit border-l-2 border-secondary pl-6 md:col-span-4 md:sticky md:top-32">
-            <h2 className="mb-stack-md text-3xl font-bold text-primary md:text-4xl">{aboutPage.story.title}</h2>
-            <p className="text-base leading-7 text-on-surface-variant">{aboutPage.story.aside}</p>
-          </aside>
-          <div className="space-y-stack-lg text-lg leading-8 text-on-surface md:col-span-8">
-            {aboutPage.story.paragraphs.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-            <div className="rounded-xl border border-secondary-container bg-surface-teal p-stack-lg">
-              <h3 className="mb-stack-sm flex items-center gap-2 text-2xl font-bold text-secondary">
-                <KuroshioIcon className="size-6" name="factory" />
-                {aboutPage.story.calloutTitle}
-              </h3>
-              <p className="text-base leading-7 text-on-secondary-fixed-variant">{aboutPage.story.calloutBody}</p>
+      {/* ------------------------------------------------------------- story */}
+      <Band>
+        <div className="shell grid gap-14 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
+          <div className="flex flex-col gap-8">
+            <SectionHead eyebrow="Company story" index="01" title="Named for movement and direction." />
+            <div className="flex flex-col gap-5">
+              {aboutPage.story.paragraphs.map((paragraph) => (
+                <p
+                  className="text-[1.0625rem] leading-[1.72] text-bone-dim"
+                  data-reveal="up"
+                  key={paragraph.slice(0, 40)}
+                >
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="border-y border-border-cool bg-surface-light px-gutter py-section-gap-md">
-        <div className="mx-auto max-w-[1280px]">
-          <h2 className="mb-stack-lg text-center text-3xl font-bold text-primary">Recognition & Credentials</h2>
-          <div className="grid grid-cols-2 gap-gutter md:grid-cols-4">
-            {aboutPage.credentials.map(([name, detail]) => (
-              <Card className="min-h-36 border-border-cool bg-surface-container-lowest p-0 text-center shadow-sm" key={name}>
-                <CardContent className="flex size-full flex-col items-center justify-center p-stack-lg">
-                  <span className="font-semibold text-on-surface">{name}</span>
-                  <span className="text-sm text-outline">{detail}</span>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+          <aside className="flex flex-col gap-6">
+            <div className="panel corner-marks flex flex-col gap-4 p-7" data-reveal="scale">
+              <span className="tag-signal">{aboutPage.story.calloutTitle}</span>
+              <p className="text-[0.9375rem] leading-relaxed text-bone-dim">
+                {aboutPage.story.calloutBody}
+              </p>
+              <p className="tag mt-2 border-t border-hairline pt-4">{aboutPage.story.aside}</p>
+            </div>
 
-      <section className="bg-surface px-gutter py-section-gap-md">
-        <div className="mx-auto max-w-[1280px]">
-          <div className="mb-stack-lg max-w-3xl">
-            <h2 className="text-3xl font-bold text-primary md:text-4xl">Our Approach</h2>
-            <p className="mt-stack-md text-base leading-7 text-on-surface-variant">
-              We deploy industrial intelligence without adding risk to the plant floor.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-5">
-            {aboutPage.approach.map((item) => (
-              <Card className="border-border-cool bg-surface-container-lowest p-0 transition-colors hover:border-secondary" key={item.title}>
-                <CardContent className="p-stack-lg">
-                  <div className="mb-stack-md flex size-11 items-center justify-center rounded-lg border border-secondary-container bg-surface-teal text-secondary">
-                    <KuroshioIcon className="size-5" name={item.icon as IconKey} strokeWidth={1.9} />
-                  </div>
-                  <h3 className="text-lg font-bold text-on-surface">{item.title}</h3>
-                  <p className="mt-stack-sm text-sm leading-6 text-on-surface-variant">{item.body}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+            <ul className="flex flex-col divide-y divide-hairline border-y border-hairline" data-reveal="up">
+              {aboutPage.credentials.map(([title, detail]) => (
+                <li className="flex flex-col gap-1 py-4" key={title}>
+                  <span className="text-sm font-medium tracking-tight text-bone">{title}</span>
+                  <span className="tag">{detail}</span>
+                </li>
+              ))}
+            </ul>
+          </aside>
         </div>
-      </section>
+      </Band>
 
-      <section className="bg-surface px-gutter py-section-gap-md">
-        <div className="mx-auto max-w-[1280px]">
-          <div className="mx-auto mb-section-gap-md max-w-3xl text-center">
-            <h2 className="mb-stack-md text-3xl font-bold text-primary md:text-4xl">Team</h2>
-            <p className="text-base leading-7 text-on-surface-variant">
-              Engineers and operators building Kuroshio AI across India and the UAE.
-            </p>
-          </div>
-          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2 lg:grid-cols-5">
-            {aboutPage.leadership.map((person) => (
-              <Card className="border-border-cool bg-surface-container-lowest p-0 transition-colors hover:border-secondary" key={person.name}>
-                <CardContent className="p-stack-md">
-                  <h3 className="text-xl font-bold text-on-surface">{person.name}</h3>
-                  <p className="mt-1 text-sm font-medium text-secondary">{person.role}</p>
-                  {person.bio && <p className="mt-4 text-sm leading-6 text-on-surface-variant">{person.bio}</p>}
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ---------------------------------------------------------- approach */}
+      <Band tone="trench">
+        <div className="shell">
+          <SectionHead
+            body="Five commitments we hold on every deployment. They are the reason plant managers let us on site in the first place."
+            eyebrow="How we work"
+            index="02"
+            title="Constraints we do not break."
+          />
 
-      <section className="bg-surface-container-low px-gutter py-section-gap-md">
-        <div className="mx-auto max-w-[1280px]">
-          <h2 className="mb-stack-lg text-center text-3xl font-bold text-primary">Two Entities - One Mission</h2>
-          <div className="grid grid-cols-1 gap-gutter md:grid-cols-2">
-            {aboutPage.entities.map((entity) => (
-              <Card className="relative overflow-hidden border-border-cool bg-surface-container-lowest p-0" key={entity.title}>
-                <KuroshioIcon className="absolute right-5 top-5 size-16 text-outline opacity-15" name={entity.icon as IconKey} />
-                <CardContent className="relative z-10 p-stack-lg">
-                  <h3 className="mb-stack-sm text-2xl font-bold text-primary">{entity.title}</h3>
-                  <span className="mb-stack-md inline-block rounded-full bg-surface-teal px-3 py-1 text-sm font-semibold text-secondary">
-                    {entity.country}
+          <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-5">
+            {aboutPage.approach.map((item, index) => (
+              <div
+                className="group flex flex-col gap-4 bg-abyss p-6 transition-colors hover:bg-panel/70"
+                data-reveal="up"
+                key={item.title}
+              >
+                <div className="flex items-center justify-between">
+                  <KuroshioIcon
+                    className="size-5 text-bone-faint transition-colors group-hover:text-signal"
+                    name={item.icon}
+                    strokeWidth={1.5}
+                  />
+                  <span className="readout text-[0.6875rem] text-bone-faint">
+                    {String(index + 1).padStart(2, "0")}
                   </span>
-                  <dl className="space-y-stack-sm text-sm leading-6 text-on-surface-variant">
-                    <div>
-                      <dt className="font-semibold text-on-surface">Mission</dt>
-                      <dd>{entity.role}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-semibold text-on-surface">Base</dt>
-                      <dd>{entity.location}</dd>
-                    </div>
-                    <div>
-                      <dt className="font-semibold text-on-surface">Status</dt>
-                      <dd>{entity.credential}</dd>
-                    </div>
-                  </dl>
-                </CardContent>
-              </Card>
+                </div>
+                <h3 className="text-base leading-tight font-semibold tracking-tight text-bone">
+                  {item.title}
+                </h3>
+                <p className="text-[0.8125rem] leading-relaxed text-bone-dim">{item.body}</p>
+              </div>
             ))}
+          </div>
+        </div>
+      </Band>
+
+      {/* -------------------------------------------------------- leadership */}
+      <Band>
+        <div className="shell">
+          <SectionHead eyebrow="Team" index="03" title="The people on the line." />
+
+          <ul className="mt-14 flex flex-col border-t border-hairline">
+            {aboutPage.leadership.map((person) => (
+              <li
+                className="group grid gap-3 border-b border-hairline py-7 md:grid-cols-[5rem_18rem_minmax(0,1fr)] md:items-baseline md:gap-8"
+                data-reveal="up"
+                key={person.name}
+              >
+                <span className="readout text-sm text-bone-faint transition-colors group-hover:text-signal">
+                  {initials(person.name)}
+                </span>
+                <div className="flex flex-col gap-1">
+                  <span className="text-xl leading-tight font-semibold tracking-tight text-bone">
+                    {person.name}
+                  </span>
+                  <span className="tag-signal">{person.role}</span>
+                </div>
+                {person.bio ? (
+                  <p className="text-[0.9375rem] leading-relaxed text-bone-dim">{person.bio}</p>
+                ) : (
+                  <span />
+                )}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Band>
+
+      {/* ---------------------------------------------------------- entities */}
+      <Band tone="trench">
+        <div className="shell">
+          <SectionHead
+            eyebrow="Structure"
+            index="04"
+            title="Two entities, one engineering team."
+          />
+
+          <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2">
+            {aboutPage.entities.map((entity) => (
+              <div className="flex flex-col gap-5 bg-abyss p-8" data-reveal="up" key={entity.title}>
+                <div className="flex items-center gap-3">
+                  <span className="flex size-9 items-center justify-center border border-signal/40 bg-signal/8 text-signal">
+                    <KuroshioIcon className="size-4" name={entity.icon} strokeWidth={1.6} />
+                  </span>
+                  <span className="tag">{entity.country}</span>
+                </div>
+                <h3 className="display-md text-bone">{entity.title}</h3>
+                <dl className="flex flex-col divide-y divide-hairline border-t border-hairline">
+                  {[
+                    ["Role", entity.role],
+                    ["Location", entity.location],
+                    ["Standing", entity.credential],
+                  ].map(([label, value]) => (
+                    <div className="flex flex-wrap justify-between gap-3 py-3" key={label}>
+                      <dt className="tag">{label}</dt>
+                      <dd className="text-sm tracking-tight text-bone-dim">{value}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Band>
+
+      <section className="relative overflow-hidden border-t border-hairline bg-abyss-deep">
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+          <div className="grid-field-fine absolute inset-0 opacity-60" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(18,160,140,0.2),transparent_70%)]" />
+        </div>
+        <div className="shell relative flex flex-col items-start gap-7 py-24 md:py-32">
+          <h2 className="display-lg max-w-3xl" data-reveal="up">
+            Our technology crosses oceans. Your machines stay put.
+          </h2>
+          <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
+            Talk to the engineers who will actually be on your plant floor.
+          </p>
+          <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
+            <button className="btn-signal" onClick={() => onNavigate("contact")} type="button">
+              Speak to an engineer
+              <ArrowRight aria-hidden="true" className="size-4" />
+            </button>
+            <PageLink className="btn-ghost" page="platform">
+              Read the architecture
+            </PageLink>
           </div>
         </div>
       </section>

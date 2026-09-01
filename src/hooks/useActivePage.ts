@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 
 import type { PageId } from "@/data/mockData";
+import { getScrollBehavior } from "@/lib/utils";
 
 const pageIds: ReadonlyArray<PageId> = ["home", "platform", "industries", "about", "contact"];
 
@@ -32,7 +33,7 @@ export function useActivePage(): Readonly<UseActivePageResult> {
   useEffect(() => {
     const handleHashChange = () => {
       setActivePage(readLocationPage());
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: getScrollBehavior() });
     };
 
     window.addEventListener("hashchange", handleHashChange);
@@ -42,7 +43,7 @@ export function useActivePage(): Readonly<UseActivePageResult> {
   const navigate = useCallback((page: PageId) => {
     const nextHash = page === "home" ? "#/" : `#/${page}`;
     if (window.location.hash === nextHash) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: getScrollBehavior() });
       setActivePage(page);
       return;
     }
