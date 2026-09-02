@@ -1,6 +1,8 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Suspense, lazy, useRef, useState } from "react";
 
+import { ChunkBoundary } from "@/components/kuroshio/ChunkBoundary";
+import { DemoPoster } from "@/components/kuroshio/DemoPoster";
 import { HardwareDiagram } from "@/components/kuroshio/HardwareDiagram";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
 import { PageLink } from "@/components/kuroshio/PageLink";
@@ -20,22 +22,6 @@ const PlatformDemo = lazy(() =>
     default: module.PlatformDemo,
   }))
 );
-
-function DemoSkeleton() {
-  return (
-    <div aria-hidden="true" className="panel corner-marks overflow-hidden">
-      <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-        <span className="tag text-ink-faint">Loading walkthrough</span>
-        <span className="readout text-xs text-ink-faint">00:00 / 00:35</span>
-      </div>
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-canvas-deep">
-        <div className="grid-field absolute inset-0 opacity-50" />
-        <div className="absolute inset-y-0 left-0 w-1/3 animate-sweep bg-gradient-to-r from-transparent via-brand/10 to-transparent" />
-      </div>
-      <div className="h-16 border-t border-hairline" />
-    </div>
-  );
-}
 
 interface PageProps {
   readonly onNavigate: (page: PageId) => void;
@@ -244,9 +230,11 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
           </div>
 
           <div className="mt-12" data-reveal="scale">
-            <Suspense fallback={<DemoSkeleton />}>
-              <PlatformDemo />
-            </Suspense>
+            <ChunkBoundary fallback={<DemoPoster failed />}>
+              <Suspense fallback={<DemoPoster />}>
+                <PlatformDemo />
+              </Suspense>
+            </ChunkBoundary>
           </div>
         </div>
       </Band>
