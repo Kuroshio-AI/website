@@ -102,9 +102,11 @@ export function countUp(el, to, options = {}) {
     return;
   }
 
+  render(box.value);
   gsap.to(box, {
     value: to,
     duration: options.duration ?? 1.5,
+    delay: options.delay ?? 0,
     ease: "power2.out",
     scrollTrigger: { trigger: el, start: "top 90%", once: true },
     onUpdate: () => render(box.value),

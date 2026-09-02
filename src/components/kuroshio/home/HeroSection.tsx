@@ -4,7 +4,7 @@ import { useRef } from "react";
 
 import { CurrentField } from "@/components/kuroshio/CurrentField";
 import { PageLink } from "@/components/kuroshio/PageLink";
-import { EASE, SplitText, gsap, prefersReducedMotion } from "@/lib/motion";
+import { EASE, SplitText, countUp, gsap, prefersReducedMotion } from "@/lib/motion";
 
 const INSTRUMENTS = [
   { value: "60s", label: "Telemetry resolution", helper: "per machine, always on" },
@@ -13,19 +13,25 @@ const INSTRUMENTS = [
   { value: "0", label: "Control-system touchpoints", helper: "we never write to your PLC" },
 ];
 
-/** Splits a readout so each digit can be rolled independently. */
+/** Keep units fixed while counting whole numbers, including both range endpoints. */
 function StatValue({ value }: Readonly<{ value: string }>) {
   return (
     <>
-      {Array.from(value).map((char, index) =>
-        /\d/.test(char) ? (
-          <span data-digit={char} key={`${char}-${index}`}>
-            {char}
-          </span>
-        ) : (
-          <span key={`${char}-${index}`}>{char}</span>
-        )
-      )}
+      <span className="sr-only">{value}</span>
+      <span aria-hidden="true">
+        {value.split(/(\d+)/).map((part, index) =>
+          /^\d+$/.test(part) ? (
+            <span
+              className="inline-block"
+              data-count={part}
+              key={index}
+              style={{ minWidth: `${part.length}ch` }}
+            >
+              {part}
+            </span>
+          ) : part
+        )}
+      </span>
     </>
   );
 }
@@ -34,63 +40,25 @@ export function HeroSection() {
   const rootRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
 
-  const splitPlayed = useRef(false);
-
-  /**
-   * Rolls every digit in the stat strip to its final value — up from 0, or
-   * down from 9 where the answer is itself zero, so "0 touchpoints" still
-   * moves. One tween drives all of them with a per-digit offset.
-   */
-  const rollReadouts = (scope: HTMLElement | null) => {
-    const digits = Array.from(scope?.querySelectorAll<HTMLElement>("[data-digit]") ?? []);
-    const start = (el: HTMLElement) => (Number(el.dataset.digit) === 0 ? 9 : 0);
-    const box = { p: 0 };
-
-    return gsap
-      .timeline()
-      .call(() => digits.forEach((el) => (el.textContent = String(start(el)))))
-      .to(box, {
-        p: 1,
-        duration: 0.95,
-        ease: "none",
-        onUpdate: () => {
-          digits.forEach((el, index) => {
-            const target = Number(el.dataset.digit);
-            const from = start(el);
-            const local = gsap.utils.clamp(0, 1, (box.p - index * 0.05) / 0.55);
-            const eased = 1 - Math.pow(1 - local, 3);
-            el.textContent = String(Math.round(from + (target - from) * eased));
-          });
-        },
-      });
-  };
-
   useGSAP(
     () => {
-      // Reset per context: a fresh mount (including StrictMode's double
-      // invoke) must replay, only an autoSplit re-split must not.
-      splitPlayed.current = false;
+      rootRef.current?.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
+        const to = Number(el.dataset.count);
+        countUp(el, to, { from: to === 0 ? 9 : 0, delay: 0.65 });
+      });
 
       if (prefersReducedMotion() || !headlineRef.current) {
         gsap.set("[data-hero-eyebrow], [data-hero], [data-hero-strip]", { opacity: 1 });
         return;
       }
 
-      // autoSplit re-splits once the display font lands so lines are never
-      // measured against the fallback. That fires onSplit again, which would
-      // replay the whole entrance a second later — so the timeline is built
-      // once and later splits just land on the finished state.
+      // Returning the timeline lets SplitText preserve its progress when
+      // fonts load or lines reflow, rather than skipping the entrance.
       SplitText.create(headlineRef.current, {
         type: "lines,chars",
         linesClass: "hero-line",
         autoSplit: true,
         onSplit: (self: { chars: Element[] }) => {
-          if (splitPlayed.current) {
-            gsap.set(self.chars, { opacity: 1, yPercent: 0, rotateX: 0 });
-            return undefined;
-          }
-          splitPlayed.current = true;
-
           return gsap
             .timeline({ defaults: { ease: EASE.out } })
             .fromTo(
@@ -115,8 +83,7 @@ export function HeroSection() {
               { opacity: 0, y: 12 },
               { opacity: 1, y: 0, duration: 0.45 },
               "-=0.3"
-            )
-            .add(rollReadouts(rootRef.current), "-=0.4");
+            );
         },
       });
     },
