@@ -13,14 +13,64 @@ const INSTRUMENTS = [
   { value: "0", label: "Control-system touchpoints", helper: "we never write to your PLC" },
 ];
 
+/** Splits a readout so each digit can be rolled independently. */
+function StatValue({ value }: Readonly<{ value: string }>) {
+  return (
+    <>
+      {Array.from(value).map((char, index) =>
+        /\d/.test(char) ? (
+          <span data-digit={char} key={`${char}-${index}`}>
+            {char}
+          </span>
+        ) : (
+          <span key={`${char}-${index}`}>{char}</span>
+        )
+      )}
+    </>
+  );
+}
+
 export function HeroSection() {
   const rootRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
 
-  const hasPlayed = useRef(false);
+  const splitPlayed = useRef(false);
+
+  /**
+   * Rolls every digit in the stat strip to its final value — up from 0, or
+   * down from 9 where the answer is itself zero, so "0 touchpoints" still
+   * moves. One tween drives all of them with a per-digit offset.
+   */
+  const rollReadouts = (scope: HTMLElement | null) => {
+    const digits = Array.from(scope?.querySelectorAll<HTMLElement>("[data-digit]") ?? []);
+    const start = (el: HTMLElement) => (Number(el.dataset.digit) === 0 ? 9 : 0);
+    const box = { p: 0 };
+
+    return gsap
+      .timeline()
+      .call(() => digits.forEach((el) => (el.textContent = String(start(el)))))
+      .to(box, {
+        p: 1,
+        duration: 0.95,
+        ease: "none",
+        onUpdate: () => {
+          digits.forEach((el, index) => {
+            const target = Number(el.dataset.digit);
+            const from = start(el);
+            const local = gsap.utils.clamp(0, 1, (box.p - index * 0.05) / 0.55);
+            const eased = 1 - Math.pow(1 - local, 3);
+            el.textContent = String(Math.round(from + (target - from) * eased));
+          });
+        },
+      });
+  };
 
   useGSAP(
     () => {
+      // Reset per context: a fresh mount (including StrictMode's double
+      // invoke) must replay, only an autoSplit re-split must not.
+      splitPlayed.current = false;
+
       if (prefersReducedMotion() || !headlineRef.current) {
         gsap.set("[data-hero-eyebrow], [data-hero], [data-hero-strip]", { opacity: 1 });
         return;
@@ -35,11 +85,11 @@ export function HeroSection() {
         linesClass: "hero-line",
         autoSplit: true,
         onSplit: (self: { chars: Element[] }) => {
-          if (hasPlayed.current) {
+          if (splitPlayed.current) {
             gsap.set(self.chars, { opacity: 1, yPercent: 0, rotateX: 0 });
             return undefined;
           }
-          hasPlayed.current = true;
+          splitPlayed.current = true;
 
           return gsap
             .timeline({ defaults: { ease: EASE.out } })
@@ -65,7 +115,8 @@ export function HeroSection() {
               { opacity: 0, y: 12 },
               { opacity: 1, y: 0, duration: 0.45 },
               "-=0.3"
-            );
+            )
+            .add(rollReadouts(rootRef.current), "-=0.4");
         },
       });
     },
@@ -123,7 +174,7 @@ export function HeroSection() {
               key={item.label}
             >
               <dt className="readout text-3xl leading-none text-ink md:text-[2.5rem]">
-                {item.value}
+                <StatValue value={item.value} />
               </dt>
               <dd className="flex flex-col gap-1">
                 <span className="text-[0.8125rem] font-medium tracking-tight text-ink-dim">
