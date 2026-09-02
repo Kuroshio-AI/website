@@ -17,6 +17,11 @@ dist-ssr
 .fallow/
 *.local
 
+# Locally-installed skill content (fetched per skills-lock.json), same as
+# node_modules — .claude/skills/* is a symlink into .agents/skills/*.
+.agents/
+.claude/skills/
+
 # Local design/reference artifacts. Ignored by Git only; files remain readable on disk.
 .stitch/
 public/kuroshio/home-hero.jpg
