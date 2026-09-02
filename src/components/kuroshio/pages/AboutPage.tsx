@@ -99,11 +99,13 @@ export function AboutPage({ onNavigate }: Readonly<PageProps>) {
             title="Constraints we do not break."
           />
 
-          <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-5">
+          <div
+            className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-5"
+            data-reveal="up"
+          >
             {aboutPage.approach.map((item, index) => (
               <div
                 className="group flex flex-col gap-4 bg-panel p-6 transition-colors hover:bg-brand-soft"
-                data-reveal="up"
                 key={item.title}
               >
                 <div className="flex items-center justify-between">
@@ -167,9 +169,9 @@ export function AboutPage({ onNavigate }: Readonly<PageProps>) {
             title="Two entities, one engineering team."
           />
 
-          <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2">
+          <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2" data-reveal="up">
             {aboutPage.entities.map((entity) => (
-              <div className="flex flex-col gap-5 bg-panel p-8" data-reveal="up" key={entity.title}>
+              <div className="flex flex-col gap-5 bg-panel p-8" key={entity.title}>
                 <div className="flex items-center gap-3">
                   <span className="flex size-9 items-center justify-center border border-brand/40 bg-brand/8 text-brand">
                     <KuroshioIcon className="size-4" name={entity.icon} strokeWidth={1.6} />

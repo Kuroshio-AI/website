@@ -69,9 +69,9 @@ function AnchorRail() {
 
 function MetricStrip() {
   return (
-    <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2">
+    <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2" data-reveal="up">
       {platformPage.metrics.map((metric) => (
-        <div className="flex flex-col gap-3 bg-canvas px-5 py-5" data-reveal="up" key={metric.label}>
+        <div className="flex flex-col gap-3 bg-canvas px-5 py-5" key={metric.label}>
           <div className="flex items-center justify-between gap-3">
             <span className="tag leading-tight">{metric.label}</span>
             <KuroshioIcon className="size-4 text-ink-faint" name={metric.icon} strokeWidth={1.5} />
@@ -445,11 +445,13 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
             title={platformPage.architecture.title}
           />
 
-          <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4">
+          <div
+            className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4"
+            data-reveal="up"
+          >
             {platformPage.architecture.cards.map((card) => (
               <div
                 className="group flex flex-col gap-4 bg-panel p-7 transition-colors hover:bg-brand-soft"
-                data-reveal="up"
                 key={card.title}
               >
                 <KuroshioIcon

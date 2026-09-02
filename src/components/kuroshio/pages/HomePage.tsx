@@ -172,8 +172,11 @@ const PILOT_TERMS = [
 
 function PilotOffer() {
   return (
-    <div className="mt-14 grid gap-px border border-hairline bg-hairline lg:grid-cols-[1fr_1.15fr]">
-      <div className="flex flex-col gap-6 bg-panel p-7 md:p-9" data-reveal="up">
+    <div
+      className="mt-14 grid gap-px border border-hairline bg-hairline lg:grid-cols-[1fr_1.15fr]"
+      data-reveal="up"
+    >
+      <div className="flex flex-col gap-6 bg-panel p-7 md:p-9">
         <span className="tag-brand">The pilot</span>
         <dl className="flex flex-col divide-y divide-hairline border-y border-hairline">
           {PILOT_TERMS.map(([label, value]) => (
@@ -189,7 +192,7 @@ function PilotOffer() {
         </p>
       </div>
 
-      <div className="flex flex-col gap-5 bg-panel p-7 md:p-9" data-reveal="up" data-reveal-delay="0.08">
+      <div className="flex flex-col gap-5 bg-panel p-7 md:p-9">
         <div className="flex items-baseline justify-between gap-4">
           <span className="tag-brand">What gets installed</span>
           <span className="tag">2 parts</span>

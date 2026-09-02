@@ -17,49 +17,56 @@ export function HeroSection() {
   const rootRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLHeadingElement>(null);
 
+  const hasPlayed = useRef(false);
+
   useGSAP(
     () => {
       if (prefersReducedMotion() || !headlineRef.current) {
-        gsap.fromTo(
-          "[data-hero-eyebrow], [data-hero], [data-hero-instrument]",
-          { opacity: 0 },
-          { opacity: 1, duration: 0.4, stagger: 0.04 }
-        );
+        gsap.set("[data-hero-eyebrow], [data-hero], [data-hero-strip]", { opacity: 1 });
         return;
       }
 
-      // autoSplit re-splits (and re-runs onSplit) once the display font lands,
-      // so the reveal never animates mis-measured lines.
+      // autoSplit re-splits once the display font lands so lines are never
+      // measured against the fallback. That fires onSplit again, which would
+      // replay the whole entrance a second later — so the timeline is built
+      // once and later splits just land on the finished state.
       SplitText.create(headlineRef.current, {
         type: "lines,chars",
         linesClass: "hero-line",
         autoSplit: true,
-        onSplit: (self: { chars: Element[] }) =>
-          gsap
+        onSplit: (self: { chars: Element[] }) => {
+          if (hasPlayed.current) {
+            gsap.set(self.chars, { opacity: 1, yPercent: 0, rotateX: 0 });
+            return undefined;
+          }
+          hasPlayed.current = true;
+
+          return gsap
             .timeline({ defaults: { ease: EASE.out } })
             .fromTo(
               "[data-hero-eyebrow]",
-              { opacity: 0, y: 12 },
-              { opacity: 1, y: 0, duration: 0.6 }
+              { opacity: 0, y: 10 },
+              { opacity: 1, y: 0, duration: 0.4 }
             )
             .fromTo(
               self.chars,
               { opacity: 0, yPercent: 108, rotateX: -55 },
-              { opacity: 1, yPercent: 0, rotateX: 0, duration: 0.85, stagger: 0.014 },
-              "-=0.35"
+              { opacity: 1, yPercent: 0, rotateX: 0, duration: 0.55, stagger: 0.009 },
+              "-=0.25"
             )
             .fromTo(
               "[data-hero]",
-              { opacity: 0, y: 18 },
-              { opacity: 1, y: 0, duration: 0.7, stagger: 0.09 },
-              "-=0.55"
+              { opacity: 0, y: 14 },
+              { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 },
+              "-=0.4"
             )
             .fromTo(
-              "[data-hero-instrument]",
-              { opacity: 0, y: 14 },
-              { opacity: 1, y: 0, duration: 0.6, stagger: 0.07 },
-              "-=0.4"
-            ),
+              "[data-hero-strip]",
+              { opacity: 0, y: 12 },
+              { opacity: 1, y: 0, duration: 0.45 },
+              "-=0.3"
+            );
+        },
       });
     },
     { scope: rootRef }
@@ -106,11 +113,13 @@ export function HeroSection() {
           </div>
         </div>
 
-        <dl className="mt-14 grid grid-cols-2 gap-px border border-hairline bg-hairline lg:grid-cols-4">
+        <dl
+          className="mt-14 grid grid-cols-2 gap-px border border-hairline bg-hairline lg:grid-cols-4"
+          data-hero-strip
+        >
           {INSTRUMENTS.map((item) => (
             <div
               className="group relative flex flex-col gap-1.5 bg-panel px-5 py-6 transition-colors hover:bg-brand-soft"
-              data-hero-instrument
               key={item.label}
             >
               <dt className="readout text-3xl leading-none text-ink md:text-[2.5rem]">

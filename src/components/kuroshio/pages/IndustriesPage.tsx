@@ -125,11 +125,13 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
             title="Six sectors, one sensing layer."
           />
 
-          <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-3">
+          <div
+            className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-3"
+            data-reveal="up"
+          >
             {homePage.industries.map((industry) => (
               <article
                 className="group relative flex flex-col gap-4 bg-panel p-7 transition-colors duration-300 hover:bg-brand-soft"
-                data-reveal="up"
                 key={industry.title}
               >
                 <KuroshioIcon
