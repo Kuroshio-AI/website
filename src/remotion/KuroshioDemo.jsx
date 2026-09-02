@@ -38,7 +38,7 @@ function Cut({ duration, children, fadeIn = true }) {
             right: 0,
             top: `${sweep * 100}%`,
             height: 1,
-            background: `linear-gradient(90deg, transparent, ${C.signal}, transparent)`,
+            background: `linear-gradient(90deg, transparent, ${C.brand}, transparent)`,
             opacity: 1 - sweep,
           }}
         />
@@ -79,20 +79,20 @@ function Chrome() {
               width: 8,
               height: 8,
               borderRadius: 8,
-              background: C.signal,
+              background: C.brand,
               opacity: frame % 40 < 20 ? 1 : 0.3,
             }}
           />
-          <Mono size={13} color={C.bone}>
+          <Mono size={13} color={C.ink}>
             Kuroshio AI · platform walkthrough
           </Mono>
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
-          <Mono size={13} color={C.signal}>
+          <Mono size={13} color={C.brand}>
             {active.index} / 06
           </Mono>
           <span style={{ width: 1, height: 16, background: C.hairlineStrong }} />
-          <Mono size={13} color={C.boneDim}>
+          <Mono size={13} color={C.inkDim}>
             {active.label}
           </Mono>
         </div>
@@ -112,16 +112,16 @@ function Chrome() {
           borderTop: `1px solid ${C.hairline}`,
         }}
       >
-        <Mono size={12} color={C.boneFaint}>
+        <Mono size={12} color={C.inkFaint}>
           {timecode}
         </Mono>
-        <div style={{ position: "relative", flex: 1, height: 2, background: "rgba(147,202,205,0.14)" }}>
+        <div style={{ position: "relative", flex: 1, height: 2, background: C.hairline }}>
           <div
             style={{
               position: "absolute",
               inset: 0,
               width: `${totalProgress * 100}%`,
-              background: C.signal,
+              background: C.brand,
             }}
           />
           {CHAPTERS.map((c) => (
@@ -144,7 +144,7 @@ function Chrome() {
             fontSize: 12,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: C.boneFaint,
+            color: C.inkFaint,
           }}
         >
           Illustrative data
@@ -156,12 +156,12 @@ function Chrome() {
 
 export function KuroshioDemo() {
   return (
-    <AbsoluteFill style={{ background: C.abyss, fontFamily: F.sans }}>
+    <AbsoluteFill style={{ background: C.canvas, fontFamily: F.sans }}>
       <GridBackdrop opacity={0.9} />
       <AbsoluteFill
         style={{
           background:
-            "radial-gradient(80% 60% at 50% 0%, rgba(18,160,140,0.13), transparent 70%)",
+            "radial-gradient(80% 60% at 50% 0%, rgba(9,76,178,0.07), transparent 70%)",
         }}
       />
 
@@ -187,7 +187,7 @@ export function KuroshioDemo() {
         style={{
           pointerEvents: "none",
           background:
-            "radial-gradient(120% 100% at 50% 50%, transparent 55%, rgba(1,8,16,0.55) 100%)",
+            "radial-gradient(120% 100% at 50% 50%, transparent 62%, rgba(39,39,42,0.06) 100%)",
         }}
       />
     </AbsoluteFill>

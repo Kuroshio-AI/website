@@ -24,16 +24,16 @@ function Ticker() {
   const line = [...TICKER, ...TICKER];
 
   return (
-    <div className="relative hidden h-7 items-center overflow-hidden border-b border-hairline bg-abyss-deep md:flex">
-      <span className="z-10 flex h-full shrink-0 items-center gap-2 border-r border-hairline bg-abyss-deep pr-3 pl-5 lg:pl-12">
-        <span className="size-1.5 rounded-full bg-signal animate-pulse-dot" />
-        <span className="tag text-[0.625rem] text-bone-faint">Demo feed</span>
+    <div className="relative hidden h-7 items-center overflow-hidden border-b border-hairline bg-canvas-deep md:flex">
+      <span className="z-10 flex h-full shrink-0 items-center gap-2 border-r border-hairline bg-canvas-deep pr-3 pl-5 lg:pl-12">
+        <span className="size-1.5 rounded-full bg-brand animate-pulse-dot" />
+        <span className="tag text-[0.625rem] text-ink-faint">Demo feed</span>
       </span>
       <div className="mask-fade-x flex min-w-0 flex-1 overflow-hidden">
         <div className="animate-ticker flex shrink-0 whitespace-nowrap">
           {line.map((item, index) => (
             <span
-              className="readout px-6 text-[0.6875rem] tracking-[0.16em] text-bone-faint uppercase"
+              className="readout px-6 text-[0.6875rem] tracking-[0.16em] text-ink-faint uppercase"
               key={`${item}-${index}`}
             >
               {item}
@@ -71,7 +71,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
         className={cn(
           "border-b transition-colors duration-300",
           isScrolled || isMenuOpen
-            ? "border-hairline bg-abyss/88 backdrop-blur-xl"
+            ? "border-hairline bg-canvas/88 backdrop-blur-xl"
             : "border-transparent bg-transparent"
         )}
       >
@@ -88,7 +88,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
                     "group relative px-4 py-2 text-sm font-medium tracking-tight transition-colors",
-                    isActive ? "text-bone" : "text-bone-dim hover:text-bone"
+                    isActive ? "text-ink" : "text-ink-dim hover:text-ink"
                   )}
                   key={item.id}
                   page={item.id}
@@ -97,7 +97,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "absolute inset-x-3 -bottom-px h-px origin-left bg-signal transition-transform duration-300 ease-out",
+                      "absolute inset-x-3 -bottom-px h-px origin-left bg-brand transition-transform duration-300 ease-out",
                       isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     )}
                   />
@@ -107,7 +107,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <PageLink className="btn-signal hidden text-[0.8125rem] sm:inline-flex" page="contact">
+            <PageLink className="btn-brand hidden text-[0.8125rem] sm:inline-flex" page="contact">
               Request a demo
             </PageLink>
 
@@ -115,7 +115,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
               aria-controls="mobile-navigation"
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className="flex size-11 items-center justify-center border border-hairline-strong text-bone transition-colors hover:border-signal hover:text-signal md:hidden"
+              className="flex size-11 items-center justify-center border border-hairline-strong text-ink transition-colors hover:border-brand hover:text-brand md:hidden"
               onClick={() => setIsMenuOpen((open) => !open)}
               type="button"
             >
@@ -127,7 +127,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
 
       <div
         className={cn(
-          "fixed inset-x-0 top-[68px] bottom-0 z-40 border-t border-hairline bg-abyss/98 backdrop-blur-xl transition-[opacity,transform] duration-300 md:hidden",
+          "fixed inset-x-0 top-[68px] bottom-0 z-40 border-t border-hairline bg-canvas/98 backdrop-blur-xl transition-[opacity,transform] duration-300 md:hidden",
           isMenuOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
         )}
         id="mobile-navigation"
@@ -139,7 +139,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
               aria-current={activePage === item.id ? "page" : undefined}
               className={cn(
                 "flex items-baseline justify-between border-b border-hairline py-5 transition-colors",
-                activePage === item.id ? "text-signal" : "text-bone hover:text-signal"
+                activePage === item.id ? "text-brand" : "text-ink hover:text-brand"
               )}
               key={item.id}
               onClick={() => setIsMenuOpen(false)}
@@ -151,7 +151,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
             </PageLink>
           ))}
           <PageLink
-            className="btn-signal mt-8 w-full"
+            className="btn-brand mt-8 w-full"
             onClick={() => setIsMenuOpen(false)}
             page="contact"
             tabIndex={isMenuOpen ? 0 : -1}

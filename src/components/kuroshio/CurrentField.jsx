@@ -4,9 +4,16 @@ import { useEffect, useRef } from "react";
  * CurrentField — the Kuroshio Current, made of data.
  *
  * A 2D flow field advects a few hundred particles left-to-right through
- * layered value noise. Teal streaks are healthy telemetry; the rare amber
- * streaks are anomalies drifting through the same water.
+ * layered value noise, drawn as ink on paper: blue strokes are healthy
+ * telemetry, the rare amber ones are anomalies in the same water.
+ *
+ * Paper needs far more weight than a glowing dark ground — white leaves much
+ * less contrast headroom — so this runs fewer, heavier, longer-lived strokes
+ * composited normally rather than additively.
  */
+
+const INK = "9,76,178";
+const ANOMALY = "185,88,10";
 
 const HASH_SIZE = 256;
 
@@ -79,7 +86,7 @@ export function CurrentField({ className = "", density = 1, opacity = 1 }) {
       particle.life = 60 + Math.random() * 260;
       particle.age = 0;
       particle.speed = 0.5 + Math.random() * 1.55;
-      particle.weight = 0.4 + Math.random() * 1.6;
+      particle.weight = (0.4 + Math.random() * 1.6) * 1.5;
       particle.anomaly = Math.random() < 0.045;
       particle.px = particle.x;
       particle.py = particle.y;
@@ -96,7 +103,7 @@ export function CurrentField({ className = "", density = 1, opacity = 1 }) {
       context.clearRect(0, 0, width, height);
 
       const count = Math.round(
-        Math.min(1000, Math.max(220, (width * height) / 1700)) * density
+        Math.min(1000, Math.max(220, (width * height) / 1700)) * 0.55 * density
       );
       particles = Array.from({ length: count }, () => {
         const particle = {};
@@ -111,9 +118,9 @@ export function CurrentField({ className = "", density = 1, opacity = 1 }) {
 
       // persistence wash — trails decay instead of hard-clearing
       context.globalCompositeOperation = "destination-out";
-      context.fillStyle = "rgba(0,0,0,0.055)";
+      context.fillStyle = "rgba(0,0,0,0.014)";
       context.fillRect(0, 0, width, height);
-      context.globalCompositeOperation = "lighter";
+      context.globalCompositeOperation = "source-over";
 
       for (let i = 0; i < particles.length; i += 1) {
         const p = particles[i];
@@ -130,15 +137,15 @@ export function CurrentField({ className = "", density = 1, opacity = 1 }) {
 
         const fadeIn = Math.min(1, p.age / 22);
         const fadeOut = Math.min(1, (p.life - p.age) / 40);
-        const alpha = Math.max(0, Math.min(fadeIn, fadeOut)) * 0.82;
+        const alpha = Math.max(0, Math.min(fadeIn, fadeOut)) * 0.95;
 
         context.beginPath();
         context.moveTo(p.px, p.py);
         context.lineTo(p.x, p.y);
         context.lineWidth = p.weight;
         context.strokeStyle = p.anomaly
-          ? `rgba(255,148,72,${alpha * 1.15})`
-          : `rgba(63,224,197,${alpha})`;
+          ? `rgba(${ANOMALY},${alpha})`
+          : `rgba(${INK},${alpha})`;
         context.stroke();
 
         if (

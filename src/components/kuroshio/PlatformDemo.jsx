@@ -131,15 +131,15 @@ export function PlatformDemo() {
       <div className="panel corner-marks overflow-hidden">
         <div className="flex flex-wrap items-center justify-between gap-3 border-b border-hairline px-4 py-3">
           <div className="flex items-center gap-3">
-            <span className="size-2 rounded-full bg-signal animate-pulse-dot" />
-            <span className="tag text-bone-dim">Interactive walkthrough</span>
+            <span className="size-2 rounded-full bg-brand animate-pulse-dot" />
+            <span className="tag text-ink-dim">Interactive walkthrough</span>
           </div>
           <div className="flex items-center gap-4">
-            <span className="readout text-xs text-bone-faint">
+            <span className="readout text-xs text-ink-faint">
               {formatTime(frame)} / {formatTime(VIDEO.durationInFrames)}
             </span>
             <button
-              className="tag transition-colors hover:text-signal"
+              className="tag transition-colors hover:text-brand"
               onClick={fullscreen}
               type="button"
             >
@@ -154,7 +154,7 @@ export function PlatformDemo() {
         <div className="flex items-center gap-4 border-t border-hairline px-4 py-3">
           <button
             aria-label={playing ? "Pause the walkthrough" : "Play the walkthrough"}
-            className="flex size-10 items-center justify-center border border-hairline-strong text-signal transition-colors hover:border-signal hover:bg-signal/10"
+            className="flex size-10 items-center justify-center border border-hairline-strong text-brand transition-colors hover:border-brand hover:bg-brand/10"
             onClick={toggle}
             type="button"
           >
@@ -166,19 +166,19 @@ export function PlatformDemo() {
           </button>
           <button
             aria-label="Restart the walkthrough"
-            className="flex size-10 items-center justify-center border border-hairline text-bone-dim transition-colors hover:border-signal hover:text-signal"
+            className="flex size-10 items-center justify-center border border-hairline text-ink-dim transition-colors hover:border-brand hover:text-brand"
             onClick={restart}
             type="button"
           >
             <RotateCcw aria-hidden="true" className="size-4" />
           </button>
           <div className="min-w-0 flex-1">
-            <p className="tag truncate text-bone-faint">
+            <p className="tag truncate text-ink-faint">
               Now playing · {active.index} {active.label}
             </p>
           </div>
           <button
-            className="tag shrink-0 border border-hairline px-3 py-2 text-bone-dim transition-colors hover:border-signal hover:text-signal sm:hidden"
+            className="tag shrink-0 border border-hairline px-3 py-2 text-ink-dim transition-colors hover:border-brand hover:text-brand sm:hidden"
             onClick={fullscreen}
             type="button"
           >
@@ -202,25 +202,25 @@ export function PlatformDemo() {
               className={cn(
                 "group relative overflow-hidden border px-3 py-3 text-left transition-colors",
                 isActive
-                  ? "border-signal/60 bg-signal/8"
+                  ? "border-brand/60 bg-brand/8"
                   : "border-hairline hover:border-hairline-strong"
               )}
               key={chapter.id}
               onClick={() => seekChapter(chapter)}
               type="button"
             >
-              <span className={cn("tag block", isActive && "text-signal")}>{chapter.index}</span>
+              <span className={cn("tag block", isActive && "text-brand")}>{chapter.index}</span>
               <span
                 className={cn(
                   "mt-1 block text-sm leading-tight font-medium tracking-tight transition-colors",
-                  isActive ? "text-bone" : "text-bone-dim group-hover:text-bone"
+                  isActive ? "text-ink" : "text-ink-dim group-hover:text-ink"
                 )}
               >
                 {chapter.label}
               </span>
               <span
                 aria-hidden="true"
-                className="absolute inset-x-0 bottom-0 h-px origin-left bg-signal transition-transform duration-150"
+                className="absolute inset-x-0 bottom-0 h-px origin-left bg-brand transition-transform duration-150"
                 style={{ transform: `scaleX(${progress})` }}
               />
             </button>
@@ -228,7 +228,7 @@ export function PlatformDemo() {
         })}
       </nav>
 
-      <figcaption className="mt-3 text-xs text-bone-faint">
+      <figcaption className="mt-3 text-xs text-ink-faint">
         Rendered live with Remotion. Figures are illustrative of a typical
         single-line deployment, not a specific customer.
       </figcaption>

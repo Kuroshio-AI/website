@@ -44,7 +44,7 @@ export function SceneHandoff() {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 40 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <Rise delay={0}>
-            <Mono color={C.signal}>Alert-to-logbook handoff</Mono>
+            <Mono color={C.brand}>Alert-to-logbook handoff</Mono>
           </Rise>
           <Rise delay={4}>
             <Headline size={62}>The context walks to the repair.</Headline>
@@ -64,7 +64,7 @@ export function SceneHandoff() {
             style={{
               height: "100%",
               border: `1px solid rgba(255,148,72,0.44)`,
-              background: "rgba(255,148,72,0.06)",
+              background: C.flareSoft,
               padding: 20,
               display: "flex",
               flexDirection: "column",
@@ -90,9 +90,9 @@ export function SceneHandoff() {
                     letterSpacing: "0.14em",
                     textTransform: "uppercase",
                     padding: "5px 10px",
-                    border: `1px solid ${i <= activeState ? C.signal : C.hairline}`,
-                    color: i <= activeState ? C.signal : C.boneFaint,
-                    background: i <= activeState ? "rgba(63,224,197,0.10)" : "transparent",
+                    border: `1px solid ${i <= activeState ? C.brand : C.hairline}`,
+                    color: i <= activeState ? C.brand : C.inkFaint,
+                    background: i <= activeState ? C.brandSoft : "transparent",
                   }}
                 >
                   {s.label}
@@ -107,21 +107,21 @@ export function SceneHandoff() {
             <line x1={0} y1={100} x2={132} y2={100} stroke={C.hairlineStrong} strokeWidth={1} strokeDasharray="4 4" />
             <path
               d="M0 100 L132 100"
-              stroke={C.signal}
+              stroke={C.brand}
               strokeWidth={2}
               strokeDasharray={132}
               strokeDashoffset={132 * (1 - carry)}
               fill="none"
             />
-            <path d="M118 92 L132 100 L118 108" fill="none" stroke={C.signal} strokeWidth={2} opacity={carry} />
+            <path d="M118 92 L132 100 L118 108" fill="none" stroke={C.brand} strokeWidth={2} opacity={carry} />
             {carry > 0 && carry < 1 ? (
-              <circle cx={132 * carry} cy={100} r={5} fill={C.signal} />
+              <circle cx={132 * carry} cy={100} r={5} fill={C.brand} />
             ) : null}
             <text
               x={66}
               y={80}
               textAnchor="middle"
-              fill={C.boneFaint}
+              fill={C.inkFaint}
               style={{ fontFamily: F.mono, fontSize: 12, letterSpacing: "0.18em", textTransform: "uppercase" }}
             >
               carry
@@ -150,13 +150,13 @@ export function SceneHandoff() {
                     style={{
                       fontFamily: F.mono,
                       fontSize: 18,
-                      color: p > 0 ? C.bone : C.boneFaint,
+                      color: p > 0 ? C.ink : C.inkFaint,
                       letterSpacing: "-0.01em",
                     }}
                   >
                     {typed(field.value, p)}
                     {p > 0 && p < 1 ? (
-                      <span style={{ color: C.signal, opacity: frame % 12 < 6 ? 1 : 0 }}>▌</span>
+                      <span style={{ color: C.brand, opacity: frame % 12 < 6 ? 1 : 0 }}>▌</span>
                     ) : null}
                   </span>
                 </div>
@@ -170,14 +170,14 @@ export function SceneHandoff() {
                   fontFamily: F.sans,
                   fontSize: 18,
                   lineHeight: 1.55,
-                  color: C.boneDim,
+                  color: C.inkDim,
                   margin: 0,
                   minHeight: 84,
                 }}
               >
                 {typed(NOTE, note)}
                 {note > 0 && note < 1 ? (
-                  <span style={{ color: C.signal, opacity: frame % 12 < 6 ? 1 : 0 }}>▌</span>
+                  <span style={{ color: C.brand, opacity: frame % 12 < 6 ? 1 : 0 }}>▌</span>
                 ) : null}
               </p>
             </div>
@@ -197,8 +197,8 @@ export function SceneHandoff() {
                   letterSpacing: "0.12em",
                   textTransform: "uppercase",
                   padding: "9px 16px",
-                  background: C.signal,
-                  color: C.abyssDeep,
+                  background: C.brand,
+                  color: C.canvasDeep,
                 }}
               >
                 Entry saved
@@ -211,7 +211,7 @@ export function SceneHandoff() {
                   textTransform: "uppercase",
                   padding: "9px 16px",
                   border: `1px solid ${C.hairlineStrong}`,
-                  color: C.boneDim,
+                  color: C.inkDim,
                 }}
               >
                 Alert resolved

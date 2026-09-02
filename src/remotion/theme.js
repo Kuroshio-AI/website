@@ -5,22 +5,30 @@ export const VIDEO = {
   durationInFrames: 1050,
 };
 
+/* Mirrors the product dashboard's tokens so the walkthrough reads as a
+   recording of the real Plant Operations Platform, not an illustration. */
 export const C = {
-  abyss: "#04101a",
-  abyssDeep: "#010810",
-  trench: "#071a26",
-  panel: "#0a2331",
-  panelRaised: "#0e2c3c",
-  signal: "#3fe0c5",
-  signalDeep: "#12a08c",
-  flare: "#ff9448",
-  flareDeep: "#c96a22",
-  fault: "#ff5f56",
-  bone: "#eaf2f0",
-  boneDim: "#93aaaf",
-  boneFaint: "#6e858b",
-  hairline: "rgba(147, 202, 205, 0.16)",
-  hairlineStrong: "rgba(147, 202, 205, 0.34)",
+  canvas: "#fafafa",
+  canvasDeep: "#eef1f6",
+  canvasSunk: "#f4f5f8",
+  panel: "#ffffff",
+  panelSunk: "#f7f8fa",
+  brand: "#094cb2",
+  brandDeep: "#133976",
+  brandSoft: "#f0f5ff",
+  brandLine: "#dee8ff",
+  flare: "#8a5a00",
+  flareSoft: "#fdf8e8",
+  flareDeep: "#6d4700",
+  fault: "#a5241c",
+  faultSoft: "#fdeceb",
+  ok: "#1a6b47",
+  okSoft: "#eefaf3",
+  ink: "#27272a",
+  inkDim: "#52525b",
+  inkFaint: "#71717a",
+  hairline: "rgba(39, 39, 42, 0.11)",
+  hairlineStrong: "rgba(39, 39, 42, 0.22)",
 };
 
 export const F = {

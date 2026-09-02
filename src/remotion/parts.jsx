@@ -20,7 +20,7 @@ export function Rise({ delay = 0, y = 22, children, style, damping = 200 }) {
 
 /* ------------------------------------------------------------- typography */
 
-export function Mono({ children, color = C.boneFaint, size = 14, style }) {
+export function Mono({ children, color = C.inkFaint, size = 14, style }) {
   return (
     <span
       style={{
@@ -37,7 +37,7 @@ export function Mono({ children, color = C.boneFaint, size = 14, style }) {
   );
 }
 
-export function Headline({ children, size = 62, color = C.bone, style }) {
+export function Headline({ children, size = 62, color = C.ink, style }) {
   return (
     <h2
       style={{
@@ -56,7 +56,7 @@ export function Headline({ children, size = 62, color = C.bone, style }) {
   );
 }
 
-export function Body({ children, size = 22, color = C.boneDim, style }) {
+export function Body({ children, size = 22, color = C.inkDim, style }) {
   return (
     <p
       style={{
@@ -73,7 +73,7 @@ export function Body({ children, size = 22, color = C.boneDim, style }) {
   );
 }
 
-export function Readout({ children, size = 34, color = C.bone, style }) {
+export function Readout({ children, size = 34, color = C.ink, style }) {
   return (
     <span
       style={{
@@ -117,7 +117,7 @@ export function Panel({ children, title, meta, style, bodyStyle, accent = C.hair
       style={{
         position: "relative",
         border: `1px solid ${accent}`,
-        background: "rgba(10,35,49,0.66)",
+        background: C.panel,
         display: "flex",
         flexDirection: "column",
         ...style,
@@ -134,7 +134,7 @@ export function Panel({ children, title, meta, style, bodyStyle, accent = C.hair
             borderBottom: `1px solid ${C.hairline}`,
           }}
         >
-          <Mono size={12} color={C.boneDim}>
+          <Mono size={12} color={C.inkDim}>
             {title}
           </Mono>
           {meta ? <Mono size={12}>{meta}</Mono> : null}
@@ -145,11 +145,11 @@ export function Panel({ children, title, meta, style, bodyStyle, accent = C.hair
   );
 }
 
-export function Chip({ children, tone = "signal", delay = 0 }) {
+export function Chip({ children, tone = "brand", delay = 0 }) {
   const tones = {
-    signal: { fg: C.signal, bg: "rgba(63,224,197,0.10)", bd: "rgba(63,224,197,0.42)" },
-    flare: { fg: C.flare, bg: "rgba(255,148,72,0.10)", bd: "rgba(255,148,72,0.44)" },
-    quiet: { fg: C.boneDim, bg: "rgba(147,202,205,0.06)", bd: C.hairline },
+    brand: { fg: C.brand, bg: C.brandSoft, bd: C.brandLine },
+    flare: { fg: C.flare, bg: C.flareSoft, bd: "#e0cd97" },
+    quiet: { fg: C.inkDim, bg: C.canvasSunk, bd: C.hairline },
   };
   const t = tones[tone] ?? tones.quiet;
   return (

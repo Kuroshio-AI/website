@@ -14,7 +14,7 @@ const PIPELINE_BODY =
 
 const PIPELINE_TITLE = (
   <>
-    From copper to <span className="text-signal">dashboard</span> in one afternoon.
+    From copper to <span className="text-brand">dashboard</span> in one afternoon.
   </>
 );
 
@@ -67,7 +67,7 @@ export function PipelineSection() {
   );
 
   return (
-    <section className="border-t border-hairline bg-trench/40" ref={rootRef}>
+    <section className="border-t border-hairline bg-canvas-sunk/40" ref={rootRef}>
       {/* The head travels with the pinned stage on desktop so the scrub never
           strands the reader without context. */}
       <div className="shell pt-24 md:pt-32 lg:hidden">
@@ -88,7 +88,7 @@ export function PipelineSection() {
           <div className="flex items-end justify-between gap-16">
             <header className="flex max-w-2xl flex-col gap-5">
               <div className="flex items-center gap-4">
-                <span className="tag-signal">03</span>
+                <span className="tag-brand">03</span>
                 <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
                 <span className="tag">How it works</span>
               </div>
@@ -100,12 +100,12 @@ export function PipelineSection() {
           <div className="relative mt-16 mb-12">
             <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-hairline" />
             <div
-              className="absolute inset-x-0 top-1/2 h-px origin-left -translate-y-1/2 scale-x-0 bg-signal"
+              className="absolute inset-x-0 top-1/2 h-px origin-left -translate-y-1/2 scale-x-0 bg-brand"
               data-line
             />
             <div className="pointer-events-none absolute inset-x-0 top-1/2 -translate-y-1/2">
               <div className="w-full" data-packet style={{ transform: "translateX(0%)" }}>
-                <span className="glow-signal -ml-1 block size-2.5 rounded-full bg-signal" />
+                <span className="glow-brand -ml-1 block size-2.5 rounded-full bg-brand" />
               </div>
             </div>
 
@@ -113,7 +113,7 @@ export function PipelineSection() {
               {STEPS.map((step, index) => (
                 <li key={step.title}>
                   <span
-                    className="flex size-16 scale-75 items-center justify-center border border-signal/50 bg-abyss text-signal opacity-30"
+                    className="flex size-16 scale-75 items-center justify-center border border-brand/50 bg-canvas text-brand opacity-30"
                     data-node={index}
                   >
                     <KuroshioIcon className="size-6" name={step.icon} strokeWidth={1.5} />
@@ -131,13 +131,13 @@ export function PipelineSection() {
                 key={step.title}
               >
                 <div className="flex items-baseline gap-3">
-                  <span className="tag-signal">{String(index + 1).padStart(2, "0")}</span>
-                  <span className="readout text-[0.6875rem] text-bone-faint">{step.code}</span>
+                  <span className="tag-brand">{String(index + 1).padStart(2, "0")}</span>
+                  <span className="readout text-[0.6875rem] text-ink-faint">{step.code}</span>
                 </div>
-                <h3 className="text-lg leading-tight font-semibold tracking-tight text-bone">
+                <h3 className="text-lg leading-tight font-semibold tracking-tight text-ink">
                   {step.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-bone-dim">{step.body}</p>
+                <p className="text-sm leading-relaxed text-ink-dim">{step.body}</p>
               </li>
             ))}
           </ol>
@@ -152,18 +152,18 @@ export function PipelineSection() {
             data-reveal="up"
             key={step.title}
           >
-            <span className="absolute top-1 -left-[13px] flex size-6 items-center justify-center border border-signal/50 bg-abyss text-signal">
+            <span className="absolute top-1 -left-[13px] flex size-6 items-center justify-center border border-brand/50 bg-canvas text-brand">
               <KuroshioIcon className="size-3" name={step.icon} strokeWidth={2} />
             </span>
             <div className="flex flex-col gap-2">
               <div className="flex items-baseline gap-3">
-                <span className="tag-signal">{String(index + 1).padStart(2, "0")}</span>
-                <span className="readout text-[0.6875rem] text-bone-faint">{step.code}</span>
+                <span className="tag-brand">{String(index + 1).padStart(2, "0")}</span>
+                <span className="readout text-[0.6875rem] text-ink-faint">{step.code}</span>
               </div>
-              <h3 className="text-lg leading-tight font-semibold tracking-tight text-bone">
+              <h3 className="text-lg leading-tight font-semibold tracking-tight text-ink">
                 {step.title}
               </h3>
-              <p className="text-sm leading-relaxed text-bone-dim">{step.body}</p>
+              <p className="text-sm leading-relaxed text-ink-dim">{step.body}</p>
             </div>
           </li>
         ))}

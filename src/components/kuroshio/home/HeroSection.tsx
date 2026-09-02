@@ -70,13 +70,14 @@ export function HeroSection() {
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <CurrentField className="absolute inset-0 size-full" opacity={0.9} />
         <div className="grid-field absolute inset-0 opacity-45" />
-        <div className="absolute inset-0 bg-[radial-gradient(75%_55%_at_18%_18%,rgba(18,160,140,0.18),transparent_70%)]" />
+        {/* Clear the left third so the headline always sits on clean paper. */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--canvas)_22%,rgba(250,250,250,0.62)_50%,transparent_78%)]" />
         <div className="vignette absolute inset-0" />
       </div>
 
       <div className="shell relative flex min-h-[calc(94svh-96px)] flex-col justify-center pt-20 pb-14 md:pt-28">
         <div className="flex items-center gap-4" data-hero-eyebrow>
-          <span className="size-1.5 shrink-0 rounded-full bg-signal animate-pulse-dot" />
+          <span className="size-1.5 shrink-0 rounded-full bg-brand animate-pulse-dot" />
           <span className="tag">Industrial intelligence · UAE &amp; GCC</span>
         </div>
 
@@ -84,7 +85,7 @@ export function HeroSection() {
           className="display-xl mt-7 max-w-[19ch] [perspective:800px]"
           ref={headlineRef}
         >
-          Read your plant like an <span className="text-signal">instrument.</span>
+          Read your plant like an <span className="text-brand">instrument.</span>
         </h1>
 
         <div className="mt-8 grid max-w-5xl gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
@@ -95,7 +96,7 @@ export function HeroSection() {
           </p>
 
           <div className="flex flex-wrap items-center gap-3" data-hero>
-            <PageLink className="btn-signal" page="contact">
+            <PageLink className="btn-brand" page="contact">
               Request a demo
               <ArrowRight aria-hidden="true" className="size-4" />
             </PageLink>
@@ -108,29 +109,29 @@ export function HeroSection() {
         <dl className="mt-14 grid grid-cols-2 gap-px border border-hairline bg-hairline lg:grid-cols-4">
           {INSTRUMENTS.map((item) => (
             <div
-              className="group relative flex flex-col gap-1.5 bg-abyss/85 px-5 py-6 transition-colors hover:bg-panel/70"
+              className="group relative flex flex-col gap-1.5 bg-panel px-5 py-6 transition-colors hover:bg-brand-soft"
               data-hero-instrument
               key={item.label}
             >
-              <dt className="readout text-3xl leading-none text-bone md:text-[2.5rem]">
+              <dt className="readout text-3xl leading-none text-ink md:text-[2.5rem]">
                 {item.value}
               </dt>
               <dd className="flex flex-col gap-1">
-                <span className="text-[0.8125rem] font-medium tracking-tight text-bone-dim">
+                <span className="text-[0.8125rem] font-medium tracking-tight text-ink-dim">
                   {item.label}
                 </span>
-                <span className="text-xs leading-snug text-bone-faint">{item.helper}</span>
+                <span className="text-xs leading-snug text-ink-faint">{item.helper}</span>
               </dd>
               <span
                 aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-500 ease-out group-hover:scale-x-100"
+                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"
               />
             </div>
           ))}
         </dl>
 
         <a
-          className="mt-10 flex w-fit items-center gap-3 text-bone-faint transition-colors hover:text-signal"
+          className="mt-10 flex w-fit items-center gap-3 text-ink-faint transition-colors hover:text-brand"
           data-hero
           href="#walkthrough"
         >

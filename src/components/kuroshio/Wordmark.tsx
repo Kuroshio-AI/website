@@ -41,9 +41,9 @@ export function CurrentMark({ className }: Readonly<{ className?: string }>) {
 export function Wordmark({ className }: Readonly<{ className?: string }>) {
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <CurrentMark className="text-signal" />
-      <span className="font-[family-name:var(--font-display)] text-[1.0625rem] font-semibold tracking-[-0.05em] text-bone">
-        Kuroshio<span className="text-signal">AI</span>
+      <CurrentMark className="text-brand" />
+      <span className="font-[family-name:var(--font-display)] text-[1.0625rem] font-semibold tracking-[-0.05em] text-ink">
+        Kuroshio<span className="text-brand">AI</span>
       </span>
     </span>
   );

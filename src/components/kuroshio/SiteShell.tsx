@@ -11,9 +11,9 @@ export interface SiteShellProps {
 
 export function SiteShell({ activePage, children }: Readonly<SiteShellProps>) {
   return (
-    <div className="min-h-screen bg-abyss text-bone">
+    <div className="min-h-screen bg-canvas text-ink">
       <a
-        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-signal focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-abyss-deep"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[60] focus:bg-brand focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-white"
         href="#main"
       >
         Skip to content

@@ -24,7 +24,7 @@ function DarkTile({ name, index }) {
       <div
         style={{
           border: `1px solid ${C.hairline}`,
-          background: "rgba(7,26,38,0.7)",
+          background: C.panelSunk,
           padding: "14px 16px",
           display: "flex",
           flexDirection: "column",
@@ -34,7 +34,7 @@ function DarkTile({ name, index }) {
         }}
       >
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Mono size={11} color={C.boneFaint}>
+          <Mono size={11} color={C.inkFaint}>
             {name}
           </Mono>
           <span
@@ -42,12 +42,12 @@ function DarkTile({ name, index }) {
               width: 6,
               height: 6,
               borderRadius: 6,
-              background: C.boneFaint,
+              background: C.inkFaint,
               opacity: flicker,
             }}
           />
         </div>
-        <Readout size={26} color="rgba(147,202,205,0.30)">
+        <Readout size={26} color={C.inkFaint}>
           — — —
         </Readout>
       </div>
@@ -80,7 +80,7 @@ export function SceneBlind() {
             <br />
             Forty machines.
             <br />
-            <span style={{ color: C.boneFaint }}>Zero visibility.</span>
+            <span style={{ color: C.inkFaint }}>Zero visibility.</span>
           </Headline>
         </Rise>
         <Rise delay={14}>
@@ -96,7 +96,7 @@ export function SceneBlind() {
             style={{
               marginTop: 14,
               border: `1px solid rgba(255,148,72,0.4)`,
-              background: "rgba(255,148,72,0.07)",
+              background: C.flareSoft,
               padding: "18px 22px",
               display: "flex",
               alignItems: "center",
@@ -122,7 +122,7 @@ export function SceneBlind() {
                   style={{
                     flex: 1,
                     height: `${18 + Math.abs(Math.sin(i * 1.7)) * 74 * barGrow}%`,
-                    background: "rgba(255,148,72,0.32)",
+                    background: "#d8bd7a",
                   }}
                 />
               ))}
@@ -152,7 +152,7 @@ export function SceneBlind() {
             fontSize: 13,
             letterSpacing: "0.14em",
             textTransform: "uppercase",
-            color: C.boneFaint,
+            color: C.inkFaint,
           }}
         >
           No signal source configured

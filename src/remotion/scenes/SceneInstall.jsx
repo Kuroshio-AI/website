@@ -22,18 +22,18 @@ function Node({ node, index, litProgress }) {
         y={-34}
         width={104}
         height={68}
-        fill={lit ? "rgba(63,224,197,0.08)" : "rgba(10,35,49,0.85)"}
-        stroke={lit ? C.signal : C.hairlineStrong}
+        fill={lit ? C.brandSoft : C.panel}
+        stroke={lit ? C.brand : C.hairlineStrong}
         strokeWidth={1}
         opacity={0.35 + glow * 0.65}
       />
-      <circle cx={0} cy={0} r={lit ? 7 : 4} fill={lit ? C.signal : C.boneFaint} opacity={glow} />
-      {lit ? <circle cx={0} cy={0} r={16} fill="none" stroke={C.signal} strokeWidth={1} opacity={0.3} /> : null}
+      <circle cx={0} cy={0} r={lit ? 7 : 4} fill={lit ? C.brand : C.inkFaint} opacity={glow} />
+      {lit ? <circle cx={0} cy={0} r={16} fill="none" stroke={C.brand} strokeWidth={1} opacity={0.3} /> : null}
       <text
         x={0}
         y={62}
         textAnchor="middle"
-        fill={lit ? C.bone : C.boneFaint}
+        fill={lit ? C.ink : C.inkFaint}
         style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.12em", textTransform: "uppercase" }}
       >
         {node.label}
@@ -42,7 +42,7 @@ function Node({ node, index, litProgress }) {
         x={0}
         y={84}
         textAnchor="middle"
-        fill={C.boneFaint}
+        fill={C.inkFaint}
         style={{ fontFamily: F.mono, fontSize: 13, letterSpacing: "0.1em" }}
       >
         {node.sub}
@@ -76,11 +76,11 @@ export function SceneInstall() {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 48 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 18, maxWidth: 720 }}>
           <Rise delay={0}>
-            <Mono color={C.signal}>Deployment</Mono>
+            <Mono color={C.brand}>Deployment</Mono>
           </Rise>
           <Rise delay={4}>
             <Headline size={64}>
-              We clamp on. We never <span style={{ color: C.signal }}>plug in.</span>
+              We clamp on. We never <span style={{ color: C.brand }}>plug in.</span>
             </Headline>
           </Rise>
         </div>
@@ -117,7 +117,7 @@ export function SceneInstall() {
                 cy={232 + dy}
                 r={9 + (1 - local) * 7}
                 fill="none"
-                stroke={C.signal}
+                stroke={C.brand}
                 strokeWidth={1.4}
                 strokeDasharray="4 3"
               />
@@ -144,7 +144,7 @@ export function SceneInstall() {
               cx={120 + p.t * 1210}
               cy={232}
               r={3.5}
-              fill={C.signal}
+              fill={C.brand}
               opacity={Math.sin(p.t * Math.PI)}
             />
           ) : null
@@ -156,9 +156,9 @@ export function SceneInstall() {
       </svg>
 
       <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-        <Chip delay={122} tone="signal">No PLC access</Chip>
-        <Chip delay={130} tone="signal">No client network</Chip>
-        <Chip delay={138} tone="signal">No production downtime</Chip>
+        <Chip delay={122} tone="brand">No PLC access</Chip>
+        <Chip delay={130} tone="brand">No client network</Chip>
+        <Chip delay={138} tone="brand">No production downtime</Chip>
         <Chip delay={146} tone="flare">Live in 3–4 hours</Chip>
         <Chip delay={154} tone="quiet">Data stays in the UAE</Chip>
       </div>

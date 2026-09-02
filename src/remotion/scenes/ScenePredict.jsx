@@ -33,7 +33,7 @@ export function ScenePredict() {
 
   const angle = START_ANGLE + SWEEP * (score / 100) * settle;
   const tone = interpolate(degrade, [0, 0.55, 1], [0, 0, 1], { extrapolateRight: "clamp" });
-  const arcColor = tone > 0.5 ? C.flare : C.signal;
+  const arcColor = tone > 0.5 ? C.flare : C.brand;
 
   return (
     <div
@@ -49,7 +49,7 @@ export function ScenePredict() {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 40 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <Rise delay={0}>
-            <Mono color={C.signal}>Predictive maintenance</Mono>
+            <Mono color={C.brand}>Predictive maintenance</Mono>
           </Rise>
           <Rise delay={4}>
             <Headline size={62}>
@@ -77,7 +77,7 @@ export function ScenePredict() {
                   style={{
                     flex: 1,
                     height: `${Math.min(100, grow * 100 * settle * wobble)}%`,
-                    background: band.sideband && degrade > 0.3 ? C.flare : "rgba(63,224,197,0.55)",
+                    background: band.sideband && degrade > 0.3 ? C.flare : C.brand,
                     opacity: band.sideband && degrade > 0.3 ? 0.95 : 0.75,
                   }}
                 />
@@ -86,7 +86,7 @@ export function ScenePredict() {
           </div>
           <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between" }}>
             <Mono size={11}>0 Hz</Mono>
-            <Mono size={11} color={degrade > 0.4 ? C.flare : C.boneFaint}>
+            <Mono size={11} color={degrade > 0.4 ? C.flare : C.inkFaint}>
               sideband ×2 detected
             </Mono>
             <Mono size={11}>600 Hz</Mono>
@@ -98,7 +98,7 @@ export function ScenePredict() {
             <path
               d={arcPath(200, 190, 132, START_ANGLE, START_ANGLE + SWEEP)}
               fill="none"
-              stroke="rgba(147,202,205,0.14)"
+              stroke={C.hairline}
               strokeWidth={14}
               strokeLinecap="butt"
             />
@@ -117,7 +117,6 @@ export function ScenePredict() {
                 stroke={arcColor}
                 strokeWidth={14}
                 strokeLinecap="butt"
-                style={{ filter: `drop-shadow(0 0 14px ${arcColor}66)` }}
               />
             ) : null}
             <text
@@ -133,7 +132,7 @@ export function ScenePredict() {
               x={200}
               y={230}
               textAnchor="middle"
-              fill={C.boneFaint}
+              fill={C.inkFaint}
               style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.22em", textTransform: "uppercase" }}
             >
               health score
@@ -142,7 +141,7 @@ export function ScenePredict() {
               x={200}
               y={296}
               textAnchor="middle"
-              fill={degrade > 0.5 ? C.flare : C.boneDim}
+              fill={degrade > 0.5 ? C.flare : C.inkDim}
               style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.14em", textTransform: "uppercase" }}
             >
               {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
@@ -156,7 +155,7 @@ export function ScenePredict() {
               opacity: alertIn,
               transform: `translateX(${(1 - alertIn) * 24}px)`,
               border: `1px solid rgba(255,148,72,0.48)`,
-              background: "rgba(255,148,72,0.08)",
+              background: C.flareSoft,
               padding: 18,
               display: "flex",
               flexDirection: "column",
@@ -167,8 +166,8 @@ export function ScenePredict() {
               <span style={{ width: 8, height: 8, background: C.flare, borderRadius: 8 }} />
               <Mono size={12} color={C.flare}>Alert · high severity</Mono>
             </div>
-            <Readout size={24} color={C.bone}>Bearing wear, drive end</Readout>
-            <Body size={17} color={C.boneDim}>
+            <Readout size={24} color={C.ink}>Bearing wear, drive end</Readout>
+            <Body size={17} color={C.inkDim}>
               Sideband energy at 2× line frequency has risen 41% against this
               motor's own 90-day baseline. Confidence 87%.
             </Body>
@@ -177,7 +176,7 @@ export function ScenePredict() {
           <Panel title="Predicted threshold" meta="confidence band">
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div style={{ position: "relative", height: 56 }}>
-                <div style={{ position: "absolute", inset: "26px 0 auto", height: 2, background: "rgba(147,202,205,0.18)" }} />
+                <div style={{ position: "absolute", inset: "26px 0 auto", height: 2, background: C.hairline }} />
                 <div
                   style={{
                     position: "absolute",
@@ -185,7 +184,7 @@ export function ScenePredict() {
                     top: 26,
                     width: `${64 * alertIn}%`,
                     height: 2,
-                    background: C.signal,
+                    background: C.brand,
                   }}
                 />
                 <div
@@ -195,7 +194,7 @@ export function ScenePredict() {
                     top: 14,
                     width: "26%",
                     height: 26,
-                    background: "rgba(255,148,72,0.18)",
+                    background: "#f5ecd0",
                     border: `1px solid rgba(255,148,72,0.4)`,
                     opacity: alertIn,
                   }}
@@ -212,7 +211,7 @@ export function ScenePredict() {
               </div>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <Mono size={12}>Recommended</Mono>
-                <Mono size={12} color={C.signal}>Schedule in next shutdown</Mono>
+                <Mono size={12} color={C.brand}>Schedule in next shutdown</Mono>
               </div>
             </div>
           </Panel>

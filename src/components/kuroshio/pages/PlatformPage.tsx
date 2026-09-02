@@ -16,9 +16,9 @@ interface PageProps {
 }
 
 const TONE_CLASS = {
-  info: "text-signal border-signal/40 bg-signal/8",
+  info: "text-brand border-brand/40 bg-brand/8",
   warning: "text-flare border-flare/40 bg-flare/8",
-  neutral: "text-bone-dim border-hairline bg-transparent",
+  neutral: "text-ink-dim border-hairline bg-transparent",
 } as const;
 
 function AnchorRail() {
@@ -42,7 +42,7 @@ function AnchorRail() {
 
   return (
     <div
-      className="sticky top-[96px] z-30 border-y border-hairline bg-abyss/92 backdrop-blur-xl"
+      className="sticky top-[96px] z-30 border-y border-hairline bg-canvas/92 backdrop-blur-xl"
       ref={railRef}
     >
       <nav aria-label="Platform sections" className="shell mask-fade-x flex gap-1 overflow-x-auto py-2">
@@ -52,8 +52,8 @@ function AnchorRail() {
             className={cn(
               "flex shrink-0 items-center gap-2 border px-3.5 py-2 text-[0.8125rem] tracking-tight whitespace-nowrap transition-colors",
               active === item.id
-                ? "border-signal/50 bg-signal/8 text-signal"
-                : "border-transparent text-bone-faint hover:text-bone"
+                ? "border-brand/50 bg-brand/8 text-brand"
+                : "border-transparent text-ink-faint hover:text-ink"
             )}
             href={`#${item.id}`}
             key={item.id}
@@ -71,16 +71,16 @@ function MetricStrip() {
   return (
     <div className="grid gap-px border border-hairline bg-hairline sm:grid-cols-2">
       {platformPage.metrics.map((metric) => (
-        <div className="flex flex-col gap-3 bg-abyss px-5 py-5" data-reveal="up" key={metric.label}>
+        <div className="flex flex-col gap-3 bg-canvas px-5 py-5" data-reveal="up" key={metric.label}>
           <div className="flex items-center justify-between gap-3">
             <span className="tag leading-tight">{metric.label}</span>
-            <KuroshioIcon className="size-4 text-bone-faint" name={metric.icon} strokeWidth={1.5} />
+            <KuroshioIcon className="size-4 text-ink-faint" name={metric.icon} strokeWidth={1.5} />
           </div>
           <div className="flex items-baseline gap-2">
-            <span className="readout text-2xl leading-none text-bone md:text-[1.75rem]">
+            <span className="readout text-2xl leading-none text-ink md:text-[1.75rem]">
               {metric.value}
             </span>
-            <span className="text-xs text-bone-faint">{metric.unit}</span>
+            <span className="text-xs text-ink-faint">{metric.unit}</span>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <span
@@ -91,7 +91,7 @@ function MetricStrip() {
             >
               {metric.helper}
             </span>
-            <span className="text-[0.6875rem] text-bone-faint">{metric.delta}</span>
+            <span className="text-[0.6875rem] text-ink-faint">{metric.delta}</span>
           </div>
         </div>
       ))}
@@ -103,7 +103,7 @@ function MachineTable() {
   return (
     <div className="panel corner-marks overflow-hidden" data-reveal="up">
       <div className="flex items-center justify-between border-b border-hairline px-5 py-3.5">
-        <span className="tag text-bone-dim">Machine energy · current view</span>
+        <span className="tag text-ink-dim">Machine energy · current view</span>
         <span className="tag">3 assets</span>
       </div>
 
@@ -113,7 +113,7 @@ function MachineTable() {
             <tr className="border-b border-hairline">
               {["Machine", "State", "Idle", "Energy", "Cost", "Load"].map((head) => (
                 <th
-                  className="px-5 py-3 text-[0.6875rem] font-medium tracking-[0.16em] text-bone-faint uppercase"
+                  className="px-5 py-3 text-[0.6875rem] font-medium tracking-[0.16em] text-ink-faint uppercase"
                   key={head}
                   scope="col"
                 >
@@ -125,11 +125,11 @@ function MachineTable() {
           <tbody>
             {platformPage.machines.map((machine) => (
               <tr
-                className="border-b border-hairline transition-colors last:border-b-0 hover:bg-panel/60"
+                className="border-b border-hairline transition-colors last:border-b-0 hover:bg-brand-soft/70"
                 key={machine.machine}
               >
                 <th className="px-5 py-4 font-normal" scope="row">
-                  <span className="block text-sm font-medium tracking-tight text-bone">
+                  <span className="block text-sm font-medium tracking-tight text-ink">
                     {machine.machine}
                   </span>
                   <span className="tag">{machine.type}</span>
@@ -145,18 +145,18 @@ function MachineTable() {
                     {machine.state}
                   </span>
                 </td>
-                <td className="readout px-5 py-4 text-sm text-bone-dim">{machine.idle}</td>
-                <td className="readout px-5 py-4 text-sm text-bone">{machine.energy}</td>
-                <td className="readout px-5 py-4 text-sm text-bone">{machine.cost}</td>
+                <td className="readout px-5 py-4 text-sm text-ink-dim">{machine.idle}</td>
+                <td className="readout px-5 py-4 text-sm text-ink">{machine.energy}</td>
+                <td className="readout px-5 py-4 text-sm text-ink">{machine.cost}</td>
                 <td className="px-5 py-4">
                   <div className="flex items-center gap-3">
                     <div className="h-1 w-24 bg-hairline">
                       <div
-                        className="h-full bg-signal"
+                        className="h-full bg-brand"
                         style={{ width: `${machine.load}%` }}
                       />
                     </div>
-                    <span className="readout text-xs text-bone-faint">{machine.load}%</span>
+                    <span className="readout text-xs text-ink-faint">{machine.load}%</span>
                   </div>
                 </td>
               </tr>
@@ -173,8 +173,8 @@ function FeatureList({ items }: Readonly<{ items: ReadonlyArray<string> }>) {
     <ul className="flex flex-col divide-y divide-hairline border-y border-hairline">
       {items.map((item) => (
         <li className="flex items-start gap-4 py-4" key={item}>
-          <span aria-hidden="true" className="mt-[0.45em] size-1.5 shrink-0 bg-signal" />
-          <span className="text-[0.9375rem] leading-relaxed text-bone-dim">{item}</span>
+          <span aria-hidden="true" className="mt-[0.45em] size-1.5 shrink-0 bg-brand" />
+          <span className="text-[0.9375rem] leading-relaxed text-ink-dim">{item}</span>
         </li>
       ))}
     </ul>
@@ -219,7 +219,7 @@ function HealthArc() {
           71
         </text>
         <text
-          fill="var(--bone-faint)"
+          fill="var(--ink-faint)"
           fontSize="11"
           letterSpacing="3"
           textAnchor="middle"
@@ -236,9 +236,9 @@ function HealthArc() {
           ["Threshold", "12 days"],
           ["Action", "Next shutdown"],
         ].map(([label, value]) => (
-          <div className="flex flex-col gap-1 bg-abyss px-4 py-3" key={label}>
+          <div className="flex flex-col gap-1 bg-canvas px-4 py-3" key={label}>
             <dt className="tag">{label}</dt>
-            <dd className="readout text-sm text-bone">{value}</dd>
+            <dd className="readout text-sm text-ink">{value}</dd>
           </div>
         ))}
       </dl>
@@ -263,19 +263,19 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
         <div className="shell relative grid gap-12 py-24 md:py-32 lg:grid-cols-[1.15fr_1fr] lg:items-end">
           <div className="flex flex-col gap-7">
             <div className="flex items-center gap-4" data-reveal="fade">
-              <span className="tag-signal">Platform</span>
+              <span className="tag-brand">Platform</span>
               <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
               <span className="tag">One operational view</span>
             </div>
             <h1 className="display-xl max-w-[15ch]" data-reveal="up">
               One operational view for every{" "}
-              <span className="text-signal">machine.</span>
+              <span className="text-brand">machine.</span>
             </h1>
             <p className="lede max-w-xl" data-reveal="up" data-reveal-delay="0.08">
               {platformPage.hero.description}
             </p>
             <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
-              <button className="btn-signal" onClick={() => onNavigate("contact")} type="button">
+              <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">
                 Request a demo
                 <ArrowRight aria-hidden="true" className="size-4" />
               </button>
@@ -302,7 +302,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
             index="01"
             title={
               <>
-                Energy, resolved to the <span className="text-signal">machine.</span>
+                Energy, resolved to the <span className="text-brand">machine.</span>
               </>
             }
           />
@@ -313,7 +313,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
       </Band>
 
       {/* ------------------------------------------------------- predictive */}
-      <Band id="predictive-maintenance" tone="trench">
+      <Band id="predictive-maintenance" tone="canvas-sunk">
         <div className="shell grid gap-14 lg:grid-cols-[1.15fr_0.85fr] lg:items-start lg:gap-20">
           <div className="flex flex-col gap-8">
             <SectionHead
@@ -355,20 +355,20 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
                   className={cn(
                     "absolute top-1 -left-[13px] flex size-6 items-center justify-center border text-[0.5625rem] font-medium",
                     index === 0
-                      ? "border-signal bg-signal text-abyss-deep"
-                      : "border-hairline-strong bg-abyss text-bone-faint"
+                      ? "border-brand bg-brand text-white"
+                      : "border-hairline-strong bg-canvas text-ink-faint"
                   )}
                 >
                   {entry.initials}
                 </span>
                 <div className="panel flex-1 p-5">
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <h3 className="text-base font-semibold tracking-tight text-bone">
+                    <h3 className="text-base font-semibold tracking-tight text-ink">
                       {entry.title}
                     </h3>
-                    <span className="readout text-[0.6875rem] text-bone-faint">{entry.date}</span>
+                    <span className="readout text-[0.6875rem] text-ink-faint">{entry.date}</span>
                   </div>
-                  <p className="mt-2 text-sm leading-relaxed text-bone-dim">{entry.body}</p>
+                  <p className="mt-2 text-sm leading-relaxed text-ink-dim">{entry.body}</p>
                   <p className="tag mt-3">{entry.owner}</p>
                 </div>
               </li>
@@ -378,7 +378,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
       </Band>
 
       {/* ----------------------------------------------------------- carbon */}
-      <Band id="carbon-tracking" tone="trench">
+      <Band id="carbon-tracking" tone="canvas-sunk">
         <div className="shell grid gap-14 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-20">
           <div className="flex flex-col gap-8">
             <SectionHead
@@ -387,7 +387,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
               index="04"
               title={
                 <>
-                  Emissions you can <span className="text-signal">defend.</span>
+                  Emissions you can <span className="text-brand">defend.</span>
                 </>
               }
             />
@@ -398,7 +398,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
 
           <div className="panel corner-marks flex flex-col gap-5 p-7" data-reveal="scale">
             <div className="flex items-center justify-between">
-              <span className="tag text-bone-dim">CO₂e by machine · this month</span>
+              <span className="tag text-ink-dim">CO₂e by machine · this month</span>
               <span className="tag">kg</span>
             </div>
             {[
@@ -410,12 +410,12 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
             ].map(([name, value, share]) => (
               <div className="flex flex-col gap-2" key={String(name)}>
                 <div className="flex items-baseline justify-between">
-                  <span className="text-[0.8125rem] tracking-tight text-bone-dim">{name}</span>
-                  <span className="readout text-sm text-bone">{value} kg</span>
+                  <span className="text-[0.8125rem] tracking-tight text-ink-dim">{name}</span>
+                  <span className="readout text-sm text-ink">{value} kg</span>
                 </div>
                 <div className="h-2 bg-hairline">
                   <div
-                    className="h-full bg-gradient-to-r from-signal-deep to-signal"
+                    className="h-full bg-gradient-to-r from-brand-deep to-brand"
                     style={{ width: `${Number(share) * 100}%` }}
                   />
                 </div>
@@ -424,11 +424,11 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
             <div className="mt-2 flex items-end justify-between border-t border-hairline pt-4">
               <div className="flex flex-col gap-1">
                 <span className="tag">Total this month</span>
-                <span className="readout text-2xl text-signal">1,113 kg</span>
+                <span className="readout text-2xl text-brand">1,113 kg</span>
               </div>
               <div className="flex flex-col items-end gap-1">
                 <span className="tag">vs. baseline</span>
-                <span className="readout text-2xl text-signal">−18.4%</span>
+                <span className="readout text-2xl text-brand">−18.4%</span>
               </div>
             </div>
           </div>
@@ -448,19 +448,19 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
           <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4">
             {platformPage.architecture.cards.map((card) => (
               <div
-                className="group flex flex-col gap-4 bg-abyss p-7 transition-colors hover:bg-panel/70"
+                className="group flex flex-col gap-4 bg-panel p-7 transition-colors hover:bg-brand-soft"
                 data-reveal="up"
                 key={card.title}
               >
                 <KuroshioIcon
-                  className="size-6 text-bone-faint transition-colors group-hover:text-signal"
+                  className="size-6 text-ink-faint transition-colors group-hover:text-brand"
                   name={card.icon}
                   strokeWidth={1.4}
                 />
-                <h3 className="text-lg leading-tight font-semibold tracking-tight text-bone">
+                <h3 className="text-lg leading-tight font-semibold tracking-tight text-ink">
                   {card.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-bone-dim">{card.body}</p>
+                <p className="text-sm leading-relaxed text-ink-dim">{card.body}</p>
               </div>
             ))}
           </div>
@@ -471,12 +471,12 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
           >
             {platformPage.architecture.pipeline.map((node, index) => (
               <li className="flex items-center gap-3" key={node.label}>
-                <span className="flex items-center gap-2.5 border border-hairline-strong px-3.5 py-2.5 text-bone">
-                  <KuroshioIcon className="size-4 text-signal" name={node.icon} strokeWidth={1.6} />
+                <span className="flex items-center gap-2.5 border border-hairline-strong px-3.5 py-2.5 text-ink">
+                  <KuroshioIcon className="size-4 text-brand" name={node.icon} strokeWidth={1.6} />
                   <span className="text-[0.8125rem] tracking-tight">{node.label}</span>
                 </span>
                 {index < platformPage.architecture.pipeline.length - 1 ? (
-                  <span aria-hidden="true" className="h-px w-6 bg-signal/50 sm:w-10" />
+                  <span aria-hidden="true" className="h-px w-6 bg-brand/50 sm:w-10" />
                 ) : null}
               </li>
             ))}
@@ -485,10 +485,10 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
       </Band>
 
       {/* -------------------------------------------------------------- cta */}
-      <section className="relative overflow-hidden border-t border-hairline bg-abyss-deep">
+      <section className="relative overflow-hidden border-t border-hairline bg-canvas-deep">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="grid-field-fine absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(18,160,140,0.2),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(9,76,178,0.10),transparent_70%)]" />
         </div>
         <div className="shell relative flex flex-col items-start gap-7 py-24 md:py-32">
           <h2 className="display-lg max-w-3xl" data-reveal="up">
@@ -498,7 +498,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
             {platformPage.cta.description}
           </p>
           <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
-            <button className="btn-signal" onClick={() => onNavigate("contact")} type="button">
+            <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">
               {platformPage.cta.action}
               <ArrowRight aria-hidden="true" className="size-4" />
             </button>

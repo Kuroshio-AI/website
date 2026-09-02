@@ -8,8 +8,8 @@ import { useContactForm } from "@/hooks/useContactForm";
 import { usePageMotion } from "@/hooks/usePageMotion";
 
 const FIELD_CLASS =
-  "h-12 w-full border border-hairline-strong bg-panel/50 px-4 text-[0.9375rem] text-bone " +
-  "transition-colors placeholder:text-bone-faint hover:border-hairline focus:border-signal " +
+  "h-12 w-full border border-hairline-strong bg-panel/50 px-4 text-[0.9375rem] text-ink " +
+  "transition-colors placeholder:text-ink-faint hover:border-hairline focus:border-brand " +
   "focus:outline-none focus-visible:outline-none";
 
 const PROMISES = [
@@ -21,16 +21,16 @@ const PROMISES = [
 function Label({ htmlFor, children, required }) {
   return (
     <label
-      className="flex items-center gap-1.5 text-[0.6875rem] font-medium tracking-[0.16em] text-bone-faint uppercase"
+      className="flex items-center gap-1.5 text-[0.6875rem] font-medium tracking-[0.16em] text-ink-faint uppercase"
       htmlFor={htmlFor}
     >
       {children}
       {required ? (
-        <span aria-hidden="true" className="text-signal">
+        <span aria-hidden="true" className="text-brand">
           *
         </span>
       ) : (
-        <span className="text-bone-faint/60 normal-case">(optional)</span>
+        <span className="text-ink-faint normal-case">(optional)</span>
       )}
     </label>
   );
@@ -54,12 +54,12 @@ export function ContactPage() {
         <div className="shell relative grid gap-10 py-24 md:py-28 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-4" data-reveal="fade">
-              <span className="tag-signal">Contact</span>
+              <span className="tag-brand">Contact</span>
               <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
               <span className="tag">UAE · India</span>
             </div>
             <h1 className="display-xl max-w-[13ch]" data-reveal="up">
-              Let&apos;s start with one <span className="text-signal">machine.</span>
+              Let&apos;s start with one <span className="text-brand">machine.</span>
             </h1>
             <p className="lede max-w-xl" data-reveal="up" data-reveal-delay="0.08">
               {contactPage.hero.description}
@@ -69,11 +69,11 @@ export function ContactPage() {
           <dl className="grid gap-px border border-hairline bg-hairline" data-reveal="scale">
             {PROMISES.map(([label, value]) => (
               <div
-                className="flex flex-wrap items-baseline justify-between gap-3 bg-abyss px-5 py-4"
+                className="flex flex-wrap items-baseline justify-between gap-3 bg-canvas px-5 py-4"
                 key={label}
               >
                 <dt className="tag">{label}</dt>
-                <dd className="readout text-sm text-bone">{value}</dd>
+                <dd className="readout text-sm text-ink">{value}</dd>
               </div>
             ))}
           </dl>
@@ -85,7 +85,7 @@ export function ContactPage() {
           {/* ------------------------------------------------------- form */}
           <div className="flex flex-col gap-8" data-reveal="up">
             <div className="flex items-center gap-4">
-              <span className="tag-signal">01</span>
+              <span className="tag-brand">01</span>
               <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
               <span className="tag">Request a demo</span>
             </div>
@@ -169,13 +169,13 @@ export function ContactPage() {
                   name="message"
                   placeholder="e.g. two extrusion lines and a chiller plant in RAK — we suspect idle running overnight."
                 />
-                <p className="text-xs text-bone-faint">
+                <p className="text-xs text-ink-faint">
                   Machine count, site location, and what you already measure all help us prepare.
                 </p>
               </div>
 
               <div className="flex flex-wrap items-center gap-4">
-                <button className="btn-signal min-w-44" disabled={isSending} type="submit">
+                <button className="btn-brand min-w-44" disabled={isSending} type="submit">
                   {isSending ? (
                     <>
                       <Loader2 aria-hidden="true" className="size-4 animate-spin" />
@@ -188,14 +188,14 @@ export function ContactPage() {
                     </>
                   )}
                 </button>
-                <p className="text-xs text-bone-faint">
+                <p className="text-xs text-ink-faint">
                   We never share your details. No PLC or network access is requested.
                 </p>
               </div>
 
               <div aria-live="polite" role="status">
                 {status === "success" ? (
-                  <p className="flex items-center gap-3 border border-signal/50 bg-signal/8 px-4 py-3 text-sm text-signal">
+                  <p className="flex items-center gap-3 border border-brand/50 bg-brand/8 px-4 py-3 text-sm text-brand">
                     <Check aria-hidden="true" className="size-4 shrink-0" />
                     {successMessage}
                   </p>
@@ -214,7 +214,7 @@ export function ContactPage() {
           <aside className="flex flex-col gap-8">
             <div className="flex flex-col gap-5" data-reveal="up">
               <div className="flex items-center gap-4">
-                <span className="tag-signal">02</span>
+                <span className="tag-brand">02</span>
                 <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
                 <span className="tag">Speak directly</span>
               </div>
@@ -222,14 +222,14 @@ export function ContactPage() {
               <ul className="flex flex-col divide-y divide-hairline border-y border-hairline">
                 {contactPage.direct.map((entry) => (
                   <li className="flex items-start gap-4 py-4" key={entry.label}>
-                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center border border-hairline text-signal">
+                    <span className="mt-0.5 flex size-8 shrink-0 items-center justify-center border border-hairline text-brand">
                       <KuroshioIcon className="size-3.5" name={entry.icon} strokeWidth={1.6} />
                     </span>
                     <div className="flex flex-col gap-1">
                       <span className="tag">{entry.label}</span>
                       {entry.links.map((link) => (
                         <a
-                          className="readout w-fit text-sm text-bone transition-colors hover:text-signal"
+                          className="readout w-fit text-sm text-ink transition-colors hover:text-brand"
                           href={link.href}
                           key={link.href}
                         >
@@ -246,14 +246,14 @@ export function ContactPage() {
               <span className="tag">Offices</span>
               <div className="grid gap-px border border-hairline bg-hairline">
                 {contactPage.offices.map((office) => (
-                  <div className="flex flex-col gap-2 bg-abyss p-5" key={office.city}>
+                  <div className="flex flex-col gap-2 bg-canvas p-5" key={office.city}>
                     <div className="flex items-center gap-2">
-                      <span className="size-1.5 bg-signal" />
-                      <span className="text-sm font-semibold tracking-tight text-bone">
+                      <span className="size-1.5 bg-brand" />
+                      <span className="text-sm font-semibold tracking-tight text-ink">
                         {office.city}
                       </span>
                     </div>
-                    <address className="text-[0.8125rem] leading-relaxed text-bone-dim not-italic">
+                    <address className="text-[0.8125rem] leading-relaxed text-ink-dim not-italic">
                       {office.address.map((line) => (
                         <span className="block" key={line}>
                           {line}
@@ -266,8 +266,8 @@ export function ContactPage() {
             </div>
 
             <div className="panel corner-marks flex flex-col gap-3 p-6" data-reveal="scale">
-              <span className="tag-signal">Data handling</span>
-              <p className="text-[0.8125rem] leading-relaxed text-bone-dim">
+              <span className="tag-brand">Data handling</span>
+              <p className="text-[0.8125rem] leading-relaxed text-ink-dim">
                 Telemetry is processed in Azure UAE North. We never connect to your
                 corporate network and we never write to your control system.
               </p>

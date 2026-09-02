@@ -24,12 +24,12 @@ function DemoSkeleton() {
   return (
     <div aria-hidden="true" className="panel corner-marks overflow-hidden">
       <div className="flex items-center justify-between border-b border-hairline px-4 py-3">
-        <span className="tag text-bone-faint">Loading walkthrough</span>
-        <span className="readout text-xs text-bone-faint">00:00 / 00:35</span>
+        <span className="tag text-ink-faint">Loading walkthrough</span>
+        <span className="readout text-xs text-ink-faint">00:00 / 00:35</span>
       </div>
-      <div className="relative aspect-[16/9] w-full overflow-hidden bg-abyss-deep">
+      <div className="relative aspect-[16/9] w-full overflow-hidden bg-canvas-deep">
         <div className="grid-field absolute inset-0 opacity-50" />
-        <div className="absolute inset-y-0 left-0 w-1/3 animate-sweep bg-gradient-to-r from-transparent via-signal/10 to-transparent" />
+        <div className="absolute inset-y-0 left-0 w-1/3 animate-sweep bg-gradient-to-r from-transparent via-brand/10 to-transparent" />
       </div>
       <div className="h-16 border-t border-hairline" />
     </div>
@@ -58,20 +58,20 @@ function ProblemList() {
         >
           <span
             aria-hidden="true"
-            className="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-signal transition-transform duration-700 ease-out group-hover:scale-x-100"
+            className="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-brand transition-transform duration-700 ease-out group-hover:scale-x-100"
           />
           <div className="flex items-center gap-4">
-            <span className="readout text-2xl leading-none text-bone-faint transition-colors duration-300 group-hover:text-signal">
+            <span className="readout text-2xl leading-none text-ink-faint transition-colors duration-300 group-hover:text-brand">
               {String(index + 1).padStart(2, "0")}
             </span>
             <KuroshioIcon
-              className="size-5 text-bone-faint transition-colors duration-300 group-hover:text-signal"
+              className="size-5 text-ink-faint transition-colors duration-300 group-hover:text-brand"
               name={problem.icon}
               strokeWidth={1.5}
             />
           </div>
-          <h3 className="display-md text-bone">{problem.title}</h3>
-          <p className="text-[0.9375rem] leading-relaxed text-bone-dim">{problem.body}</p>
+          <h3 className="display-md text-ink">{problem.title}</h3>
+          <p className="text-[0.9375rem] leading-relaxed text-ink-dim">{problem.body}</p>
         </li>
       ))}
     </ol>
@@ -106,8 +106,8 @@ function Capabilities() {
                 className={cn(
                   "flex items-center gap-3 border-l py-3 pl-4 text-sm tracking-tight transition-colors",
                   active === index
-                    ? "border-signal text-bone"
-                    : "border-hairline text-bone-faint hover:text-bone-dim"
+                    ? "border-brand text-ink"
+                    : "border-hairline text-ink-faint hover:text-ink-dim"
                 )}
                 href={`#${CAPABILITY_META[index].anchor}`}
               >
@@ -132,20 +132,20 @@ function Capabilities() {
           >
             <div className="flex flex-col gap-5">
               <div className="flex items-center gap-3">
-                <span className="flex size-9 items-center justify-center border border-signal/40 bg-signal/8 text-signal">
+                <span className="flex size-9 items-center justify-center border border-brand/40 bg-brand/8 text-brand">
                   <KuroshioIcon className="size-4" name={product.icon} strokeWidth={1.75} />
                 </span>
-                <span className="tag-signal">{product.tag}</span>
+                <span className="tag-brand">{product.tag}</span>
               </div>
 
-              <h3 className="display-md max-w-md text-bone">{product.title}</h3>
+              <h3 className="display-md max-w-md text-ink">{product.title}</h3>
 
               <ul className="flex flex-col gap-3">
                 {product.bullets.map((bullet) => (
-                  <li className="flex gap-3 text-[0.9375rem] leading-relaxed text-bone-dim" key={bullet}>
+                  <li className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink-dim" key={bullet}>
                     <span
                       aria-hidden="true"
-                      className="mt-[0.55em] size-1 shrink-0 bg-signal"
+                      className="mt-[0.55em] size-1 shrink-0 bg-brand"
                     />
                     {bullet}
                   </li>
@@ -155,13 +155,13 @@ function Capabilities() {
 
             <div className="flex flex-col justify-between gap-6 border-hairline md:border-l md:pl-8">
               <div className="flex flex-col gap-1.5">
-                <span className="readout text-4xl leading-none text-signal">
+                <span className="readout text-4xl leading-none text-brand">
                   {CAPABILITY_META[index].metric}
                 </span>
                 <span className="tag">{CAPABILITY_META[index].metricLabel}</span>
               </div>
               <PageLink
-                className="flex w-fit items-center gap-2 text-sm font-medium tracking-tight text-bone-dim transition-colors hover:text-signal"
+                className="flex w-fit items-center gap-2 text-sm font-medium tracking-tight text-ink-dim transition-colors hover:text-brand"
                 page="platform"
               >
                 Technical detail
@@ -188,21 +188,21 @@ function Numbers() {
     <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4" ref={ref}>
       {homePage.numbers.map((item) => (
         <div
-          className="group flex flex-col gap-3 bg-abyss px-6 py-8 transition-colors hover:bg-panel/60"
+          className="group flex flex-col gap-3 bg-panel px-6 py-8 transition-colors hover:bg-brand-soft"
           key={item.title}
         >
           <KuroshioIcon
-            className="size-5 text-bone-faint transition-colors group-hover:text-signal"
+            className="size-5 text-ink-faint transition-colors group-hover:text-brand"
             name={item.icon}
             strokeWidth={1.5}
           />
           <div className="flex items-baseline gap-2">
-            <span className="readout text-5xl leading-none text-signal" data-count={item.value}>
+            <span className="readout text-5xl leading-none text-brand" data-count={item.value}>
               0
             </span>
-            <span className="display-md text-bone">{item.title}</span>
+            <span className="display-md text-ink">{item.title}</span>
           </div>
-          <p className="text-sm leading-relaxed text-bone-dim">{item.body}</p>
+          <p className="text-sm leading-relaxed text-ink-dim">{item.body}</p>
         </div>
       ))}
     </div>
@@ -218,7 +218,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
       <HeroSection />
 
       {/* -------------------------------------------------- the walkthrough */}
-      <Band id="walkthrough" tone="trench">
+      <Band id="walkthrough" tone="canvas-sunk">
         <div className="shell">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <SectionHead
@@ -227,7 +227,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
               index="01"
               title={
                 <>
-                  Thirty-five seconds <span className="text-signal">inside</span> the
+                  Thirty-five seconds <span className="text-brand">inside</span> the
                   platform.
                 </>
               }
@@ -266,7 +266,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
       </Band>
 
       {/* --------------------------------------------------- what you get */}
-      <Band tone="trench">
+      <Band tone="canvas-sunk">
         <div className="shell">
           <SectionHead
             body="One platform, four working surfaces. Each one runs on the same measured signal, so energy, health, and history never disagree."
@@ -276,7 +276,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
               <>
                 Measured signal in.
                 <br />
-                <span className="text-signal">Decisions</span> out.
+                <span className="text-brand">Decisions</span> out.
               </>
             }
           />
@@ -299,22 +299,22 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
           <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-3">
             {homePage.industries.map((industry) => (
               <article
-                className="group relative flex flex-col gap-4 bg-abyss p-7 transition-colors duration-300 hover:bg-panel/70"
+                className="group relative flex flex-col gap-4 bg-panel p-7 transition-colors duration-300 hover:bg-brand-soft"
                 data-reveal="up"
                 key={industry.title}
               >
                 <KuroshioIcon
-                  className="size-6 text-bone-faint transition-colors duration-300 group-hover:text-signal"
+                  className="size-6 text-ink-faint transition-colors duration-300 group-hover:text-brand"
                   name={industry.icon}
                   strokeWidth={1.4}
                 />
-                <h3 className="text-xl leading-tight font-semibold tracking-tight text-bone">
+                <h3 className="text-xl leading-tight font-semibold tracking-tight text-ink">
                   {industry.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-bone-dim">{industry.body}</p>
+                <p className="text-sm leading-relaxed text-ink-dim">{industry.body}</p>
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-500 ease-out group-hover:scale-x-100"
+                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"
                 />
               </article>
             ))}
@@ -325,14 +325,14 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
       </Band>
 
       {/* --------------------------------------------------------------- cta */}
-      <section className="relative overflow-hidden border-t border-hairline bg-abyss-deep">
+      <section className="relative overflow-hidden border-t border-hairline bg-canvas-deep">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="grid-field-fine absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(18,160,140,0.22),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(9,76,178,0.10),transparent_70%)]" />
         </div>
 
         <div className="shell relative flex flex-col items-start gap-8 py-24 md:py-32">
-          <span className="tag-signal" data-reveal="fade">
+          <span className="tag-brand" data-reveal="fade">
             {homePage.cta.badge}
           </span>
           <h2 className="display-lg max-w-3xl" data-reveal="up">
@@ -342,7 +342,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
             {homePage.cta.body}
           </p>
           <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
-            <button className="btn-signal" onClick={() => onNavigate("contact")} type="button">
+            <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">
               {homePage.cta.action}
               <ArrowRight aria-hidden="true" className="size-4" />
             </button>

@@ -28,13 +28,13 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
 
         <div className="shell relative flex flex-col gap-7 py-24 md:py-32">
           <div className="flex items-center gap-4" data-reveal="fade">
-            <span className="tag-signal">Industries</span>
+            <span className="tag-brand">Industries</span>
             <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
             <span className="tag">Heavy manufacturing · UAE &amp; GCC</span>
           </div>
           <h1 className="display-xl max-w-[16ch]" data-reveal="up">
             Industrial intelligence built around your{" "}
-            <span className="text-signal">machines.</span>
+            <span className="text-brand">machines.</span>
           </h1>
           <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
             {industriesPage.description}
@@ -57,19 +57,19 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
                 <div className="panel corner-marks group relative overflow-hidden">
                   <img
                     alt={sector.imageAlt}
-                    className="aspect-[4/3] w-full object-cover opacity-70 grayscale-[0.35] transition duration-700 group-hover:scale-[1.03] group-hover:opacity-90 group-hover:grayscale-0"
+                    className="aspect-[4/3] w-full object-cover grayscale-[0.55] transition duration-700 group-hover:scale-[1.03] group-hover:grayscale-0"
                     loading="lazy"
                     src={sector.image}
                   />
                   <div
                     aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-abyss via-abyss/25 to-transparent"
+                    className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand/25 via-transparent to-transparent"
                   />
                   <div
                     aria-hidden="true"
                     className="grid-field-fine pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay"
                   />
-                  <span className="tag-signal absolute top-4 left-4">
+                  <span className="tag-brand absolute top-4 left-4 border border-brand-line bg-panel px-2 py-1">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
@@ -84,26 +84,26 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
                 </p>
 
                 <div className="mt-2 grid gap-px border border-hairline bg-hairline sm:grid-cols-2" data-reveal="up">
-                  <div className="flex flex-col gap-3 bg-abyss p-5">
+                  <div className="flex flex-col gap-3 bg-canvas p-5">
                     <span className="tag">Machines watched</span>
                     <ul className="flex flex-col gap-2">
                       {sector.machines.map((machine) => (
-                        <li className="text-sm tracking-tight text-bone" key={machine}>
+                        <li className="text-sm tracking-tight text-ink" key={machine}>
                           {machine}
                         </li>
                       ))}
                     </ul>
                   </div>
-                  <div className="flex flex-col gap-3 bg-abyss p-5">
+                  <div className="flex flex-col gap-3 bg-canvas p-5">
                     <span className="tag">Signals read</span>
                     <ul className="flex flex-col gap-2">
-                      {sector.signals.map((signal) => (
+                      {sector.signals.map((signalName) => (
                         <li
-                          className="readout flex items-center gap-2 text-sm text-signal"
-                          key={signal}
+                          className="readout flex items-center gap-2 text-sm text-brand"
+                          key={signalName}
                         >
-                          <span aria-hidden="true" className="size-1 bg-signal" />
-                          {signal}
+                          <span aria-hidden="true" className="size-1 bg-brand" />
+                          {signalName}
                         </li>
                       ))}
                     </ul>
@@ -116,7 +116,7 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
       </Band>
 
       {/* ------------------------------------------------------- sector grid */}
-      <Band tone="trench">
+      <Band tone="canvas-sunk">
         <div className="shell">
           <SectionHead
             body="The same sensing layer reads any three-phase asset. These are the sectors already running on it across RAK, Dubai, Sharjah, and Umm Al Quwain."
@@ -128,22 +128,22 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
           <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-3">
             {homePage.industries.map((industry) => (
               <article
-                className="group relative flex flex-col gap-4 bg-abyss p-7 transition-colors duration-300 hover:bg-panel/70"
+                className="group relative flex flex-col gap-4 bg-panel p-7 transition-colors duration-300 hover:bg-brand-soft"
                 data-reveal="up"
                 key={industry.title}
               >
                 <KuroshioIcon
-                  className="size-6 text-bone-faint transition-colors duration-300 group-hover:text-signal"
+                  className="size-6 text-ink-faint transition-colors duration-300 group-hover:text-brand"
                   name={industry.icon}
                   strokeWidth={1.4}
                 />
-                <h3 className="text-xl leading-tight font-semibold tracking-tight text-bone">
+                <h3 className="text-xl leading-tight font-semibold tracking-tight text-ink">
                   {industry.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-bone-dim">{industry.body}</p>
+                <p className="text-sm leading-relaxed text-ink-dim">{industry.body}</p>
                 <span
                   aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-500 ease-out group-hover:scale-x-100"
+                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"
                 />
               </article>
             ))}
@@ -151,17 +151,17 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
         </div>
       </Band>
 
-      <section className="relative overflow-hidden border-t border-hairline bg-abyss-deep">
+      <section className="relative overflow-hidden border-t border-hairline bg-canvas-deep">
         <div aria-hidden="true" className="pointer-events-none absolute inset-0">
           <div className="grid-field-fine absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(18,160,140,0.2),transparent_70%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(9,76,178,0.10),transparent_70%)]" />
         </div>
         <div className="shell relative flex flex-col items-start gap-7 py-24 md:py-32">
           <h2 className="display-lg max-w-3xl" data-reveal="up">
             {industriesPage.cta.title}
           </h2>
           <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.1">
-            <button className="btn-signal" onClick={() => onNavigate("contact")} type="button">
+            <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">
               {industriesPage.cta.action}
               <ArrowRight aria-hidden="true" className="size-4" />
             </button>

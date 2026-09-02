@@ -27,9 +27,9 @@ const LINE = SAMPLES.map((p, i) => `${i === 0 ? "M" : "L"}${p.x.toFixed(1)} ${p.
 const AREA = `${LINE} L${W} ${H} L0 ${H} Z`;
 
 const ROWS = [
-  { name: "Extrusion Line 02", type: "Unit 4 · Extruder", state: "Running", kw: 61.4, tone: C.signal },
+  { name: "Extrusion Line 02", type: "Unit 4 · Extruder", state: "Running", kw: 61.4, tone: C.brand },
   { name: "Cooling Pump Skid", type: "Unit 6 · Centrifugal", state: "Idle", kw: 12.8, tone: C.flare },
-  { name: "Hydraulic Press", type: "Unit 5 · Press", state: "Running", kw: 44.2, tone: C.signal },
+  { name: "Hydraulic Press", type: "Unit 5 · Press", state: "Running", kw: 44.2, tone: C.brand },
 ];
 
 export function SceneEnergy() {
@@ -57,7 +57,7 @@ export function SceneEnergy() {
       <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 40 }}>
         <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
           <Rise delay={0}>
-            <Mono color={C.signal}>EnergyIQ</Mono>
+            <Mono color={C.brand}>EnergyIQ</Mono>
           </Rise>
           <Rise delay={4}>
             <Headline size={62}>Every kilowatt, addressed.</Headline>
@@ -76,8 +76,8 @@ export function SceneEnergy() {
           <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "100%" }}>
             <defs>
               <linearGradient id="kw-fill" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor={C.signal} stopOpacity="0.38" />
-                <stop offset="100%" stopColor={C.signal} stopOpacity="0" />
+                <stop offset="0%" stopColor={C.brand} stopOpacity="0.38" />
+                <stop offset="100%" stopColor={C.brand} stopOpacity="0" />
               </linearGradient>
               <clipPath id="kw-clip">
                 <rect x="0" y="0" width={W * draw} height={H} />
@@ -93,7 +93,7 @@ export function SceneEnergy() {
 
             <g clipPath="url(#kw-clip)">
               <path d={AREA} fill="url(#kw-fill)" />
-              <path d={LINE} fill="none" stroke={C.signal} strokeWidth={2.4} strokeLinejoin="round" />
+              <path d={LINE} fill="none" stroke={C.brand} strokeWidth={2.4} strokeLinejoin="round" />
             </g>
 
             <g opacity={idleReveal}>
@@ -127,9 +127,9 @@ export function SceneEnergy() {
 
             {draw < 1 ? (
               <g>
-                <line x1={head.x} y1={0} x2={head.x} y2={H} stroke={C.signal} strokeWidth={1} opacity={0.5} />
-                <circle cx={head.x} cy={head.y} r={5} fill={C.signal} />
-                <circle cx={head.x} cy={head.y} r={12} fill="none" stroke={C.signal} strokeWidth={1} opacity={0.4} />
+                <line x1={head.x} y1={0} x2={head.x} y2={H} stroke={C.brand} strokeWidth={1} opacity={0.5} />
+                <circle cx={head.x} cy={head.y} r={5} fill={C.brand} />
+                <circle cx={head.x} cy={head.y} r={12} fill="none" stroke={C.brand} strokeWidth={1} opacity={0.4} />
               </g>
             ) : null}
           </svg>
@@ -141,7 +141,7 @@ export function SceneEnergy() {
               <div
                 style={{
                   border: `1px solid ${C.hairline}`,
-                  background: "rgba(10,35,49,0.66)",
+                  background: C.panel,
                   padding: "14px 16px",
                   display: "flex",
                   flexDirection: "column",
@@ -149,7 +149,7 @@ export function SceneEnergy() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <Mono size={12} color={C.bone}>{row.name}</Mono>
+                  <Mono size={12} color={C.ink}>{row.name}</Mono>
                   <span
                     style={{
                       fontFamily: F.mono,
@@ -170,7 +170,7 @@ export function SceneEnergy() {
                   </Readout>
                   <Mono size={12}>kW</Mono>
                 </div>
-                <div style={{ height: 4, background: "rgba(147,202,205,0.10)" }}>
+                <div style={{ height: 4, background: C.canvasSunk }}>
                   <div
                     style={{
                       height: "100%",
@@ -189,7 +189,7 @@ export function SceneEnergy() {
             <div
               style={{
                 border: `1px solid rgba(255,148,72,0.42)`,
-                background: "rgba(255,148,72,0.07)",
+                background: C.flareSoft,
                 padding: "14px 16px",
                 display: "flex",
                 justifyContent: "space-between",

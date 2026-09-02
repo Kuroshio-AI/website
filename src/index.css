@@ -6,16 +6,16 @@
 @import "shadcn/tailwind.css";
 
 /* ==========================================================================
-   KUROSHIO AI — "ABYSSAL INSTRUMENT"
-   A deep-ocean control room. Near-black trench ground, hairline instrument
-   rules, monospaced telemetry, and one luminous current running through it.
+   KUROSHIO AI — "INK ON PAPER"
+   Off-white ground, white instrument panels, hairline rules, monospaced
+   telemetry, and the platform's own blue (#094cb2) as the single signal.
+   Palette is lifted from the product dashboard so the site and the app read
+   as one system.
    ========================================================================== */
 
-@custom-variant light (&:is(.light *));
-
 @theme inline {
-  --font-display: "Bricolage Grotesque Variable", "Archivo Variable", sans-serif;
-  --font-heading: "Bricolage Grotesque Variable", "Archivo Variable", sans-serif;
+  --font-display: "Bricolage Grotesque Variable", sans-serif;
+  --font-heading: "Bricolage Grotesque Variable", sans-serif;
   --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
 
@@ -39,24 +39,29 @@
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* brand surface scale */
-  --color-abyss: var(--abyss);
-  --color-abyss-deep: var(--abyss-deep);
-  --color-trench: var(--trench);
+  /* surfaces, lightest ground to deepest tint */
+  --color-canvas: var(--canvas);
+  --color-canvas-sunk: var(--canvas-sunk);
+  --color-canvas-deep: var(--canvas-deep);
   --color-panel: var(--panel);
-  --color-panel-raised: var(--panel-raised);
+  --color-panel-sunk: var(--panel-sunk);
 
-  /* brand signal scale */
-  --color-signal: var(--signal);
-  --color-signal-deep: var(--signal-deep);
+  /* signal */
+  --color-brand: var(--brand);
+  --color-brand-deep: var(--brand-deep);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-line: var(--brand-line);
   --color-flare: var(--flare);
-  --color-flare-deep: var(--flare-deep);
+  --color-flare-soft: var(--flare-soft);
   --color-fault: var(--fault);
+  --color-fault-soft: var(--fault-soft);
+  --color-ok: var(--ok);
+  --color-ok-soft: var(--ok-soft);
 
-  /* brand ink scale */
-  --color-bone: var(--bone);
-  --color-bone-dim: var(--bone-dim);
-  --color-bone-faint: var(--bone-faint);
+  /* ink */
+  --color-ink: var(--ink);
+  --color-ink-dim: var(--ink-dim);
+  --color-ink-faint: var(--ink-faint);
   --color-hairline: var(--hairline);
   --color-hairline-strong: var(--hairline-strong);
 
@@ -69,46 +74,56 @@
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  --abyss: #04101a;
-  --abyss-deep: #010810;
-  --trench: #071a26;
-  --panel: #0a2331;
-  --panel-raised: #0e2c3c;
+  --canvas: #fafafa;
+  --canvas-sunk: #f4f5f8;
+  --canvas-deep: #eef1f6;
+  --panel: #ffffff;
+  --panel-sunk: #f7f8fa;
 
-  --signal: #3fe0c5;
-  --signal-deep: #12a08c;
-  --flare: #ff9448;
-  --flare-deep: #c96a22;
-  --fault: #ff5f56;
+  /* the dashboard's own --brand-focus and friends */
+  --brand: #094cb2;
+  --brand-deep: #133976;
+  --brand-soft: #f0f5ff;
+  --brand-line: #dee8ff;
 
-  --bone: #eaf2f0;
-  --bone-dim: #93aaaf;
-  --bone-faint: #6e858b;
+  --flare: #8a5a00;
+  --flare-soft: #fdf8e8;
+  --fault: #a5241c;
+  --fault-soft: #fdeceb;
+  --ok: #1a6b47;
+  --ok-soft: #eefaf3;
 
-  --hairline: rgba(147, 202, 205, 0.14);
-  --hairline-strong: rgba(147, 202, 205, 0.3);
+  --ink: #27272a;
+  --ink-dim: #52525b;
+  --ink-faint: #6b6b73;
+
+  --hairline: rgba(39, 39, 42, 0.1);
+  --hairline-strong: rgba(39, 39, 42, 0.2);
+
+  --shadow-panel: 0 1px 2px rgba(39, 39, 42, 0.05);
+  --shadow-raised: 0 2px 6px rgba(39, 39, 42, 0.07);
 
   /* shadcn semantic map */
-  --background: var(--abyss);
-  --foreground: var(--bone);
+  --background: var(--canvas);
+  --foreground: var(--ink);
   --card: var(--panel);
-  --card-foreground: var(--bone);
-  --popover: var(--panel-raised);
-  --popover-foreground: var(--bone);
-  --primary: var(--signal);
-  --primary-foreground: var(--abyss-deep);
-  --secondary: var(--panel-raised);
-  --secondary-foreground: var(--bone);
-  --muted: var(--trench);
-  --muted-foreground: var(--bone-dim);
-  --accent: var(--panel-raised);
-  --accent-foreground: var(--signal);
+  --card-foreground: var(--ink);
+  --popover: var(--panel);
+  --popover-foreground: var(--ink);
+  --primary: var(--brand);
+  --primary-foreground: #ffffff;
+  --secondary: var(--canvas-sunk);
+  --secondary-foreground: var(--ink);
+  --muted: var(--canvas-sunk);
+  --muted-foreground: var(--ink-dim);
+  --accent: var(--brand-soft);
+  --accent-foreground: var(--brand);
   --destructive: var(--fault);
   --border: var(--hairline);
   --input: var(--hairline-strong);
-  --ring: var(--signal);
+  --ring: var(--brand);
   --radius: 3px;
 }
 
@@ -152,14 +167,14 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--signal);
+    outline: 2px solid var(--brand);
     outline-offset: 3px;
     border-radius: 2px;
   }
 
   ::selection {
-    background: var(--signal);
-    color: var(--abyss-deep);
+    background: var(--brand-line);
+    color: var(--brand-deep);
   }
 
   ::-webkit-scrollbar {
@@ -168,16 +183,16 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--abyss-deep);
+    background: var(--canvas-sunk);
   }
 
   ::-webkit-scrollbar-thumb {
-    background: #16404f;
-    border: 2px solid var(--abyss-deep);
+    background: #c7cdd6;
+    border: 2px solid var(--canvas-sunk);
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--signal-deep);
+    background: var(--brand);
   }
 }
 
@@ -230,17 +245,17 @@
   }
 
   .lede {
-    @apply text-[1.0625rem] leading-[1.62] text-bone-dim sm:text-[1.1875rem];
+    @apply text-[1.0625rem] leading-[1.62] text-ink-dim sm:text-[1.1875rem];
   }
 
   .tag {
     font-family: var(--font-mono);
-    @apply text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-bone-faint;
+    @apply text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-ink-faint;
   }
 
-  .tag-signal {
+  .tag-brand {
     font-family: var(--font-mono);
-    @apply text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-signal;
+    @apply text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-brand;
   }
 
   .readout {
@@ -251,11 +266,12 @@
 
   /* ---- instrument chrome ---- */
   .panel {
-    @apply relative border border-hairline bg-panel/60 backdrop-blur-[2px];
+    @apply relative border border-hairline bg-panel;
+    box-shadow: var(--shadow-panel);
   }
 
-  .panel-raised {
-    @apply relative border border-hairline bg-panel-raised;
+  .panel-sunk {
+    @apply relative border border-hairline bg-panel-sunk;
   }
 
   .rule-t {
@@ -287,68 +303,56 @@
   }
 
   /* ---- buttons ---- */
-  .btn-signal {
+  .btn-brand {
     @apply relative inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden
-      bg-signal px-6 py-3 text-sm font-semibold tracking-tight text-abyss-deep
-      transition-[transform,box-shadow] duration-200 ease-out;
+      bg-brand px-6 py-3 text-sm font-semibold tracking-tight text-white
+      transition-[transform,box-shadow,background-color] duration-200 ease-out;
     border-radius: 2px;
-    box-shadow: 0 0 0 0 rgba(63, 224, 197, 0);
+    box-shadow: 0 1px 2px rgba(9, 76, 178, 0.18);
   }
 
-  .btn-signal:hover {
-    box-shadow: 0 0 28px -6px rgba(63, 224, 197, 0.6);
+  .btn-brand:hover {
+    background: var(--brand-deep);
+    box-shadow: 0 6px 16px -6px rgba(9, 76, 178, 0.55);
     transform: translateY(-1px);
   }
 
-  .btn-signal:active {
+  .btn-brand:active {
     transform: translateY(0);
   }
 
   .btn-ghost {
     @apply inline-flex min-h-11 items-center justify-center gap-2 border border-hairline-strong
-      bg-transparent px-6 py-3 text-sm font-semibold tracking-tight text-bone
-      transition-colors duration-200 hover:border-signal hover:text-signal;
+      bg-panel px-6 py-3 text-sm font-semibold tracking-tight text-ink
+      transition-colors duration-200 hover:border-brand hover:text-brand;
     border-radius: 2px;
+    box-shadow: var(--shadow-panel);
   }
 
   /* ---- backgrounds ---- */
   .grid-field {
     background-image:
-      linear-gradient(var(--hairline) 1px, transparent 1px),
-      linear-gradient(90deg, var(--hairline) 1px, transparent 1px);
+      linear-gradient(rgba(9, 76, 178, 0.07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(9, 76, 178, 0.07) 1px, transparent 1px);
     background-size: 72px 72px;
     background-position: center;
   }
 
   .grid-field-fine {
     background-image:
-      linear-gradient(rgba(147, 202, 205, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(147, 202, 205, 0.07) 1px, transparent 1px);
+      linear-gradient(rgba(9, 76, 178, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(9, 76, 178, 0.05) 1px, transparent 1px);
     background-size: 18px 18px;
   }
 
-  .noise::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.4;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E");
-  }
-
   .vignette {
-    background: radial-gradient(120% 80% at 50% 0%, transparent 20%, var(--abyss) 78%);
+    background: radial-gradient(120% 80% at 50% 0%, transparent 20%, var(--canvas) 80%);
   }
 }
 
 @layer utilities {
-  .glow-signal {
-    box-shadow: 0 0 40px -12px rgba(63, 224, 197, 0.55);
-  }
-
-  .text-glow {
-    text-shadow: 0 0 24px rgba(63, 224, 197, 0.45);
+  .glow-brand {
+    box-shadow: 0 0 0 4px rgba(9, 76, 178, 0.12);
   }
 
   .mask-fade-b {
@@ -358,7 +362,6 @@
   .mask-fade-x {
     mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
   }
-
 }
 
 @keyframes pulse-dot {
@@ -416,5 +419,4 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-
 }
