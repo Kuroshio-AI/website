@@ -229,7 +229,10 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
             </p>
           </div>
 
-          <div className="mt-12" data-reveal="scale">
+          {/* Deliberately not [data-reveal]: this is the section's payload, not
+              decoration. Gating it behind a scroll trigger left its reserved
+              ~790px sitting empty until GSAP got around to fading it in. */}
+          <div className="mt-12">
             <ChunkBoundary fallback={<DemoPoster failed />}>
               <Suspense fallback={<DemoPoster />}>
                 <PlatformDemo />

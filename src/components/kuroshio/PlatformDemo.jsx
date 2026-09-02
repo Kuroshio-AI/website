@@ -2,6 +2,7 @@ import { Player } from "@remotion/player";
 import { Maximize2, Pause, Play, RotateCcw } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
+import { DemoPoster } from "@/components/kuroshio/DemoPoster";
 import { KuroshioDemo } from "@/remotion/KuroshioDemo";
 import { CHAPTERS, VIDEO } from "@/remotion/theme";
 import { cn } from "@/lib/utils";
@@ -119,6 +120,7 @@ export function PlatformDemo() {
         fps={VIDEO.fps}
         loop
         ref={playerRef}
+        renderLoading={() => <DemoPoster />}
         spaceKeyToPlayOrPause={false}
         style={PLAYER_STYLE}
       />
