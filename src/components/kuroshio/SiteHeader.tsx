@@ -4,45 +4,11 @@ import { useEffect, useState } from "react";
 import { PageLink } from "@/components/kuroshio/PageLink";
 import { Wordmark } from "@/components/kuroshio/Wordmark";
 import { navItems } from "@/data/mockData";
-import type { PageId } from "@/data/mockData";
+import type { RouteId } from "@/data/mockData";
 import { cn } from "@/lib/utils";
 
 interface SiteHeaderProps {
-  readonly activePage: PageId;
-}
-
-const TICKER = [
-  "RAK · GLASS LINE 04 · 61.4 kW",
-  "DUBAI · CHILLER A · HEALTH 94",
-  "SHARJAH · PRESS 02 · IDLE 42m",
-  "UAQ · GRANULATOR 01 · 18.2 kW",
-  "RAK · FURNACE 01 · HEALTH 88",
-  "DUBAI · PUMP SKID · CO₂e 186 kg",
-];
-
-function Ticker() {
-  const line = [...TICKER, ...TICKER];
-
-  return (
-    <div className="relative hidden h-7 items-center overflow-hidden border-b border-hairline bg-canvas-deep md:flex">
-      <span className="z-10 flex h-full shrink-0 items-center gap-2 border-r border-hairline bg-canvas-deep pr-3 pl-5 lg:pl-12">
-        <span className="size-1.5 rounded-full bg-brand animate-pulse-dot" />
-        <span className="tag text-[0.625rem] text-ink-faint">Demo feed</span>
-      </span>
-      <div className="mask-fade-x flex min-w-0 flex-1 overflow-hidden">
-        <div className="animate-ticker flex shrink-0 whitespace-nowrap">
-          {line.map((item, index) => (
-            <span
-              className="readout px-6 text-[0.6875rem] tracking-[0.16em] text-ink-faint uppercase"
-              key={`${item}-${index}`}
-            >
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  readonly activePage: RouteId;
 }
 
 export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
@@ -65,8 +31,6 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
 
   return (
     <header className="sticky top-0 z-50">
-      <Ticker />
-
       <div
         className={cn(
           "border-b transition-colors duration-300",

@@ -42,13 +42,13 @@ function AnchorRail() {
 
   return (
     <div
-      className="sticky top-[96px] z-30 border-y border-hairline bg-canvas/92 backdrop-blur-xl"
+      className="sticky top-[68px] z-30 border-y border-hairline bg-canvas/92 backdrop-blur-xl"
       ref={railRef}
     >
       <nav aria-label="Platform sections" className="shell mask-fade-x flex gap-1 overflow-x-auto py-2">
         {platformPage.anchorNav.map((item) => (
           <a
-            aria-current={active === item.id ? "true" : undefined}
+            aria-current={active === item.id ? "location" : undefined}
             className={cn(
               "flex shrink-0 items-center gap-2 border px-3.5 py-2 text-[0.8125rem] tracking-tight whitespace-nowrap transition-colors",
               active === item.id

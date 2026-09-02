@@ -198,7 +198,7 @@ export function PlatformDemo() {
 
           return (
             <button
-              aria-current={isActive ? "true" : undefined}
+              aria-current={isActive ? "location" : undefined}
               className={cn(
                 "group relative overflow-hidden border px-3 py-3 text-left transition-colors",
                 isActive

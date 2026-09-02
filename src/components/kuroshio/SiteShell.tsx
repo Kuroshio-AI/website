@@ -2,10 +2,10 @@ import type { ReactNode } from "react";
 
 import { SiteFooter } from "@/components/kuroshio/SiteFooter";
 import { SiteHeader } from "@/components/kuroshio/SiteHeader";
-import type { PageId } from "@/data/mockData";
+import type { RouteId } from "@/data/mockData";
 
 export interface SiteShellProps {
-  readonly activePage: PageId;
+  readonly activePage: RouteId;
   readonly children: ReactNode;
 }
 

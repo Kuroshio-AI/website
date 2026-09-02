@@ -1,5 +1,8 @@
 export type PageId = "home" | "platform" | "industries" | "about" | "contact";
 
+/** Every renderable route, including the catch-all. */
+export type RouteId = PageId | "notFound";
+
 export type IconKey =
   | "activity"
   | "arrowRight"
@@ -161,32 +164,6 @@ export const homePage = {
       title: "Building & Utilities",
       body: "HVAC, chiller, and pump efficiency monitoring with demand-side management alerts for commercial facilities.",
       icon: "building",
-    },
-  ],
-  numbers: [
-    {
-      value: "4",
-      title: "Emirates",
-      body: "RAK, Dubai, Sharjah, and Umm Al Quwain",
-      icon: "mapPin",
-    },
-    {
-      value: "6",
-      title: "Industries",
-      body: "Glass, plastics, aluminium, rubber, minerals, and buildings",
-      icon: "factory",
-    },
-    {
-      value: "4",
-      title: "Capabilities",
-      body: "EnergyIQ, Predictive Maintenance, Digital Logbook, and Carbon Tracking",
-      icon: "gauge",
-    },
-    {
-      value: "1",
-      title: "Platform",
-      body: "One dashboard for all your machines, all your data, across every site",
-      icon: "cloud",
     },
   ],
   cta: {

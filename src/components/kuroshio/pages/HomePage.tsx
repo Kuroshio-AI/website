@@ -1,6 +1,7 @@
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Suspense, lazy, useRef, useState } from "react";
 
+import { HardwareDiagram } from "@/components/kuroshio/HardwareDiagram";
 import { KuroshioIcon } from "@/components/kuroshio/IconMap";
 import { PageLink } from "@/components/kuroshio/PageLink";
 import { Band, SectionHead } from "@/components/kuroshio/Sections";
@@ -9,7 +10,7 @@ import { PipelineSection } from "@/components/kuroshio/home/PipelineSection";
 import { homePage } from "@/data/mockData";
 import type { PageId } from "@/data/mockData";
 import { usePageMotion } from "@/hooks/usePageMotion";
-import { ScrollTrigger, countUp } from "@/lib/motion";
+import { ScrollTrigger } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 // Remotion + the composition are ~40% of the bundle; keep them out of the
@@ -102,7 +103,7 @@ function Capabilities() {
           {homePage.products.map((product, index) => (
             <li key={product.tag}>
               <a
-                aria-current={active === index ? "true" : undefined}
+                aria-current={active === index ? "location" : undefined}
                 className={cn(
                   "flex items-center gap-3 border-l py-3 pl-4 text-sm tracking-tight transition-colors",
                   active === index
@@ -175,36 +176,40 @@ function Capabilities() {
   );
 }
 
-function Numbers() {
-  const ref = useRef<HTMLDivElement>(null);
+const PILOT_TERMS = [
+  ["Scope", "One machine, your choice"],
+  ["Duration", "Four weeks, start to report"],
+  ["Install", "3–4 hours, no production stoppage"],
+  ["Your maximum risk", "AED 1,500"],
+  ["If you see no value", "75% of the fee refunded"],
+];
 
-  usePageMotion(ref, (scope: HTMLElement) => {
-    scope.querySelectorAll<HTMLElement>("[data-count]").forEach((node) => {
-      countUp(node, Number(node.dataset.count));
-    });
-  });
-
+function PilotOffer() {
   return (
-    <div className="mt-14 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-4" ref={ref}>
-      {homePage.numbers.map((item) => (
-        <div
-          className="group flex flex-col gap-3 bg-panel px-6 py-8 transition-colors hover:bg-brand-soft"
-          key={item.title}
-        >
-          <KuroshioIcon
-            className="size-5 text-ink-faint transition-colors group-hover:text-brand"
-            name={item.icon}
-            strokeWidth={1.5}
-          />
-          <div className="flex items-baseline gap-2">
-            <span className="readout text-5xl leading-none text-brand" data-count={item.value}>
-              0
-            </span>
-            <span className="display-md text-ink">{item.title}</span>
-          </div>
-          <p className="text-sm leading-relaxed text-ink-dim">{item.body}</p>
+    <div className="mt-14 grid gap-px border border-hairline bg-hairline lg:grid-cols-[1fr_1.15fr]">
+      <div className="flex flex-col gap-6 bg-panel p-7 md:p-9" data-reveal="up">
+        <span className="tag-brand">The pilot</span>
+        <dl className="flex flex-col divide-y divide-hairline border-y border-hairline">
+          {PILOT_TERMS.map(([label, value]) => (
+            <div className="flex flex-wrap items-baseline justify-between gap-3 py-4" key={label}>
+              <dt className="tag">{label}</dt>
+              <dd className="readout text-right text-sm text-ink">{value}</dd>
+            </div>
+          ))}
+        </dl>
+        <p className="text-sm leading-relaxed text-ink-dim">
+          You keep the report either way. If the numbers do not justify going
+          further, we refund three quarters of the fee and take the hardware back.
+        </p>
+      </div>
+
+      <div className="flex flex-col gap-5 bg-panel p-7 md:p-9" data-reveal="up" data-reveal-delay="0.08">
+        <div className="flex items-baseline justify-between gap-4">
+          <span className="tag-brand">What gets installed</span>
+          <span className="tag">2 parts</span>
         </div>
-      ))}
+        <HardwareDiagram className="w-full" />
+      </div>
     </div>
   );
 }
@@ -296,31 +301,34 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
             title="Built around the machines you already own."
           />
 
-          <div className="mt-14 grid gap-px border border-hairline bg-hairline md:grid-cols-2 lg:grid-cols-3">
+          <ul className="mt-12 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3" data-reveal="up">
             {homePage.industries.map((industry) => (
-              <article
-                className="group relative flex flex-col gap-4 bg-panel p-7 transition-colors duration-300 hover:bg-brand-soft"
-                data-reveal="up"
+              <li
+                className="flex items-center gap-3 bg-panel px-5 py-4"
                 key={industry.title}
               >
                 <KuroshioIcon
-                  className="size-6 text-ink-faint transition-colors duration-300 group-hover:text-brand"
+                  className="size-4 shrink-0 text-brand"
                   name={industry.icon}
-                  strokeWidth={1.4}
+                  strokeWidth={1.6}
                 />
-                <h3 className="text-xl leading-tight font-semibold tracking-tight text-ink">
+                <span className="text-sm font-medium tracking-tight text-ink">
                   {industry.title}
-                </h3>
-                <p className="text-sm leading-relaxed text-ink-dim">{industry.body}</p>
-                <span
-                  aria-hidden="true"
-                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"
-                />
-              </article>
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
 
-          <Numbers />
+          <PageLink
+            className="mt-6 inline-flex items-center gap-2 text-sm font-medium tracking-tight text-brand hover:underline"
+            data-reveal="fade"
+            page="industries"
+          >
+            See what we read on each line
+            <ArrowUpRight aria-hidden="true" className="size-4" />
+          </PageLink>
+
+          <PilotOffer />
         </div>
       </Band>
 
@@ -339,7 +347,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
             {homePage.cta.title}
           </h2>
           <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
-            {homePage.cta.body}
+            One machine, four weeks, and a report you keep either way.
           </p>
           <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
             <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">

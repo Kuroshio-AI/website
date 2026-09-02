@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 
-import type { PageId } from "@/data/mockData";
+import type { RouteId } from "@/data/mockData";
 
-const pageMetadata: Readonly<Record<PageId, { readonly description: string; readonly title: string }>> = {
+const pageMetadata: Readonly<Record<RouteId, { readonly description: string; readonly title: string }>> = {
   home: {
     title: "Kuroshio AI | Industrial Intelligence for UAE Manufacturing",
     description:
@@ -28,9 +28,14 @@ const pageMetadata: Readonly<Record<PageId, { readonly description: string; read
     description:
       "Request a Kuroshio AI demo or contact our UAE and India teams about energy monitoring, predictive maintenance, and digital logbooks.",
   },
+  notFound: {
+    title: "Page not found | Kuroshio AI",
+    description:
+      "That Kuroshio AI page could not be found. Browse the platform, industries, about, and contact pages instead.",
+  },
 };
 
-export function usePageMetadata(page: PageId) {
+export function usePageMetadata(page: RouteId) {
   useEffect(() => {
     const metadata = pageMetadata[page];
     const description = document.querySelector<HTMLMetaElement>('meta[name="description"]');

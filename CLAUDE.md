@@ -36,6 +36,14 @@ Notes:
 - `html { scroll-behavior: smooth }` fights programmatic scrolling. Set
   `document.documentElement.style.scrollBehavior = 'auto'` first.
 
+## Contact form
+
+The contact form posts through EmailJS and reads three `VITE_EMAILJS_*` vars.
+Vite inlines them at **build** time, so they must exist in the build
+environment. When any is missing the form fails closed — the visitor gets a
+generic error and the lead is dropped with no server-side trace. After
+changing build config, submit the form once and confirm the success message.
+
 ## Dev server
 
 Port 5173 is usually taken by OrbStack on this machine. `vite.config.js` reads

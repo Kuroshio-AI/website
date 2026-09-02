@@ -1,10 +1,10 @@
 import { PageLink } from "@/components/kuroshio/PageLink";
 import { CurrentMark } from "@/components/kuroshio/Wordmark";
 import { contactPage, navItems } from "@/data/mockData";
-import type { PageId } from "@/data/mockData";
+import type { RouteId } from "@/data/mockData";
 
 interface SiteFooterProps {
-  readonly activePage: PageId;
+  readonly activePage: RouteId;
 }
 
 const CREDENTIALS = [

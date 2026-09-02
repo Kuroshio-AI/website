@@ -81,7 +81,7 @@ export function PipelineSection() {
 
       {/* Pinned, scrub-driven pipeline — desktop */}
       <div
-        className="hidden min-h-[calc(100svh-96px)] flex-col justify-center py-16 lg:flex"
+        className="hidden min-h-[calc(100svh-68px)] flex-col justify-center py-16 lg:flex"
         ref={stageRef}
       >
         <div className="shell w-full">

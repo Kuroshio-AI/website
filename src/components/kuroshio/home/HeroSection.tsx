@@ -75,7 +75,7 @@ export function HeroSection() {
         <div className="vignette absolute inset-0" />
       </div>
 
-      <div className="shell relative flex min-h-[calc(94svh-96px)] flex-col justify-center pt-20 pb-14 md:pt-28">
+      <div className="shell relative flex min-h-[calc(94svh-68px)] flex-col justify-center pt-20 pb-14 md:pt-28">
         <div className="flex items-center gap-4" data-hero-eyebrow>
           <span className="size-1.5 shrink-0 rounded-full bg-brand animate-pulse-dot" />
           <span className="tag">Industrial intelligence · UAE &amp; GCC</span>

@@ -1,16 +1,19 @@
 import { useCallback, useEffect, useState } from "react";
 
-import type { PageId } from "@/data/mockData";
+import type { PageId, RouteId } from "@/data/mockData";
 import { getScrollBehavior } from "@/lib/utils";
 
 const pageIds: ReadonlyArray<PageId> = ["home", "platform", "industries", "about", "contact"];
 
-function normalizePage(value: string): PageId {
+function normalizePage(value: string): RouteId {
   const cleanValue = value.replace(/^#\/?/, "").replace(/^\//, "").trim();
-  return pageIds.includes(cleanValue as PageId) ? (cleanValue as PageId) : "home";
+  if (cleanValue === "") {
+    return "home";
+  }
+  return pageIds.includes(cleanValue as PageId) ? (cleanValue as PageId) : "notFound";
 }
 
-function readLocationPage(): PageId {
+function readLocationPage(): RouteId {
   if (typeof window === "undefined") {
     return "home";
   }
@@ -23,12 +26,12 @@ function readLocationPage(): PageId {
 }
 
 export interface UseActivePageResult {
-  readonly activePage: PageId;
+  readonly activePage: RouteId;
   readonly navigate: (page: PageId) => void;
 }
 
 export function useActivePage(): Readonly<UseActivePageResult> {
-  const [activePage, setActivePage] = useState<PageId>(readLocationPage);
+  const [activePage, setActivePage] = useState<RouteId>(readLocationPage);
 
   useEffect(() => {
     const handleHashChange = () => {

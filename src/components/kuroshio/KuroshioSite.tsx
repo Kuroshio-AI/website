@@ -5,10 +5,11 @@ import { AboutPage } from "@/components/kuroshio/pages/AboutPage";
 import { ContactPage } from "@/components/kuroshio/pages/ContactPage";
 import { HomePage } from "@/components/kuroshio/pages/HomePage";
 import { IndustriesPage } from "@/components/kuroshio/pages/IndustriesPage";
+import { NotFoundPage } from "@/components/kuroshio/pages/NotFoundPage";
 import { PlatformPage } from "@/components/kuroshio/pages/PlatformPage";
 import { useActivePage } from "@/hooks/useActivePage";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
-import type { PageId } from "@/data/mockData";
+import type { PageId, RouteId } from "@/data/mockData";
 
 const pages = {
   home: HomePage,
@@ -16,7 +17,8 @@ const pages = {
   industries: IndustriesPage,
   about: AboutPage,
   contact: ContactPage,
-} satisfies Record<PageId, (props: { readonly onNavigate: (page: PageId) => void }) => JSX.Element>;
+  notFound: NotFoundPage,
+} satisfies Record<RouteId, (props: { readonly onNavigate: (page: PageId) => void }) => JSX.Element>;
 
 export interface KuroshioSiteProps {}
 
