@@ -45,7 +45,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
       >
         <div className="shell flex h-[68px] items-center justify-between gap-6">
           <PageLink aria-label="Kuroshio AI home" className="shrink-0" page="home">
-            <Wordmark />
+            <Wordmark className="text-xl [&>img]:size-11" />
           </PageLink>
 
           <nav aria-label="Primary" className="hidden items-center md:flex">
