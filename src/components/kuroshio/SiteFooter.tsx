@@ -1,5 +1,5 @@
 import { PageLink } from "@/components/kuroshio/PageLink";
-import { CurrentMark } from "@/components/kuroshio/Wordmark";
+import { Wordmark } from "@/components/kuroshio/Wordmark";
 import { contactPage, navItems } from "@/data/mockData";
 import type { RouteId } from "@/data/mockData";
 
@@ -30,10 +30,10 @@ export function SiteFooter({ activePage }: Readonly<SiteFooterProps>) {
 
       <div className="shell grid gap-12 py-16 lg:grid-cols-[1.4fr_1fr_1fr_1.1fr] lg:py-20">
         <div className="flex flex-col gap-5">
-          <CurrentMark className="size-9 text-brand" />
+          <Wordmark className="text-xl" />
           <p className="max-w-xs text-[0.9375rem] leading-relaxed text-ink-dim">
-            Non-invasive industrial intelligence for manufacturers across the UAE
-            and GCC. Engineered in Kerala, deployed on the plant floor.
+            Non-invasive industrial intelligence for factories and buildings across
+            the UAE and GCC. Engineered in Kerala, deployed on site.
           </p>
           <PageLink className="btn-ghost mt-2 w-fit text-[0.8125rem]" page="contact">
             Start with one machine

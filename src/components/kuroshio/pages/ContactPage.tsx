@@ -14,7 +14,7 @@ const FIELD_CLASS =
 
 const PROMISES = [
   ["Response time", "Within one business day"],
-  ["Proof of concept", "One machine · four weeks"],
+  ["Proof of concept", "One asset · four weeks"],
   ["Your maximum risk", "AED 1,500 · 75% refunded"],
 ];
 
@@ -150,10 +150,14 @@ export function ContactPage() {
                     <option disabled value="">
                       Select an industry
                     </option>
-                    {contactPage.industries.map((industry) => (
-                      <option key={industry} value={industry}>
-                        {industry}
-                      </option>
+                    {contactPage.industryGroups.map((group) => (
+                      <optgroup key={group.label} label={group.label}>
+                        {group.options.map((industry) => (
+                          <option key={industry} value={industry}>
+                            {industry}
+                          </option>
+                        ))}
+                      </optgroup>
                     ))}
                   </select>
                 </div>
@@ -167,10 +171,10 @@ export function ContactPage() {
                   className={`${FIELD_CLASS} h-36 resize-y py-3 leading-relaxed`}
                   id="message"
                   name="message"
-                  placeholder="e.g. two extrusion lines and a chiller plant in RAK — we suspect idle running overnight."
+                  placeholder="e.g. two extrusion lines and a chiller plant in RAK. We suspect idle running overnight."
                 />
                 <p className="text-xs text-ink-faint">
-                  Machine count, site location, and what you already measure all help us prepare.
+                  Asset count, site location, and what you already measure all help us prepare.
                 </p>
               </div>
 

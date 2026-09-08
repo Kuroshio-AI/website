@@ -13,6 +13,11 @@ export function usePageMotion(scopeRef, setup) {
       revealAll(scopeRef.current);
       setup?.(scopeRef.current);
       ScrollTrigger.refresh();
+
+      // Lazy content and webfonts can move triggers after the initial measurement.
+      const observer = new ResizeObserver(() => ScrollTrigger.refresh(true));
+      observer.observe(scopeRef.current);
+      return () => observer.disconnect();
     },
     { scope: scopeRef }
   );

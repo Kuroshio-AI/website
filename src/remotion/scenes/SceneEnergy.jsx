@@ -1,6 +1,6 @@
-import { interpolate } from "remotion";
+import { interpolate, useVideoConfig } from "remotion";
 
-import { Body, Headline, Mono, Panel, Readout, Rise } from "../parts";
+import { Headline, Mono, Panel, Readout, Rise } from "../parts";
 import { useRamp } from "../timing";
 import { C, F } from "../theme";
 
@@ -33,6 +33,7 @@ const ROWS = [
 ];
 
 export function SceneEnergy() {
+  const compact = useVideoConfig().width < 1000;
   const draw = useRamp(18, 128);
   const idleReveal = interpolate(draw, [IDLE_TO, IDLE_TO + 0.1], [0, 1], {
     extrapolateLeft: "clamp",
@@ -48,31 +49,23 @@ export function SceneEnergy() {
       style={{
         position: "absolute",
         inset: 0,
-        padding: "126px 88px 96px",
+        padding: compact ? "44px 40px 56px" : "32px 88px 96px",
         display: "flex",
         flexDirection: "column",
-        gap: 26,
+        gap: compact ? 34 : 26,
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 40 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <Rise delay={0}>
-            <Mono color={C.brand}>EnergyIQ</Mono>
-          </Rise>
-          <Rise delay={4}>
-            <Headline size={62}>Every kilowatt, addressed.</Headline>
-          </Rise>
-        </div>
-        <Rise delay={10}>
-          <Body size={20} style={{ maxWidth: 430, textAlign: "right" }}>
-            Per-machine load at 60-second resolution, mapped to your DEWA
-            tariff. Idle running stops being invisible.
-          </Body>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14, paddingRight: compact ? 0 : 96 }}>
+        <Rise delay={0}>
+          <Mono color={C.brand} size={compact ? 24 : 14}>EnergyIQ</Mono>
+        </Rise>
+        <Rise delay={4}>
+          <Headline size={compact ? 60 : 62}>Every kilowatt, addressed.</Headline>
         </Rise>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 380px", gap: 22, flex: 1 }}>
-        <Panel title="Extrusion Line 02 · load profile" meta="today · 60s samples" bodyStyle={{ padding: 16 }}>
+      <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "1fr 380px", gridTemplateRows: compact ? "minmax(0, 1fr) auto" : undefined, gap: 22, flex: 1, minHeight: 0 }}>
+        <Panel title={compact ? undefined : "Extrusion Line 02 · load profile"} meta="today · 40s samples" style={{ minHeight: 0 }} bodyStyle={{ padding: 16, display: "flex", minHeight: 0 }}>
           <svg viewBox={`0 0 ${W} ${H}`} style={{ width: "100%", height: "100%" }}>
             <defs>
               <linearGradient id="kw-fill" x1="0" x2="0" y1="0" y2="1">
@@ -119,7 +112,7 @@ export function SceneEnergy() {
                 y={34}
                 textAnchor="middle"
                 fill={C.flare}
-                style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.16em", textTransform: "uppercase" }}
+                style={{ fontFamily: F.mono, fontSize: compact ? 30 : 14, letterSpacing: "0.16em", textTransform: "uppercase" }}
               >
                 Idle · 1h 42m · no output
               </text>
@@ -135,8 +128,8 @@ export function SceneEnergy() {
           </svg>
         </Panel>
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {ROWS.map((row, index) => (
+        <div style={{ display: compact ? "grid" : "flex", gridTemplateColumns: "1fr 1fr", flexDirection: "column", gap: 12 }}>
+          {(compact ? ROWS.slice(0, 1) : ROWS).map((row, index) => (
             <Rise delay={24 + index * 8} key={row.name}>
               <div
                 style={{
@@ -149,11 +142,11 @@ export function SceneEnergy() {
                 }}
               >
                 <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                  <Mono size={12} color={C.ink}>{row.name}</Mono>
+                  <Mono size={compact ? 20 : 12} color={C.ink}>{compact ? "Live load" : row.name}</Mono>
                   <span
                     style={{
                       fontFamily: F.mono,
-                      fontSize: 11,
+                      fontSize: compact ? 16 : 11,
                       letterSpacing: "0.14em",
                       textTransform: "uppercase",
                       color: row.tone,
@@ -165,10 +158,10 @@ export function SceneEnergy() {
                   </span>
                 </div>
                 <div style={{ display: "flex", alignItems: "baseline", gap: 8 }}>
-                  <Readout size={30} color={row.tone}>
+                  <Readout size={compact ? 44 : 30} color={row.tone}>
                     {(row.kw * counters).toFixed(1)}
                   </Readout>
-                  <Mono size={12}>kW</Mono>
+                  <Mono size={compact ? 22 : 12}>kW</Mono>
                 </div>
                 <div style={{ height: 4, background: C.canvasSunk }}>
                   <div
@@ -180,14 +173,15 @@ export function SceneEnergy() {
                     }}
                   />
                 </div>
-                <Mono size={11}>{row.type}</Mono>
+                {!compact && <Mono size={11}>{row.type}</Mono>}
               </div>
             </Rise>
           ))}
 
-          <Rise delay={126}>
+          <Rise delay={126} style={{ height: "100%" }}>
             <div
               style={{
+                height: "100%",
                 border: `1px solid rgba(255,148,72,0.42)`,
                 background: C.flareSoft,
                 padding: "14px 16px",
@@ -197,12 +191,12 @@ export function SceneEnergy() {
               }}
             >
               <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                <Mono size={11} color={C.flare}>Idle waste · today</Mono>
-                <Readout size={30} color={C.flare}>
+                <Mono size={compact ? 20 : 11} color={C.flare}>Idle waste · today</Mono>
+                <Readout size={compact ? 38 : 30} color={C.flare}>
                   AED {(16.5 * cost).toFixed(2)}
                 </Readout>
               </div>
-              <Mono size={11}>{(5.02 * cost).toFixed(2)} h</Mono>
+              {!compact && <Mono size={11}>{(5.02 * cost).toFixed(2)} h</Mono>}
             </div>
           </Rise>
         </div>

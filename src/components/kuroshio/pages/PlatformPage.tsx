@@ -297,7 +297,7 @@ export function PlatformPage({ onNavigate }: Readonly<PageProps>) {
       <Band id="energy-iq">
         <div className="shell">
           <SectionHead
-            body="Clamp-on meters read the machine incomer every sixty seconds. We map each reading to your DEWA tariff, so idle running and power-factor penalties show up as money, not graphs."
+            body="Clamp-on meters read the machine incomer every 40 seconds. We map each reading to your DEWA tariff, so idle running and power-factor penalties show up as money, not graphs."
             eyebrow="EnergyIQ"
             index="01"
             title={

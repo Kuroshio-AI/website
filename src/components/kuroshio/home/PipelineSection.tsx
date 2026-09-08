@@ -42,7 +42,6 @@ export function PipelineSection() {
             end: "+=170%",
             scrub: 0.7,
             pin: true,
-            anticipatePin: 1,
           },
         });
 

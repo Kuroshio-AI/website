@@ -2,6 +2,23 @@
 
 See `AGENTS.md` for package manager, shadcn/ui, and general project conventions.
 
+## Response style, always use adhd-unslop
+
+Use the `adhd-unslop` skill (`.claude/skills/adhd-unslop/SKILL.md`) for every
+user-facing response in this repo, including short replies and commentary.
+
+Two passes, in order:
+
+1. ADHD structure. Lead with the next action, number multi-step work, restate
+   which step is done, give concrete time estimates, cap lists at five items,
+   end with one action that takes under two minutes.
+2. Unslop edit. No em dashes, no curly quotes, sentence-case headings, light
+   bolding, no "not just X, but Y", no forced rule of three, no filler openers
+   or closers.
+
+The Unslop pass always applies. ADHD mode stays on until the user says "stop
+adhd mode" or "normal mode".
+
 ## Browser verification — always use agent-browser
 
 Whenever you need to **see** the site — verification, screenshots, visual

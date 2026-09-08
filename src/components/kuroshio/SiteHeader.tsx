@@ -5,6 +5,7 @@ import { PageLink } from "@/components/kuroshio/PageLink";
 import { Wordmark } from "@/components/kuroshio/Wordmark";
 import { navItems } from "@/data/mockData";
 import type { RouteId } from "@/data/mockData";
+import { setScrollLocked } from "@/lib/smoothScroll";
 import { cn } from "@/lib/utils";
 
 interface SiteHeaderProps {
@@ -24,8 +25,11 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    // body overflow alone does not stop Lenis reading wheel events.
+    setScrollLocked(isMenuOpen);
     return () => {
       document.body.style.overflow = "";
+      setScrollLocked(false);
     };
   }, [isMenuOpen]);
 

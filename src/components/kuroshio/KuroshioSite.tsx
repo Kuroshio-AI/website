@@ -9,6 +9,7 @@ import { NotFoundPage } from "@/components/kuroshio/pages/NotFoundPage";
 import { PlatformPage } from "@/components/kuroshio/pages/PlatformPage";
 import { useActivePage } from "@/hooks/useActivePage";
 import { usePageMetadata } from "@/hooks/usePageMetadata";
+import { startSmoothScroll } from "@/lib/smoothScroll";
 import type { PageId, RouteId } from "@/data/mockData";
 
 const pages = {
@@ -27,6 +28,8 @@ export function KuroshioSite(_props: Readonly<KuroshioSiteProps>) {
   const ActivePage = pages[activePage];
   const previousPageRef = useRef(activePage);
   usePageMetadata(activePage);
+
+  useEffect(() => startSmoothScroll(), []);
 
   useEffect(() => {
     if (previousPageRef.current === activePage) {

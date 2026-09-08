@@ -2,7 +2,7 @@ export const VIDEO = {
   width: 1600,
   height: 900,
   fps: 30,
-  durationInFrames: 1050,
+  durationInFrames: 720,
 };
 
 /* Mirrors the product dashboard's tokens so the walkthrough reads as a
@@ -42,10 +42,28 @@ export const F = {
  * the two can never drift apart.
  */
 export const CHAPTERS = [
-  { id: "blind", index: "01", label: "Running blind", from: 0, duration: 110 },
-  { id: "install", index: "02", label: "Install in hours", from: 110, duration: 180 },
-  { id: "energy", index: "03", label: "EnergyIQ", from: 290, duration: 210 },
-  { id: "predict", index: "04", label: "Predictive maintenance", from: 500, duration: 210 },
-  { id: "handoff", index: "05", label: "Alert to logbook", from: 710, duration: 180 },
-  { id: "proof", index: "06", label: "Proof on paper", from: 890, duration: 160 },
+  {
+    id: "energy",
+    index: "01",
+    label: "Energy costs",
+    summary: "See the idle cost of Extrusion Line 02 at a glance.",
+    from: 0,
+    duration: 240,
+  },
+  {
+    id: "predict",
+    index: "02",
+    label: "Failure warnings",
+    summary: "Catch a bearing risk early and know when to act.",
+    from: 240,
+    duration: 240,
+  },
+  {
+    id: "handoff",
+    index: "03",
+    label: "Maintenance history",
+    summary: "Link the warning to the repair and save the record.",
+    from: 480,
+    duration: 240,
+  },
 ];

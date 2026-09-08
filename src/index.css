@@ -210,6 +210,37 @@
     @apply relative py-24 md:py-32;
   }
 
+  #walkthrough {
+    scroll-margin-top: calc(69px + 1rem);
+  }
+
+  .demo-stage {
+    aspect-ratio: var(--demo-ratio);
+  }
+
+  @media (min-width: 1024px) {
+    .demo-player:not(:fullscreen) {
+      /* ponytail: 216px covers the header, compact title, controls and gaps; measure if that copy grows. */
+      width: min(100%, max(700px, calc((100dvh - 216px) * var(--demo-ratio))));
+    }
+  }
+
+  .demo-player:fullscreen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    padding: 12px;
+    background: var(--canvas);
+  }
+
+  .demo-player:fullscreen .demo-stage,
+  .demo-player:fullscreen .demo-details {
+    width: min(100%, calc((100dvh - 180px) * var(--demo-ratio)));
+    margin-inline: auto;
+    flex-shrink: 0;
+  }
+
   /* ---- typography ---- */
   .display-xl {
     font-family: var(--font-display);
@@ -321,6 +352,30 @@
     transform: translateY(0);
   }
 
+  /* Small instrument control that floats over the demo stage. Icon-only, so
+     the aria-label is the accessible name outright — no visible-text mismatch. */
+  .demo-control {
+    @apply inline-flex size-10 shrink-0 items-center justify-center border
+      border-hairline-strong bg-panel/90 text-ink-dim backdrop-blur-[2px]
+      transition-colors duration-200 hover:border-brand hover:text-brand;
+    border-radius: 2px;
+    box-shadow: var(--shadow-panel);
+  }
+
+  /* Nothing autoplays, so the control that starts it wears the brand fill
+     until the demo is actually running. */
+  .demo-control[data-idle="true"] {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+  }
+
+  .demo-control[data-idle="true"]:hover {
+    background: var(--brand-deep);
+    border-color: var(--brand-deep);
+    color: #fff;
+  }
+
   .btn-ghost {
     @apply inline-flex min-h-11 items-center justify-center gap-2 border border-hairline-strong
       bg-panel px-6 py-3 text-sm font-semibold tracking-tight text-ink
@@ -404,6 +459,26 @@
 
 .animate-ticker {
   animation: ticker 42s linear infinite;
+}
+
+/* Lenis runtime hooks. `lenis-smooth` is only present while a smooth scroll is
+   actually running, which is exactly when the base layer's
+   `html { scroll-behavior: smooth }` would fight it. */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -5,7 +5,7 @@ import process from "node:process";
 
 const url = process.argv[2] ?? "http://127.0.0.1:5173";
 const session = `hero-motion-${process.pid}`;
-const target = [60, 3, 4, 12, 0];
+const target = [40, 3, 4, 12, 0];
 const initial = [0, 0, 0, 0, 9];
 function browser(...args) {
   const result = JSON.parse(execFileSync("agent-browser", ["--session", session, "--json", ...args], { encoding: "utf8" }));
@@ -64,7 +64,7 @@ try {
     assert(values.every((value, index) => !index || (target[i] === 0 ? value <= values[index - 1] : value >= values[index - 1])), "Count whole numbers monotonically");
     assert(desktop.samples.every((sample) => sample.widths[i] === desktop.after.widths[i]), "Reserve the final number width");
   }
-  assert.deepEqual(desktop.labels, ["60s", "3–4h", "12d", "0"]);
+  assert.deepEqual(desktop.labels, ["40s", "3–4h", "12d", "0"]);
   assert.deepEqual(desktop.visible, desktop.labels, "Keep units and range punctuation intact");
 
   browser("set", "viewport", "390", "600");

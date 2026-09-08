@@ -42,7 +42,7 @@ export function AboutPage({ onNavigate }: Readonly<PageProps>) {
           </div>
           <h1 className="display-xl max-w-[17ch]" data-reveal="up">
             Built by engineers who understand{" "}
-            <span className="text-brand">factory floors.</span>
+            <span className="text-brand">plant rooms.</span>
           </h1>
           <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
             {aboutPage.hero.description}
@@ -93,7 +93,7 @@ export function AboutPage({ onNavigate }: Readonly<PageProps>) {
       <Band tone="canvas-sunk">
         <div className="shell">
           <SectionHead
-            body="Five commitments we hold on every deployment. They are the reason plant managers let us on site in the first place."
+            body="Five commitments we hold on every deployment. They are the reason plant and facilities managers let us on site in the first place."
             eyebrow="How we work"
             index="02"
             title="Constraints we do not break."
@@ -204,10 +204,10 @@ export function AboutPage({ onNavigate }: Readonly<PageProps>) {
         </div>
         <div className="shell relative flex flex-col items-start gap-7 py-24 md:py-32">
           <h2 className="display-lg max-w-3xl" data-reveal="up">
-            Our technology crosses oceans. Your machines stay put.
+            The people who build it are the people who install it.
           </h2>
           <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
-            Talk to the engineers who will actually be on your plant floor.
+            Talk to the engineers who will actually be on your site.
           </p>
           <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
             <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">

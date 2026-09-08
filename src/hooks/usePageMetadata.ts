@@ -4,24 +4,24 @@ import type { RouteId } from "@/data/mockData";
 
 const pageMetadata: Readonly<Record<RouteId, { readonly description: string; readonly title: string }>> = {
   home: {
-    title: "Kuroshio AI | Industrial Intelligence for UAE Manufacturing",
+    title: "Kuroshio AI | Industrial Intelligence for Factories and Buildings",
     description:
-      "Kuroshio AI helps UAE and GCC manufacturers monitor energy, predict equipment failures, digitise maintenance, and track carbon emissions.",
+      "Kuroshio AI helps UAE and GCC factories and buildings monitor energy, predict equipment failures, digitise maintenance, and track carbon emissions.",
   },
   platform: {
     title: "Industrial Intelligence Platform | Kuroshio AI",
     description:
-      "Explore Kuroshio AI's EnergyIQ, predictive maintenance, digital logbook, and industrial architecture for connected factory operations.",
+      "Explore Kuroshio AI's EnergyIQ, predictive maintenance, digital logbook, and architecture - one sensing layer for any three-phase asset, factory floor or plant room.",
   },
   industries: {
-    title: "Industrial Monitoring for UAE & GCC Manufacturers | Kuroshio AI",
+    title: "Monitoring for Factories and Buildings in the UAE & GCC | Kuroshio AI",
     description:
-      "See how Kuroshio AI supports glass, plastics, aluminium, recycling, minerals, buildings, and utility operations across the GCC.",
+      "See how Kuroshio AI supports glass, plastics, aluminium and minerals plants alongside chiller plant, towers, hotels and malls across the GCC.",
   },
   about: {
     title: "About Kuroshio AI | Industrial Intelligence Company",
     description:
-      "Meet the team building non-invasive industrial intelligence for manufacturers across the UAE, GCC, and India.",
+      "Meet the team building non-invasive industrial intelligence for factories and buildings across the UAE, GCC, and India.",
   },
   contact: {
     title: "Request an Industrial Intelligence Demo | Kuroshio AI",

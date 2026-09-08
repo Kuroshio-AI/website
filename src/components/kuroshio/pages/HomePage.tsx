@@ -28,7 +28,7 @@ interface PageProps {
 }
 
 const CAPABILITY_META = [
-  { anchor: "energy-iq", metric: "60s", metricLabel: "sample interval" },
+  { anchor: "energy-iq", metric: "40s", metricLabel: "sample interval" },
   { anchor: "predictive-maintenance", metric: "12d", metricLabel: "typical lead time" },
   { anchor: "digital-logbook", metric: "0", metricLabel: "paper logbooks" },
   { anchor: "carbon-tracking", metric: "Scope 2", metricLabel: "audit ready" },
@@ -165,7 +165,7 @@ function Capabilities() {
 const PILOT_TERMS = [
   ["Scope", "One machine, your choice"],
   ["Duration", "Four weeks, start to report"],
-  ["Install", "3–4 hours, no production stoppage"],
+  ["Install", "3–4 hours, no stoppage"],
   ["Your maximum risk", "AED 1,500"],
   ["If you see no value", "75% of the fee refunded"],
 ];
@@ -212,30 +212,16 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
       <HeroSection />
 
       {/* -------------------------------------------------- the walkthrough */}
-      <Band id="walkthrough" tone="canvas-sunk">
-        <div className="shell">
-          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-            <SectionHead
-              className="max-w-2xl"
-              eyebrow="Product walkthrough"
-              index="01"
-              title={
-                <>
-                  Thirty-five seconds <span className="text-brand">inside</span> the
-                  platform.
-                </>
-              }
-            />
-            <p className="lede max-w-md lg:text-right" data-reveal="up">
-              From a blind plant floor to a searchable maintenance record. Jump
-              to any chapter — it plays live in your browser.
-            </p>
-          </div>
+      <Band tone="canvas-sunk">
+        <div className="shell" id="walkthrough">
+          <h2 className="text-xl font-semibold leading-7 tracking-tight" data-reveal="up">
+            See Kuroshio <span className="text-brand">in action.</span>
+          </h2>
 
           {/* Deliberately not [data-reveal]: this is the section's payload, not
               decoration. Gating it behind a scroll trigger left its reserved
               ~790px sitting empty until GSAP got around to fading it in. */}
-          <div className="mt-12">
+          <div className="mt-3 max-lg:mx-auto max-lg:max-w-[640px]">
             <ChunkBoundary fallback={<DemoPoster failed />}>
               <Suspense fallback={<DemoPoster />}>
                 <PlatformDemo />
@@ -249,12 +235,12 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
       <Band>
         <div className="shell">
           <SectionHead
-            body="Every plant we walk into has the same four blind spots. None of them are exotic. All of them are expensive."
+            body="Every site we walk into has the same four blind spots, a press shop and a chiller plant alike. None of them are exotic. All of them are expensive."
             eyebrow="What it costs you"
             index="02"
             title={
               <>
-                Four things your plant
+                Four things your site
                 <br />
                 cannot currently see.
               </>
@@ -289,7 +275,7 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
       <Band>
         <div className="shell">
           <SectionHead
-            body="Heavy, hot, and hard on equipment. These are the lines we already read."
+            body="Factory floor or plant room, the sensing layer is the same. These are the assets we already read."
             eyebrow="Where it runs"
             index="04"
             title="Built around the machines you already own."

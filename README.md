@@ -1,16 +1,35 @@
-# React + Vite
+# Kuroshio AI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kuroshio AI is a Vite-powered React site.
 
-Currently, two official plugins are available:
+## Local development
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```sh
+bun install
+bun run dev
+```
 
-## React Compiler
+The contact form reads these Vite variables at build time:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```text
+VITE_EMAILJS_SERVICE_ID
+VITE_EMAILJS_TEMPLATE_ID
+VITE_EMAILJS_PUBLIC_KEY
+```
 
-## Expanding the ESLint configuration
+For local work, put their values in an untracked `.env.local` file. Never commit credential values.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Vercel deployment
+
+Connect the repository to Vercel and set `main` as the Production Branch. Pushes to `main` create Production deployments; other branches and pull requests create Preview deployments.
+
+Add all three `VITE_EMAILJS_*` variables in Vercel Project Settings → Environment Variables for both Production and Preview. Because Vite inlines them during the build, redeploy after changing a value.
+
+The Vercel build command is `bun run build`, and the generated site is in `dist`.
+
+## Verification
+
+```sh
+bun run lint
+bun run build
+```

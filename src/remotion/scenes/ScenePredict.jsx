@@ -1,4 +1,4 @@
-import { interpolate, useCurrentFrame } from "remotion";
+import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
 
 import { Body, Headline, Mono, Panel, Readout, Rise } from "../parts";
 import { useRamp } from "../timing";
@@ -26,6 +26,7 @@ const BANDS = Array.from({ length: 34 }, (_, i) => {
 
 export function ScenePredict() {
   const frame = useCurrentFrame();
+  const compact = useVideoConfig().width < 1000;
   const settle = useRamp(10, 46);
   const degrade = useRamp(64, 140);
   const score = 96 - 25 * degrade;
@@ -40,33 +41,25 @@ export function ScenePredict() {
       style={{
         position: "absolute",
         inset: 0,
-        padding: "126px 88px 96px",
+        padding: compact ? "44px 40px 56px" : "32px 88px 96px",
         display: "flex",
         flexDirection: "column",
-        gap: 24,
+        gap: compact ? 34 : 24,
       }}
     >
-      <div style={{ display: "flex", alignItems: "flex-end", justifyContent: "space-between", gap: 40 }}>
-        <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-          <Rise delay={0}>
-            <Mono color={C.brand}>Predictive maintenance</Mono>
-          </Rise>
-          <Rise delay={4}>
-            <Headline size={62}>
-              We see the bearing fail <span style={{ color: C.flare }}>twelve days early.</span>
-            </Headline>
-          </Rise>
-        </div>
-        <Rise delay={10}>
-          <Body size={20} style={{ maxWidth: 420, textAlign: "right" }}>
-            Motor current signature analysis, scored continuously against the
-            machine's own baseline — not a generic model.
-          </Body>
+      <div style={{ display: "flex", flexDirection: "column", gap: 14, paddingRight: compact ? 0 : 96 }}>
+        <Rise delay={0}>
+          <Mono color={C.brand} size={compact ? 24 : 14}>Predictive maintenance</Mono>
+        </Rise>
+        <Rise delay={4}>
+          <Headline size={compact ? 56 : 62}>
+            We see the bearing fail <span style={{ color: C.flare }}>twelve days early.</span>
+          </Headline>
         </Rise>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 470px 1fr", gap: 20, flex: 1 }}>
-        <Panel title="Current signature" meta="FFT · 0–600 Hz">
+      <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "1fr 470px 1fr", gridTemplateRows: compact ? "minmax(0, 1fr) auto" : undefined, gap: 20, flex: 1, minHeight: 0 }}>
+        {!compact && <Panel title="Current signature" meta="FFT · 0–600 Hz">
           <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: "100%", minHeight: 220 }}>
             {BANDS.map((band) => {
               const grow = band.sideband ? band.base + 0.42 * degrade : band.base;
@@ -91,10 +84,25 @@ export function ScenePredict() {
             </Mono>
             <Mono size={11}>600 Hz</Mono>
           </div>
-        </Panel>
+        </Panel>}
 
-        <Panel title="Motor health" meta="Extrusion Line 02" bodyStyle={{ display: "grid", placeItems: "center" }}>
-          <svg viewBox="0 0 400 340" style={{ width: "100%", maxWidth: 400 }}>
+        <Panel
+          title={compact ? undefined : "Motor health"}
+          meta="Extrusion Line 02"
+          style={{ minHeight: 0 }}
+          bodyStyle={
+            compact
+              ? { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 30, minHeight: 0, padding: "18px 14px 24px" }
+              : { display: "grid", placeItems: "center", minHeight: 0, padding: 18 }
+          }
+        >
+          {/* Compact crops the viewBox to the dial and lifts the delta into the
+              panel's own flow — sat inside the arc's mouth it had nowhere to
+              breathe, and no font size small enough to fit would still read. */}
+          <svg
+            viewBox={compact ? "0 22 400 270" : "0 0 400 340"}
+            style={{ width: "100%", maxWidth: 400, height: "100%", minHeight: 0, flex: compact ? "1 1 auto" : undefined }}
+          >
             <path
               d={arcPath(200, 190, 132, START_ANGLE, START_ANGLE + SWEEP)}
               fill="none"
@@ -128,25 +136,35 @@ export function ScenePredict() {
             >
               {Math.round(score * settle)}
             </text>
+            {/* At the compact type bump this label ran under the score and out
+                across both legs of the arc, so it buys its own room. */}
             <text
               x={200}
-              y={230}
+              y={compact ? 244 : 230}
               textAnchor="middle"
               fill={C.inkFaint}
-              style={{ fontFamily: F.mono, fontSize: 14, letterSpacing: "0.22em", textTransform: "uppercase" }}
+              style={{ fontFamily: F.mono, fontSize: compact ? 18 : 14, letterSpacing: "0.22em", textTransform: "uppercase" }}
             >
               health score
             </text>
-            <text
-              x={200}
-              y={296}
-              textAnchor="middle"
-              fill={degrade > 0.5 ? C.flare : C.inkDim}
-              style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.14em", textTransform: "uppercase" }}
-            >
-              {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
-            </text>
+            {!compact && (
+              <text
+                x={200}
+                y={296}
+                textAnchor="middle"
+                fill={degrade > 0.5 ? C.flare : C.inkDim}
+                style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.14em", textTransform: "uppercase" }}
+              >
+                {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
+              </text>
+            )}
           </svg>
+
+          {compact && (
+            <Mono size={22} color={degrade > 0.5 ? C.flare : C.inkDim} style={{ letterSpacing: "0.14em" }}>
+              {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
+            </Mono>
+          )}
         </Panel>
 
         <div style={{ display: "flex", flexDirection: "column", gap: 16, justifyContent: "space-between" }}>
@@ -164,16 +182,15 @@ export function ScenePredict() {
           >
             <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
               <span style={{ width: 8, height: 8, background: C.flare, borderRadius: 8 }} />
-              <Mono size={12} color={C.flare}>Alert · high severity</Mono>
+              <Mono size={compact ? 22 : 12} color={C.flare}>Alert · high severity</Mono>
             </div>
-            <Readout size={24} color={C.ink}>Bearing wear, drive end</Readout>
-            <Body size={17} color={C.inkDim}>
-              Sideband energy at 2× line frequency has risen 41% against this
-              motor's own 90-day baseline. Confidence 87%.
+            <Readout size={compact ? 32 : 24} color={C.ink}>Bearing wear, drive end</Readout>
+            <Body size={compact ? 30 : 17} color={C.inkDim}>
+              {compact ? "12-day warning. Schedule work at the next shutdown." : "Sideband energy at 2× line frequency has risen 41% against this motor's own 90-day baseline. Confidence 87%."}
             </Body>
           </div>
 
-          <Panel title="Predicted threshold" meta="confidence band">
+          {!compact && <Panel title="Predicted threshold" meta="confidence band">
             <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
               <div style={{ position: "relative", height: 56 }}>
                 <div style={{ position: "absolute", inset: "26px 0 auto", height: 2, background: C.hairline }} />
@@ -214,7 +231,7 @@ export function ScenePredict() {
                 <Mono size={12} color={C.brand}>Schedule in next shutdown</Mono>
               </div>
             </div>
-          </Panel>
+          </Panel>}
         </div>
       </div>
     </div>

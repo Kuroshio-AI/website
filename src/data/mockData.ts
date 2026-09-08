@@ -1,5 +1,8 @@
 export type PageId = "home" | "platform" | "industries" | "about" | "contact";
 
+/** Industries splits into two audience tracks; the product underneath is one. */
+export type TrackId = "factories" | "buildings";
+
 /** Every renderable route, including the catch-all. */
 export type RouteId = PageId | "notFound";
 
@@ -40,33 +43,33 @@ export const navItems: ReadonlyArray<{ readonly id: PageId; readonly label: stri
 ];
 
 export const homePage = {
-  eyebrow: "Industrial intelligence for GCC manufacturing",
-  title: "Industrial Intelligence for UAE Manufacturing",
+  eyebrow: "Industrial intelligence for GCC factories and buildings",
+  title: "Industrial Intelligence for UAE Factories and Buildings",
   description:
-    "Monitor energy, predict failures, and digitise maintenance - from a single platform that installs in hours and never touches your control system.",
+    "Monitor energy, predict failures, and digitise maintenance from a single platform that installs in hours and never touches your control system.",
   image: "/homepage.webp",
-  imageAlt: "Kuroshio AI industrial dashboard with real-time analytics and machine scan visualizations.",
+  imageAlt: "The Kuroshio AI dashboard, showing live energy and health readings for each machine on site.",
   primaryAction: "Request a Demo",
   secondaryAction: "Learn More",
   problems: [
     {
       title: "Energy Waste",
-      body: "You receive one DEWA bill for the entire plant. You do not know which machine is consuming what, how much is wasted on idle running, or whether your power factor is costing you penalty charges every month.",
+      body: "You receive one DEWA bill for the whole site. You do not know which machine is consuming what, how much is wasted running with no load, or whether your power factor is costing you penalty charges every month.",
       icon: "zap",
     },
     {
       title: "Equipment Failures",
-      body: "Bearing wear, winding degradation, element failure - all happen gradually over weeks. Without monitoring, the first sign of a problem is when the machine stops. Emergency repairs are expensive. Planned maintenance is cheap.",
+      body: "Bearing wear, winding degradation, element failure. A press and a chiller fail the same way, gradually, over weeks. Without monitoring, the first sign of a problem is when the machine stops. Emergency repairs are expensive. Planned maintenance is cheap.",
       icon: "settings",
     },
     {
       title: "Paper Maintenance Records",
-      body: "Maintenance history is scattered across paper logbooks. No searchable record. No link between what failed and what was done. New engineers have no visibility of machine history.",
+      body: "Maintenance history is scattered across paper logbooks and a contractor's spreadsheet. No searchable record. No link between what failed and what was done. When the team or the FM contractor changes, the history walks out with them.",
       icon: "book",
     },
     {
       title: "Carbon Footprint & Sustainability",
-      body: "Regulators, customers, and investors are demanding verified emissions data. Without per-machine carbon tracking, sustainability targets remain aspirational rather than measurable and provable.",
+      body: "Customers and investors have started asking for emissions figures, and a number estimated from floor area does not survive an audit. Until you can show CO2 per machine, the reduction target on the slide stays a target on the slide.",
       icon: "leaf",
     },
   ],
@@ -76,8 +79,8 @@ export const homePage = {
       title: "Real-Time Energy Monitoring",
       icon: "activity",
       bullets: [
-        "Live kW consumption per machine, updated every 60 seconds",
-        "Idle detection alerts when equipment runs with no production output",
+        "Live kW consumption per machine, updated every 40 seconds",
+        "Idle detection alerts when equipment draws power with nothing to show for it",
         "DEWA tariff mapping to translate readings into exact cost savings",
       ],
     },
@@ -115,10 +118,10 @@ export const homePage = {
   process: [
     {
       title: "Install Sensors",
-      body: "Clamp-on meters and sensors are installed without PLC or control-system access.",
+      body: "Clamp-on meters and sensors are installed without PLC, BMS, or control-system access.",
     },
     {
-      title: "Read Every 60 Seconds",
+      title: "Read Every 40 Seconds",
       body: "The edge unit captures current, vibration, temperature, and energy data.",
     },
     {
@@ -134,51 +137,59 @@ export const homePage = {
       body: "Use the live dashboard from any browser, tablet, or mobile within 24 hours.",
     },
   ],
+  // Deliberately half factory, half building: this strip is the first place a
+  // visitor checks whether the product is meant for a site like theirs.
   industries: [
     {
       title: "Glass Processing",
       body: "Furnace temperature anomalies and conveyor motor health monitoring for flat and container glass lines.",
       icon: "factory",
+      track: "factories",
     },
     {
-      title: "Plastics",
+      title: "Plastics & Extrusion",
       body: "Injection moulding and extrusion energy profiling with cycle-time deviation alerts and idle detection.",
       icon: "flask",
+      track: "factories",
     },
     {
-      title: "Aluminium Extrusion",
+      title: "Aluminium & Metals",
       body: "Billet furnace efficiency, press motor diagnostics, and cooling-line energy optimisation in real time.",
       icon: "settings",
+      track: "factories",
     },
     {
-      title: "Rubber Recycling",
-      body: "Shredder and granulator bearing health tracking with energy-per-tonne output metrics.",
-      icon: "wrench",
+      title: "Chiller Plant",
+      body: "Per-chiller kW against tons of cooling delivered, so efficiency drift shows up months before a breakdown.",
+      icon: "waves",
+      track: "buildings",
     },
     {
-      title: "Minerals Processing",
-      body: "Mill and crusher motor health scoring, dust suppression pump monitoring, and shift-level energy reporting.",
-      icon: "network",
-    },
-    {
-      title: "Building & Utilities",
-      body: "HVAC, chiller, and pump efficiency monitoring with demand-side management alerts for commercial facilities.",
+      title: "Towers & Offices",
+      body: "Pumps, AHUs, and lift motor rooms metered at the panel, with after-hours load broken out by riser.",
       icon: "building",
+      track: "buildings",
+    },
+    {
+      title: "Hotels & Malls",
+      body: "Kitchen, laundry, and HVAC load separated per asset, with power-factor penalties traced to their source.",
+      icon: "network",
+      track: "buildings",
     },
   ],
   cta: {
     title: "Start with One Machine. Risk Free.",
-    body: "Our Proof of Concept covers one machine for 4 weeks. If you do not see clear value, we refund 75% of the fee. Your maximum risk is AED 1,500. We are that confident.",
-    badge: "No PLC access. No client network. Live in hours.",
+    body: "The pilot covers one machine for four weeks. A press, a chiller, whichever one you argue about most. If the numbers do not convince you, we refund 75% of the fee. Worst case it costs you AED 1,500, and you keep the report.",
+    badge: "No PLC or BMS access. No client network. Live in hours.",
     action: "Request a Demo",
   },
 } as const;
 
 export const platformPage = {
   hero: {
-    title: "One Operational View for Every Machine",
+    title: "One Operational View for Every Asset",
     description:
-      "Integrate data from legacy PLCs, modern sensors, and enterprise systems into a single, cohesive industrial intelligence platform.",
+      "Presses, chillers, pumps, extruders. If it runs on three-phase power, the same sensing layer reads it, with no PLC, no BMS, and no controls work.",
     image: "/kuroshio/platform-hero.jpg",
     action: "Explore Architecture",
   },
@@ -229,6 +240,17 @@ export const platformPage = {
   ],
   machines: [
     {
+      machine: "Chiller 02",
+      type: "Plant room · Centrifugal Chiller",
+      state: "Running",
+      tone: "info",
+      idle: "0m",
+      energy: "318.40 kWh",
+      cost: "121.00 AED",
+      load: 74,
+      accent: 88,
+    },
+    {
       machine: "Cooling Pump Skid",
       type: "Unit 6 · Centrifugal Pump",
       state: "Idle",
@@ -276,7 +298,7 @@ export const platformPage = {
   logbook: {
     title: "Replace paper logs forever",
     description:
-      "Every repair, inspection, and observation is logged, searchable, and downloadable as PDF, tied to the exact machine and timestamp.",
+      "Every repair, inspection, and observation is logged, searchable, and downloadable as PDF, tied to the exact asset and timestamp. It stays yours when the team or the contractor changes.",
     features: [
       "Digital maintenance records with photo attachments",
       "Alert-to-logbook link with entries created from AI alerts",
@@ -293,9 +315,9 @@ export const platformPage = {
         tone: "secondary",
       },
       {
-        title: "Routine Inspection",
+        title: "Chiller 02 Approach Check",
         date: "Sep 28, 2023",
-        body: "Monthly visual inspection completed. No visible leaks or issues.",
+        body: "Condenser approach up 1.8 K month on month. Tubes scheduled for cleaning.",
         initials: "AS",
         owner: "Alice Smith",
         tone: "neutral",
@@ -311,11 +333,11 @@ export const platformPage = {
     ],
   },
   architecture: {
-    title: "Works on Any Machine. No PLC Access Required.",
+    title: "Works on Any Asset. No PLC or BMS Access Required.",
     cards: [
       {
         title: "Hardware Agnostic",
-        body: "Energy meters on machine incomer - no PLC needed.",
+        body: "Energy meters on the asset incomer - no PLC or BMS needed.",
         icon: "factory",
       },
       {
@@ -335,7 +357,7 @@ export const platformPage = {
       },
     ],
     pipeline: [
-      { label: "Machine", icon: "factory" },
+      { label: "Asset", icon: "gauge" },
       { label: "Edge Device", icon: "cpu" },
       { label: "Cellular", icon: "radio" },
       { label: "Azure Cloud", icon: "cloud" },
@@ -343,58 +365,187 @@ export const platformPage = {
     ],
   },
   cta: {
-    title: "See What Your Machines Are Telling You",
+    title: "See What Your Assets Are Telling You",
     description:
-      "Schedule a technical walkthrough of the Kuroshio AI platform and discover how operational visibility can transform your facility.",
+      "Book half an hour with one of our engineers. You will see real readings from a working site, and you can ask whatever you want about how it holds up.",
     action: "Request a Demo",
   },
 } as const;
 
 export const industriesPage = {
   title: "Industrial Intelligence Built Around Your Machines",
-  description: "Transform raw sensor data into operational clarity across heavy manufacturing sectors.",
-  sectors: [
+  description:
+    "The hardware is the same either way. Pick whichever one you actually run, and we will show you the equipment we read and what comes back.",
+  /**
+   * The product is horizontal - any three-phase asset - but proof has to be
+   * vertical. A facilities manager does not need a different platform, they
+   * need to see a chiller named on the page. Hence one spine, two tracks.
+   */
+  tracks: [
     {
-      title: "Glass Manufacturing",
-      body: "Precision temperature and flow monitoring for continuous glass production lines to prevent defects and optimize energy consumption.",
-      image: "/kuroshio/glass-manufacturing.jpg",
-      imageAlt: "Industrial glass manufacturing facility with glowing production lines.",
-      machines: ["Melting Furnaces", "Annealing Lehrs", "Forming Machines"],
-      signals: ["Thermal Gradients", "Viscosity Rates", "Vibration Anomalies"],
+      id: "factories",
+      label: "Factories",
+      icon: "factory",
+      summary: "Presses, extruders, furnaces, mills",
+      eyebrow: "Heavy manufacturing · UAE & GCC",
+      headline: { lead: "Industrial intelligence built around your", accent: "machines." },
+      description:
+        "Heavy, hot, and hard on equipment. We clamp onto the incomer, read the current every 40 seconds, and turn it into energy cost, failure warnings weeks ahead, and a maintenance record you can actually search.",
+      sectors: [
+        {
+          title: "Glass Manufacturing",
+          body: "Furnaces and lehrs run around the clock, so a worn motor or a failing element turns up in the current weeks before it turns up in the glass. We read that drift and name the machine causing it.",
+          image: "/kuroshio/glass-manufacturing.jpg",
+          imageAlt:
+            "Hot end of a flat glass line, the annealing lehr glowing orange above a roller conveyor driven by rows of small motors.",
+          machines: ["Melting Furnaces", "Annealing Lehrs", "Forming Machines"],
+          signals: ["Thermal Gradients", "Viscosity Rates", "Vibration Anomalies"],
+        },
+        {
+          title: "Plastics & Polymers",
+          body: "Extruders and moulders lose money quietly. Cycle time creeps, screws wear, and the machine keeps running as if nothing is wrong. The current shows it well before the scrap rate does.",
+          image: "/kuroshio/plastics-polymers.jpg",
+          imageAlt:
+            "Row of horizontal injection moulding machines with feed hoppers and coloured coolant lines on a factory floor.",
+          machines: ["Extruders", "Injection Molders", "Cooling Towers"],
+          signals: ["Melt Pressure", "Screw Speed", "Coolant Flow"],
+        },
+      ],
+      grid: {
+        eyebrow: "Also deployed in",
+        title: "Six sectors, one sensing layer.",
+        body: "The same sensing layer reads any three-phase asset. These are the sectors already running on it across RAK, Dubai, Sharjah, and Umm Al Quwain.",
+        items: [
+          {
+            title: "Glass Processing",
+            body: "Furnace temperature anomalies and conveyor motor health monitoring for flat and container glass lines.",
+            icon: "factory",
+          },
+          {
+            title: "Plastics",
+            body: "Injection moulding and extrusion energy profiling with cycle-time deviation alerts and idle detection.",
+            icon: "flask",
+          },
+          {
+            title: "Aluminium Extrusion",
+            body: "Billet furnace efficiency, press motor diagnostics, and cooling-line energy optimisation in real time.",
+            icon: "settings",
+          },
+          {
+            title: "Rubber Recycling",
+            body: "Shredder and granulator bearing health tracking with energy-per-tonne output metrics.",
+            icon: "wrench",
+          },
+          {
+            title: "Minerals Processing",
+            body: "Mill and crusher motor health scoring, dust suppression pump monitoring, and shift-level energy reporting.",
+            icon: "network",
+          },
+          {
+            title: "Metal Fabrication",
+            body: "Press, shear, and compressor load profiling with phase-imbalance alerts across the fabrication bay.",
+            icon: "wrench",
+          },
+        ],
+      },
+      cta: {
+        title: "Your Machines Do Not Need to Be New to Become Intelligent",
+        action: "Speak to an Engineer",
+      },
     },
     {
-      title: "Plastics & Polymers",
-      body: "Advanced analytics for injection molding and extrusion processes, ensuring dimensional stability and material efficiency.",
-      image: "/kuroshio/plastics-polymers.jpg",
-      imageAlt: "Automated plastics and polymers manufacturing equipment.",
-      machines: ["Extruders", "Injection Molders", "Cooling Towers"],
-      signals: ["Melt Pressure", "Screw Speed", "Coolant Flow"],
+      id: "buildings",
+      label: "Buildings",
+      icon: "building",
+      summary: "Chillers, pumps, AHUs, lift rooms",
+      eyebrow: "Facilities & FM · UAE & GCC",
+      headline: { lead: "The same instrument, pointed at your", accent: "plant room." },
+      description:
+        "A chiller and a press are both motors on three-phase power, and the meter cannot tell them apart. We clamp on at the panel, with no BMS integration, no controls work and no tenant disruption. What comes back is cost per asset, failure warnings, and an FM record that survives a contractor change.",
+      sectors: [
+        {
+          title: "Chiller Plant & District Cooling",
+          diagram: "chiller",
+          image: "/kuroshio/chiller-plant.jpg",
+          imageAlt:
+            "Chiller plant room with three water-cooled centrifugal chillers on concrete plinths.",
+          body: "Chiller plant is the largest single line on a tower's DEWA bill and the least attributed. Metering each machine at the panel turns efficiency drift into a number: kW against tons of cooling delivered. That number moves months before a breakdown or a peak-demand charge does.",
+          machines: ["Centrifugal Chillers", "Primary & Secondary Pumps", "Cooling Tower Fans"],
+          signals: ["kW per Ton", "Compressor Current", "Bearing Vibration"],
+        },
+        {
+          title: "Towers, Hotels & Malls",
+          image: "/kuroshio/riser-room.jpg",
+          imageAlt:
+            "Electrical riser room with a row of distribution panels fed from overhead cable tray.",
+          body: "One bill for the whole building tells you nothing about which riser, which floor, or which tenant. Per-panel metering makes the service charge defensible, exposes plant left running overnight, and traces power-factor penalties back to the asset causing them.",
+          machines: ["Air Handling Units", "Booster & Sump Pumps", "Lift Motor Rooms"],
+          signals: ["After-Hours Load", "Power Factor", "Phase Imbalance"],
+        },
+      ],
+      grid: {
+        eyebrow: "Built for",
+        title: "Six building types, one sensing layer.",
+        body: "The sensing layer does not care what the building is for. It reads any three-phase panel. No BMS integration, no controls work, and nothing routed through the building network.",
+        items: [
+          {
+            title: "Commercial Towers",
+            body: "Landlord and tenant load separated per panel, with after-hours running broken out floor by floor.",
+            icon: "building",
+          },
+          {
+            title: "Hotels & Resorts",
+            body: "Kitchen, laundry, and guest-floor HVAC metered separately so cost per occupied room stops being a guess.",
+            icon: "waves",
+          },
+          {
+            title: "Retail & Malls",
+            body: "Common-area plant and tenant supply measured apart, with idle running caught outside trading hours.",
+            icon: "network",
+          },
+          {
+            title: "District Cooling",
+            body: "Plant-side kW against delivered tons, per machine, so efficiency drift is visible before it is expensive.",
+            icon: "waves",
+          },
+          {
+            title: "Hospitals & Clinics",
+            body: "Critical plant health scored continuously, with phase imbalance and bearing wear flagged weeks ahead.",
+            icon: "shield",
+          },
+          {
+            title: "Warehousing & Logistics",
+            body: "Cold-store compressors, dock levellers, and material handling profiled against actual throughput hours.",
+            icon: "cpu",
+          },
+        ],
+      },
+      cta: {
+        title: "Your Building Already Draws the Data. Nobody Is Reading It.",
+        action: "Speak to an Engineer",
+      },
     },
   ],
-  cta: {
-    title: "Your Machines Do Not Need to Be New to Become Intelligent",
-    action: "Speak to an Engineer",
-  },
 } as const;
 
 export const aboutPage = {
   hero: {
-    title: "Built by Engineers Who Understand Factory Floors",
+    title: "Built by Engineers Who Understand Shop Floors and Plant Rooms",
     description:
-      "Kuroshio AI was founded by Ajas Khan and Noufal - engineers who saw firsthand that UAE and GCC manufacturing plants were running blind.",
+      "Ajas Khan and Noufal started Kuroshio AI after years of watching UAE sites, factories and towers alike, run on guesswork and a monthly bill.",
   },
   story: {
     title: "Company Story",
-    aside: "Built in Kerala, India - deployed across UAE and GCC. Technology export model.",
+    aside: "Engineered in Kochi. Installed across the UAE and GCC.",
     paragraphs: [
-      "Kuroshio AI was founded by engineers who spent years on factory floors and saw the same problem everywhere - machines running blind, energy being wasted invisibly, and maintenance teams reacting to failures rather than preventing them.",
-      "We built Kuroshio AI to change that. Our platform brings the intelligence of enterprise monitoring systems to every manufacturing plant in the UAE and GCC - at a fraction of the cost, deployable in hours, and without touching the existing control infrastructure.",
-      "We are named after the Kuroshio Current - the powerful warm ocean current that flows along the coast of Japan, shaping climates and enabling navigation for centuries. Like the current, we bring intelligence and direction to industrial operations.",
-      "We are built in Kerala, India - one of Asia's strongest engineering talent hubs - and deployed across the UAE and GCC. Our technology crosses oceans. Our clients stay ahead.",
+      "We spent years on factory floors before starting this, and the same thing kept happening. Nobody could say what any single machine cost to run. Maintenance found out about a bearing after it had already gone.",
+      "The systems that fix this properly were built for plants ten times the size, and priced to match. So we built one that goes in during an afternoon, costs a fraction of that, and never touches your control system.",
+      "The name comes from the Kuroshio Current, the warm current that runs north past Japan. You cannot see it from the shore. Everything downstream still depends on what it is doing.",
+      "The engineering happens in Kochi, Kerala. Installation and support run out of Ras Al Khaimah. That split is deliberate, and it is a large part of why the hardware costs what it does.",
     ],
-    calloutTitle: "Named for Movement and Direction",
+    calloutTitle: "Why Kuroshio",
     calloutBody:
-      "Named after the Kuroshio Current - the powerful ocean current of the Pacific, a force that shapes climates and trade routes. Like the current, we move intelligence through industry.",
+      "The Kuroshio is one of the strongest currents in the world, and almost nobody standing on a beach in Japan knows it is there. Same idea. The data was always in the cable.",
   },
   credentials: [
     ["DPIIT Recognised Deep Tech Startup", "Government of India"],
@@ -480,25 +631,44 @@ export const contactPage = {
   hero: {
     title: "Let's Start with One Machine.",
     description:
-      "Connect with our engineering team to explore how Kuroshio AI can stabilise your industrial operations.",
+      "Tell us what you want measured. An engineer reads every message that comes in here, and you will get a straight answer on whether we can help.",
   },
   fields: [
     { id: "name", label: "Full Name", type: "text", required: true, placeholder: "Jane Smith" },
-    { id: "company", label: "Company", type: "text", required: true, placeholder: "Acme Manufacturing" },
+    { id: "company", label: "Company", type: "text", required: true, placeholder: "Acme Industries LLC" },
     { id: "role", label: "Job Role", type: "text", required: false, placeholder: "Operations Manager" },
     { id: "email", label: "Work Email", type: "email", required: true, placeholder: "jane@acme.com" },
     { id: "phone", label: "Phone Number", type: "tel", required: false, placeholder: "+971 50 000 0000" },
   ],
   regions: ["United Arab Emirates", "Saudi Arabia", "India", "United Kingdom", "United States", "Other"],
-  industries: [
-    "Glass Manufacturing",
-    "Plastics & Polymers",
-    "Food & Beverage",
-    "Textiles",
-    "Electronics Assembly",
-    "Pharmaceuticals",
-    "Metal Fabrication",
-    "Other",
+  // Grouped so a facilities manager can find themselves without reading past
+  // seven manufacturing sectors first.
+  industryGroups: [
+    {
+      label: "Factories",
+      options: [
+        "Glass Manufacturing",
+        "Plastics & Polymers",
+        "Aluminium & Metal Fabrication",
+        "Food & Beverage",
+        "Textiles",
+        "Electronics Assembly",
+        "Pharmaceuticals",
+      ],
+    },
+    {
+      label: "Buildings",
+      options: [
+        "Commercial Towers & Offices",
+        "Hotels & Resorts",
+        "Retail & Malls",
+        "District Cooling",
+        "Hospitals & Clinics",
+        "Warehousing & Logistics",
+        "Facilities Management",
+      ],
+    },
+    { label: "Other", options: ["Other"] },
   ],
   direct: [
     {

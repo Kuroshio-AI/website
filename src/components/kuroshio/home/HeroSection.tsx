@@ -7,8 +7,8 @@ import { PageLink } from "@/components/kuroshio/PageLink";
 import { EASE, SplitText, countUp, gsap, prefersReducedMotion } from "@/lib/motion";
 
 const INSTRUMENTS = [
-  { value: "60s", label: "Telemetry resolution", helper: "per machine, always on" },
-  { value: "3–4h", label: "Install window", helper: "no production downtime" },
+  { value: "40s", label: "Telemetry resolution", helper: "per machine, always on" },
+  { value: "3–4h", label: "Install window", helper: "no shutdown required" },
   { value: "12d", label: "Typical failure lead", helper: "before the machine stops" },
   { value: "0", label: "Control-system touchpoints", helper: "we never write to your PLC" },
 ];
@@ -110,14 +110,15 @@ export function HeroSection() {
           className="display-xl mt-7 max-w-[19ch] [perspective:800px]"
           ref={headlineRef}
         >
-          Read your plant like an <span className="text-brand">instrument.</span>
+          Read every machine like an <span className="text-brand">instrument.</span>
         </h1>
 
         <div className="mt-8 grid max-w-5xl gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
           <p className="lede max-w-xl" data-hero>
-            Kuroshio AI clamps onto your machines and turns raw current into
-            energy cost, failure warnings weeks ahead, and a maintenance record
-            you can actually search.
+            Every press, chiller, extruder and pump on your site draws
+            three-phase current. Kuroshio AI clamps on and turns it into energy
+            cost, failure warnings weeks ahead, and a maintenance record you can
+            actually search.
           </p>
 
           <div className="flex flex-wrap items-center gap-3" data-hero>
