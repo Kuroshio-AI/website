@@ -24,7 +24,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isMenuOpen ? "hidden" : "";
+    document.body.style.overflow = isMenuOpen ? "clip" : "";
     // body overflow alone does not stop Lenis reading wheel events.
     setScrollLocked(isMenuOpen);
     return () => {
