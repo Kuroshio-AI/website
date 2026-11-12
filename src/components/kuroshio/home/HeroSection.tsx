@@ -1,171 +1,98 @@
 import { useGSAP } from "@gsap/react";
-import { ArrowDown, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useRef } from "react";
 
-import { CurrentField } from "@/components/kuroshio/CurrentField";
 import { PageLink } from "@/components/kuroshio/PageLink";
-import { EASE, SplitText, countUp, gsap, prefersReducedMotion } from "@/lib/motion";
+import { UsedBy } from "@/components/kuroshio/pages/KTrackPage";
+import { EASE, gsap, prefersReducedMotion } from "@/lib/motion";
 
-const INSTRUMENTS = [
-  { value: "40s", label: "Telemetry resolution", helper: "per machine, always on" },
-  { value: "3–4h", label: "Install window", helper: "no shutdown required" },
-  { value: "12d", label: "Typical failure lead", helper: "before the machine stops" },
-  { value: "0", label: "Control-system touchpoints", helper: "we never write to your PLC" },
+const OFFERINGS = [
+  {
+    page: "ktrack" as const,
+    name: "KTrack",
+    line: "Inspection certificates that get checked before they go out and chased before they expire.",
+    client: "kee" as const,
+  },
+  {
+    page: "platform" as const,
+    name: "Kuroshio Platform",
+    line: "What every machine costs, and when it will fail.",
+    client: "tkm" as const,
+  },
+  {
+    page: "products" as const,
+    name: "Custom tools",
+    line: "Internal software built around the way your team already works.",
+    client: undefined,
+  },
 ];
 
-/** Keep units fixed while counting whole numbers, including both range endpoints. */
-function StatValue({ value }: Readonly<{ value: string }>) {
-  return (
-    <>
-      <span className="sr-only">{value}</span>
-      <span aria-hidden="true">
-        {value.split(/(\d+)/).map((part, index) =>
-          /^\d+$/.test(part) ? (
-            <span
-              className="inline-block"
-              data-count={part}
-              key={index}
-              style={{ minWidth: `${part.length}ch` }}
-            >
-              {part}
-            </span>
-          ) : part
-        )}
-      </span>
-    </>
-  );
-}
+const HEADLINE = "We build the software operations run on.";
+const LEDE =
+  "Kuroshio AI makes two products for factories, buildings and inspection teams, and builds custom internal tools for the work off-the-shelf software misses.";
 
-export function HeroSection() {
-  const rootRef = useRef<HTMLElement>(null);
-  const headlineRef = useRef<HTMLHeadingElement>(null);
-
+/** One-shot entrance: text first, then the picture settles. */
+function useHeroEntrance(rootRef: React.RefObject<HTMLElement | null>) {
   useGSAP(
     () => {
-      rootRef.current?.querySelectorAll<HTMLElement>("[data-count]").forEach((el) => {
-        const to = Number(el.dataset.count);
-        countUp(el, to, { from: to === 0 ? 9 : 0, delay: 0.65 });
-      });
-
-      if (prefersReducedMotion() || !headlineRef.current) {
-        gsap.set("[data-hero-eyebrow], [data-hero], [data-hero-strip]", { opacity: 1 });
-        return;
-      }
-
-      // Returning the timeline lets SplitText preserve its progress when
-      // fonts load or lines reflow, rather than skipping the entrance.
-      SplitText.create(headlineRef.current, {
-        type: "lines,chars",
-        linesClass: "hero-line",
-        autoSplit: true,
-        onSplit: (self: { chars: Element[] }) => {
-          return gsap
-            .timeline({ defaults: { ease: EASE.out } })
-            .fromTo(
-              "[data-hero-eyebrow]",
-              { opacity: 0, y: 10 },
-              { opacity: 1, y: 0, duration: 0.4 }
-            )
-            .fromTo(
-              self.chars,
-              { opacity: 0, yPercent: 108, rotateX: -55 },
-              { opacity: 1, yPercent: 0, rotateX: 0, duration: 0.55, stagger: 0.009 },
-              "-=0.25"
-            )
-            .fromTo(
-              "[data-hero]",
-              { opacity: 0, y: 14 },
-              { opacity: 1, y: 0, duration: 0.45, stagger: 0.06 },
-              "-=0.4"
-            )
-            .fromTo(
-              "[data-hero-strip]",
-              { opacity: 0, y: 12 },
-              { opacity: 1, y: 0, duration: 0.45 },
-              "-=0.3"
-            );
-        },
-      });
+      if (prefersReducedMotion()) return;
+      gsap
+        .timeline({ defaults: { ease: EASE.out } })
+        .fromTo("[data-hero]", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.7, stagger: 0.08 })
+        .fromTo(
+          "[data-hero-media]",
+          { opacity: 0, y: 48, scale: 1.04 },
+          { opacity: 1, y: 0, scale: 1, duration: 1.1, stagger: 0.12, ease: EASE.expo },
+          0.2
+        );
     },
     { scope: rootRef }
   );
+}
+
+/** Company hero: the NASA Kuroshio flow field fills the first screen. */
+export function HeroSection() {
+  const rootRef = useRef<HTMLElement>(null);
+  useHeroEntrance(rootRef);
 
   return (
-    <section className="relative overflow-hidden border-b border-hairline" ref={rootRef}>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <CurrentField className="absolute inset-0 size-full" opacity={0.9} />
-        <div className="grid-field absolute inset-0 opacity-45" />
-        {/* Clear the left third so the headline always sits on clean paper. */}
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,var(--canvas)_22%,rgba(250,250,250,0.62)_50%,transparent_78%)]" />
-        <div className="vignette absolute inset-0" />
-      </div>
+    <section className="relative isolate flex min-h-[calc(100svh-68px)] flex-col justify-end overflow-hidden bg-[#0b1d3a] text-white" ref={rootRef}>
+      <img
+        alt="NASA visualisation of the Kuroshio current running north-east past Taiwan and Japan."
+        className="absolute inset-0 -z-10 size-full object-cover object-[30%_40%] opacity-90 motion-safe:animate-[drift_14s_ease-in-out_infinite_alternate]"
+        data-hero-media
+        height={1080}
+        src="/kuroshio/kuroshio-current.jpg"
+        width={1920}
+      />
+      {/* Neutral scrim so the type holds on the busiest part of the picture. */}
+      <div aria-hidden="true" className="absolute inset-0 -z-10 bg-[#0b1d3a]/55" />
 
-      <div className="shell relative flex min-h-[calc(94svh-68px)] flex-col justify-center pt-20 pb-14 md:pt-28">
-        <div className="flex items-center gap-4" data-hero-eyebrow>
-          <span className="size-1.5 shrink-0 rounded-full bg-brand animate-pulse-dot" />
-          <span className="tag">Industrial intelligence · UAE &amp; GCC</span>
-        </div>
-
-        <h1
-          className="display-xl mt-7 max-w-[19ch] [perspective:800px]"
-          ref={headlineRef}
-        >
-          Read every machine like an <span className="text-brand">instrument.</span>
+      <div className="shell pt-20 pb-10 md:pb-14">
+        <h1 className="font-[family-name:var(--font-display)] text-[8.6vw] md:text-[clamp(2.75rem,5.4vw,5.25rem)] leading-[0.95] font-bold tracking-[-0.045em] max-w-[21ch]" data-hero>
+          {HEADLINE}
         </h1>
+        <p className="mt-8 max-w-[52ch] text-[1.125rem] leading-relaxed md:text-[1.3125rem]" data-hero>
+          {LEDE}
+        </p>
 
-        <div className="mt-8 grid max-w-5xl gap-8 md:grid-cols-[minmax(0,1fr)_auto] md:items-end">
-          <p className="lede max-w-xl" data-hero>
-            Every press, chiller, extruder and pump on your site draws
-            three-phase current. Kuroshio AI clamps on and turns it into energy
-            cost, failure warnings weeks ahead, and a maintenance record you can
-            actually search.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3" data-hero>
-            <PageLink className="btn-brand" page="contact">
-              Request a demo
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </PageLink>
-            <PageLink className="btn-ghost" page="platform">
-              See the platform
-            </PageLink>
-          </div>
-        </div>
-
-        <dl
-          className="mt-14 grid grid-cols-2 gap-px border border-hairline bg-hairline lg:grid-cols-4"
-          data-hero-strip
-        >
-          {INSTRUMENTS.map((item) => (
-            <div
-              className="group relative flex flex-col gap-1.5 bg-panel px-5 py-6 transition-colors hover:bg-brand-soft"
-              key={item.label}
-            >
-              <dt className="readout text-3xl leading-none text-ink md:text-[2.5rem]">
-                <StatValue value={item.value} />
-              </dt>
-              <dd className="flex flex-col gap-1">
-                <span className="text-[0.8125rem] font-medium tracking-tight text-ink-dim">
-                  {item.label}
+        <ul className="mt-14 grid gap-2 md:grid-cols-3" data-hero>
+          {OFFERINGS.map((o) => (
+            <li key={o.name}>
+              <PageLink
+                className="group flex h-full flex-col gap-2 bg-[#0b1d3a]/40 p-5 ring-1 ring-white/15 transition-colors duration-200 hover:bg-white hover:text-ink md:p-6"
+                page={o.page}
+              >
+                <span className="flex items-center justify-between font-[family-name:var(--font-display)] text-[1.75rem] leading-none font-bold tracking-[-0.03em]">
+                  {o.name}
+                  <ArrowRight aria-hidden="true" className="size-5 transition-transform group-hover:translate-x-1" />
                 </span>
-                <span className="text-xs leading-snug text-ink-faint">{item.helper}</span>
-              </dd>
-              <span
-                aria-hidden="true"
-                className="absolute inset-x-0 top-0 h-px origin-left scale-x-0 bg-brand transition-transform duration-500 ease-out group-hover:scale-x-100"
-              />
-            </div>
+                <span className="text-base">{o.line}</span>
+                {o.client ? <UsedBy className="mt-auto pt-3" client={o.client} /> : null}
+              </PageLink>
+            </li>
           ))}
-        </dl>
-
-        <a
-          className="mt-10 flex w-fit items-center gap-3 text-ink-faint transition-colors hover:text-brand"
-          data-hero
-          href="#walkthrough"
-        >
-          <span className="tag">Watch the walkthrough</span>
-          <ArrowDown aria-hidden="true" className="size-4 animate-bounce" />
-        </a>
+        </ul>
       </div>
     </section>
   );

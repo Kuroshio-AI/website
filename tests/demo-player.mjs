@@ -85,6 +85,12 @@ try {
   assert.equal(final, "scaleX(1)");
   assert.equal(read('document.querySelector(".demo-stage").textContent.includes("Replaced drive-end bearing")'), true, "The logbook entry types in");
   assert.equal(read('document.querySelector(".demo-stage").textContent.includes("back within baseline")'), true);
+  assert(read(`(() => {
+    const stage = document.querySelector(".demo-stage").getBoundingClientRect();
+    const saved = [...document.querySelectorAll(".demo-stage span")].find(el => el.textContent === "Entry saved");
+    const box = saved?.getBoundingClientRect();
+    return !!box && box.top >= stage.top && box.bottom <= stage.bottom && box.left >= stage.left && box.right <= stage.right;
+  })()`), "The saved status stays inside the demo stage");
   browser("wait", "400");
   assert.equal(progress(), final, "End holds the final result; no loop");
   read('document.querySelector("footer").scrollIntoView({behavior:"instant"})');
@@ -112,16 +118,29 @@ try {
         waitFor('document.querySelector(".demo-stage").textContent.includes("Bearing replaced. Signal back within baseline.")');
         browser("wait", "800");
         assert(read(`(() => {
+          const stage = document.querySelector('.demo-stage').getBoundingClientRect();
           const saved = [...document.querySelectorAll('.demo-stage span')].find(el => el.textContent === 'Entry saved');
           let opacity = 1;
           for (let el = saved; el; el = el.parentElement) opacity *= Number(getComputedStyle(el).opacity);
           const box = saved.getBoundingClientRect();
+          const inside = box.top >= stage.top && box.bottom <= stage.bottom && box.left >= stage.left && box.right <= stage.right;
           const clear = [...document.querySelectorAll('.demo-stage button')].every(el => {
             const c = el.getBoundingClientRect();
             return c.right < box.left || c.left > box.right || c.bottom < box.top || c.top > box.bottom;
           });
-          return opacity > 0.99 && clear;
+          return opacity > 0.99 && inside && clear;
         })()`), "No floating control may cover the animated saved status");
+      }
+      if (width === 390 && chapter === "Failure warnings") {
+        browser("wait", "5200");
+        assert(read(`(() => {
+          const stage = document.querySelector('.demo-stage').getBoundingClientRect();
+          const items = ['12 days', 'next shutdown'].map(text => [...document.querySelectorAll('.demo-stage *')].find(el => el.textContent.trim() === text));
+          return items.every(el => {
+            const box = el?.getBoundingClientRect();
+            return !!box && box.top >= stage.top && box.bottom <= stage.bottom && box.left >= stage.left && box.right <= stage.right;
+          });
+        })()`), "Prediction warning details stay inside the compact demo stage");
       }
       click("Pause demo");
       assert.equal(read("document.documentElement.scrollWidth > innerWidth"), false, "No mobile horizontal overflow");

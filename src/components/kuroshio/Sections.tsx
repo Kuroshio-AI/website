@@ -10,14 +10,11 @@ interface SectionHeadProps {
   readonly className?: string;
 }
 
-export function SectionHead({ index, eyebrow, title, body, className }: Readonly<SectionHeadProps>) {
+// `index` and `eyebrow` are accepted but no longer drawn: the heading carries
+// the section on its own.
+export function SectionHead({ title, body, className }: Readonly<SectionHeadProps>) {
   return (
     <header className={cn("flex flex-col gap-6", className)}>
-      <div className="flex items-center gap-4" data-reveal="fade">
-        {index ? <span className="tag-brand">{index}</span> : null}
-        <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
-        <span className="tag">{eyebrow}</span>
-      </div>
       <h2 className="display-lg max-w-4xl" data-reveal="up">
         {title}
       </h2>
@@ -44,8 +41,8 @@ export function Band({
   return (
     <section
       className={cn(
-        "band border-t border-hairline",
-        tone === "canvas-sunk" ? "bg-canvas-sunk/40" : "bg-canvas",
+        "band",
+        tone === "canvas-sunk" ? "bg-canvas-sunk" : "bg-canvas",
         className
       )}
       id={id}
@@ -61,7 +58,7 @@ export function Stat({
   helper,
 }: Readonly<{ value: ReactNode; label: string; helper?: string }>) {
   return (
-    <div className="flex flex-col gap-2 border-l border-hairline pl-5">
+    <div className="flex flex-col gap-2">
       <span className="readout text-3xl leading-none text-brand md:text-4xl">{value}</span>
       <span className="text-sm font-medium tracking-tight text-ink">{label}</span>
       {helper ? <span className="text-[0.8125rem] leading-snug text-ink-faint">{helper}</span> : null}

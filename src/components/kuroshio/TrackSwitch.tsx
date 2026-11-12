@@ -35,7 +35,7 @@ export function TrackSwitch({ options, value, onChange, className }: Readonly<Tr
     <div
       aria-label="Choose the kind of site you run"
       className={cn(
-        "grid gap-px border border-hairline bg-hairline sm:grid-cols-2",
+        "grid gap-1 sm:grid-cols-2",
         className
       )}
       onKeyDown={(event) => {
@@ -54,7 +54,7 @@ export function TrackSwitch({ options, value, onChange, className }: Readonly<Tr
             className={cn(
               "group relative flex items-center gap-4 px-5 py-4 text-left transition-colors duration-300",
               "focus-visible:z-10 focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-brand",
-              active ? "bg-panel" : "bg-canvas-sunk/60 hover:bg-panel"
+              active ? "bg-panel" : "bg-canvas-sunk hover:bg-panel"
             )}
             id={`track-${option.id}`}
             key={option.id}
@@ -63,15 +63,6 @@ export function TrackSwitch({ options, value, onChange, className }: Readonly<Tr
             tabIndex={active ? 0 : -1}
             type="button"
           >
-            {/* The same brand rule the hero stats draw on hover — here it marks
-                which track is live, so the state reads without relying on fill. */}
-            <span
-              aria-hidden="true"
-              className={cn(
-                "absolute inset-x-0 top-0 h-px origin-left bg-brand transition-transform duration-500 ease-out",
-                active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-              )}
-            />
             <KuroshioIcon
               className={cn(
                 "size-5 shrink-0 transition-colors duration-300",
@@ -92,15 +83,6 @@ export function TrackSwitch({ options, value, onChange, className }: Readonly<Tr
               <span className="truncate text-xs leading-snug text-ink-faint">
                 {option.summary}
               </span>
-            </span>
-            <span
-              aria-hidden="true"
-              className={cn(
-                "readout ml-auto shrink-0 text-[0.6875rem] tracking-[0.14em] uppercase transition-colors duration-300",
-                active ? "text-brand" : "text-transparent"
-              )}
-            >
-              Live
             </span>
           </button>
         );

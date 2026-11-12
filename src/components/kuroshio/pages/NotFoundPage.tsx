@@ -28,14 +28,9 @@ export function NotFoundPage({ onNavigate }: Readonly<PageProps>) {
         </div>
 
         <div className="shell relative flex min-h-[62svh] flex-col justify-center py-24 md:py-32">
-          <div className="flex items-center gap-4" data-reveal="fade">
-            <span className="tag-brand">Error 404</span>
-            <span aria-hidden="true" className="h-px w-10 bg-hairline-strong" />
-            <span className="tag">No signal at this address</span>
-          </div>
 
           <h1 className="display-xl mt-7 max-w-[16ch]" data-reveal="up">
-            That page isn&apos;t <span className="text-brand">on the network.</span>
+            That page isn&apos;t on the network.
           </h1>
 
           {requested ? (

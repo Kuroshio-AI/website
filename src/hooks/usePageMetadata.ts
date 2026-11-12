@@ -4,12 +4,22 @@ import type { RouteId } from "@/data/mockData";
 
 const pageMetadata: Readonly<Record<RouteId, { readonly description: string; readonly title: string }>> = {
   home: {
-    title: "Kuroshio AI | Industrial Intelligence for Factories and Buildings",
+    title: "Kuroshio AI | Software for industrial and inspection teams",
     description:
-      "Kuroshio AI helps UAE and GCC factories and buildings monitor energy, predict equipment failures, digitise maintenance, and track carbon emissions.",
+      "Kuroshio AI builds Kuroshio Platform for machine energy and health, KTrack for inspections and certificates, and custom internal tools for operations teams in the UAE and GCC.",
+  },
+  products: {
+    title: "Products and services | Kuroshio AI",
+    description:
+      "Kuroshio Platform for machine energy and health, KTrack for inspections and certificates, and custom internal tools built around your process.",
+  },
+  ktrack: {
+    title: "KTrack: Inspections, Certificates and Renewals | Kuroshio AI",
+    description:
+      "KTrack: inspection reporting, certification and expiry tracking for inspection and certification companies, with QR-verified certificates and WhatsApp alerts. Used by Kee Safety.",
   },
   platform: {
-    title: "Industrial Intelligence Platform | Kuroshio AI",
+    title: "Kuroshio Platform | Kuroshio AI",
     description:
       "Explore Kuroshio AI's EnergyIQ, predictive maintenance, digital logbook, and architecture - one sensing layer for any three-phase asset, factory floor or plant room.",
   },

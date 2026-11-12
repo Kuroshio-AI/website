@@ -1,4 +1,4 @@
-export type PageId = "home" | "platform" | "industries" | "about" | "contact";
+export type PageId = "home" | "products" | "platform" | "ktrack" | "industries" | "about" | "contact";
 
 /** Industries splits into two audience tracks; the product underneath is one. */
 export type TrackId = "factories" | "buildings";
@@ -36,7 +36,7 @@ export type IconKey =
   | "zap";
 
 export const navItems: ReadonlyArray<{ readonly id: PageId; readonly label: string }> = [
-  { id: "platform", label: "Platform" },
+  { id: "products", label: "Products & services" },
   { id: "industries", label: "Industries" },
   { id: "about", label: "About" },
   { id: "contact", label: "Contact" },
@@ -187,189 +187,17 @@ export const homePage = {
 
 export const platformPage = {
   hero: {
-    title: "One Operational View for Every Asset",
     description:
-      "Presses, chillers, pumps, extruders. If it runs on three-phase power, the same sensing layer reads it, with no PLC, no BMS, and no controls work.",
-    image: "/kuroshio/platform-hero.jpg",
-    action: "Explore Architecture",
+      "Kuroshio Platform reads presses, chillers, pumps and extruders. If it runs on three-phase power, the same sensing layer reads it, with no PLC, no BMS, and no controls work.",
+    action: "See how it connects",
   },
   anchorNav: [
     { id: "energy-iq", label: "EnergyIQ", icon: "zap" },
-    { id: "predictive-maintenance", label: "Predictive Maintenance", icon: "settings" },
-    { id: "digital-logbook", label: "Digital Logbook", icon: "book" },
-    { id: "carbon-tracking", label: "Carbon Tracking", icon: "leaf" },
-    { id: "architecture", label: "Technical Architecture", icon: "network" },
+    { id: "predictive-maintenance", label: "Predictive maintenance", icon: "settings" },
+    { id: "digital-logbook", label: "Digital logbook", icon: "book" },
+    { id: "carbon-tracking", label: "Carbon tracking", icon: "leaf" },
+    { id: "architecture", label: "Architecture", icon: "network" },
   ],
-  metrics: [
-    {
-      label: "Total energy",
-      value: "~440.05",
-      unit: "kWh",
-      helper: "Estimated",
-      delta: "Current view",
-      tone: "info",
-      icon: "zap",
-    },
-    {
-      label: "Total energy cost",
-      value: "~167.22",
-      unit: "AED",
-      helper: "Estimated",
-      delta: "Current view",
-      tone: "info",
-      icon: "gauge",
-    },
-    {
-      label: "Total idle time",
-      value: "5.02",
-      unit: "hours",
-      helper: "Available",
-      delta: "Today",
-      tone: "neutral",
-      icon: "clock",
-    },
-    {
-      label: "Idle waste cost",
-      value: "16.50",
-      unit: "AED",
-      helper: "Available",
-      delta: "Today",
-      tone: "warning",
-      icon: "ban",
-    },
-  ],
-  machines: [
-    {
-      machine: "Chiller 02",
-      type: "Plant room · Centrifugal Chiller",
-      state: "Running",
-      tone: "info",
-      idle: "0m",
-      energy: "318.40 kWh",
-      cost: "121.00 AED",
-      load: 74,
-      accent: 88,
-    },
-    {
-      machine: "Cooling Pump Skid",
-      type: "Unit 6 · Centrifugal Pump",
-      state: "Idle",
-      tone: "warning",
-      idle: "56m",
-      energy: "~109.91 kWh",
-      cost: "~41.77 AED",
-      load: 22,
-      accent: 62,
-    },
-    {
-      machine: "Demo CNC Mill",
-      type: "Unit 4 · CNC Mill",
-      state: "Off",
-      tone: "neutral",
-      idle: "1h 30m",
-      energy: "122.22 kWh",
-      cost: "46.44 AED",
-      load: 10,
-      accent: 8,
-    },
-    {
-      machine: "Hydraulic Press Line",
-      type: "Unit 5 · Hydraulic Press",
-      state: "Off",
-      tone: "neutral",
-      idle: "2h 35m",
-      energy: "207.92 kWh",
-      cost: "79.01 AED",
-      load: 22,
-      accent: 0,
-    },
-  ],
-  predictive: {
-    title: "Catch failures weeks before they happen",
-    description:
-      "We detect bearing wear, winding degradation, and element failure using ML models trained on thousands of industrial failure signatures.",
-    features: [
-      "Motor health score 0-100 with plain-language AI alerts",
-      "Phase imbalance detection and current trend analysis",
-      "Heating element monitoring across full load cycles",
-      "Failure timeline prediction with confidence intervals",
-    ],
-  },
-  logbook: {
-    title: "Replace paper logs forever",
-    description:
-      "Every repair, inspection, and observation is logged, searchable, and downloadable as PDF, tied to the exact asset and timestamp. It stays yours when the team or the contractor changes.",
-    features: [
-      "Digital maintenance records with photo attachments",
-      "Alert-to-logbook link with entries created from AI alerts",
-      "Machine history per asset with full audit trail",
-      "PDF maintenance report download and spare parts tracking",
-    ],
-    entries: [
-      {
-        title: "Bearing Replacement",
-        date: "Oct 15, 2023",
-        body: "Replaced main spindle bearing after vibration alert. Used part #BRG-409.",
-        initials: "JD",
-        owner: "John Doe",
-        tone: "secondary",
-      },
-      {
-        title: "Chiller 02 Approach Check",
-        date: "Sep 28, 2023",
-        body: "Condenser approach up 1.8 K month on month. Tubes scheduled for cleaning.",
-        initials: "AS",
-        owner: "Alice Smith",
-        tone: "neutral",
-      },
-      {
-        title: "Coolant System Flush",
-        date: "Sep 10, 2023",
-        body: "Full coolant system flushed and replaced with Castrol Hysol X-5.",
-        initials: "MR",
-        owner: "Maya Rao",
-        tone: "neutral",
-      },
-    ],
-  },
-  architecture: {
-    title: "Works on Any Asset. No PLC or BMS Access Required.",
-    cards: [
-      {
-        title: "Hardware Agnostic",
-        body: "Energy meters on the asset incomer - no PLC or BMS needed.",
-        icon: "factory",
-      },
-      {
-        title: "Secure Connectivity",
-        body: "Cellular uplink - never uses client network.",
-        icon: "radio",
-      },
-      {
-        title: "Data Residency",
-        body: "Azure UAE North - data stays in UAE.",
-        icon: "database",
-      },
-      {
-        title: "Rapid Deployment",
-        body: "Installs in 3-4 hours - no downtime.",
-        icon: "clock",
-      },
-    ],
-    pipeline: [
-      { label: "Asset", icon: "gauge" },
-      { label: "Edge Device", icon: "cpu" },
-      { label: "Cellular", icon: "radio" },
-      { label: "Azure Cloud", icon: "cloud" },
-      { label: "Dashboard", icon: "gauge" },
-    ],
-  },
-  cta: {
-    title: "See What Your Assets Are Telling You",
-    description:
-      "Book half an hour with one of our engineers. You will see real readings from a working site, and you can ask whatever you want about how it holds up.",
-    action: "Request a Demo",
-  },
 } as const;
 
 export const industriesPage = {
@@ -388,9 +216,9 @@ export const industriesPage = {
       icon: "factory",
       summary: "Presses, extruders, furnaces, mills",
       eyebrow: "Heavy manufacturing · UAE & GCC",
-      headline: { lead: "Industrial intelligence built around your", accent: "machines." },
+      headline: "Built around the machines you run.",
       description:
-        "Heavy, hot, and hard on equipment. We clamp onto the incomer, read the current every 40 seconds, and turn it into energy cost, failure warnings weeks ahead, and a maintenance record you can actually search.",
+        "We clamp onto the incomer and read the current every 40 seconds. Pick a machine to see what that reading turns into.",
       sectors: [
         {
           title: "Glass Manufacturing",
@@ -398,8 +226,8 @@ export const industriesPage = {
           image: "/kuroshio/glass-manufacturing.jpg",
           imageAlt:
             "Hot end of a flat glass line, the annealing lehr glowing orange above a roller conveyor driven by rows of small motors.",
-          machines: ["Melting Furnaces", "Annealing Lehrs", "Forming Machines"],
-          signals: ["Thermal Gradients", "Viscosity Rates", "Vibration Anomalies"],
+          machines: ["Melting furnaces", "Annealing lehrs", "Forming machines"],
+          signals: ["Element current per phase", "Motor load", "Idle running"],
         },
         {
           title: "Plastics & Polymers",
@@ -407,8 +235,8 @@ export const industriesPage = {
           image: "/kuroshio/plastics-polymers.jpg",
           imageAlt:
             "Row of horizontal injection moulding machines with feed hoppers and coloured coolant lines on a factory floor.",
-          machines: ["Extruders", "Injection Molders", "Cooling Towers"],
-          signals: ["Melt Pressure", "Screw Speed", "Coolant Flow"],
+          machines: ["Extruders", "Injection moulders", "Cooling towers"],
+          signals: ["Heater current", "Screw motor load", "Cycle time"],
         },
       ],
       grid: {
@@ -448,10 +276,6 @@ export const industriesPage = {
           },
         ],
       },
-      cta: {
-        title: "Your Machines Do Not Need to Be New to Become Intelligent",
-        action: "Speak to an Engineer",
-      },
     },
     {
       id: "buildings",
@@ -459,9 +283,9 @@ export const industriesPage = {
       icon: "building",
       summary: "Chillers, pumps, AHUs, lift rooms",
       eyebrow: "Facilities & FM · UAE & GCC",
-      headline: { lead: "The same instrument, pointed at your", accent: "plant room." },
+      headline: "The same meter, in your plant room.",
       description:
-        "A chiller and a press are both motors on three-phase power, and the meter cannot tell them apart. We clamp on at the panel, with no BMS integration, no controls work and no tenant disruption. What comes back is cost per asset, failure warnings, and an FM record that survives a contractor change.",
+        "A chiller and a press are both motors on three-phase power. We clamp on at the panel, with no BMS integration and no controls work. Pick a machine to see what comes back.",
       sectors: [
         {
           title: "Chiller Plant & District Cooling",
@@ -470,8 +294,8 @@ export const industriesPage = {
           imageAlt:
             "Chiller plant room with three water-cooled centrifugal chillers on concrete plinths.",
           body: "Chiller plant is the largest single line on a tower's DEWA bill and the least attributed. Metering each machine at the panel turns efficiency drift into a number: kW against tons of cooling delivered. That number moves months before a breakdown or a peak-demand charge does.",
-          machines: ["Centrifugal Chillers", "Primary & Secondary Pumps", "Cooling Tower Fans"],
-          signals: ["kW per Ton", "Compressor Current", "Bearing Vibration"],
+          machines: ["Centrifugal chillers", "Primary and secondary pumps", "Cooling tower fans"],
+          signals: ["Compressor current", "Power factor", "Phase imbalance"],
         },
         {
           title: "Towers, Hotels & Malls",
@@ -479,8 +303,8 @@ export const industriesPage = {
           imageAlt:
             "Electrical riser room with a row of distribution panels fed from overhead cable tray.",
           body: "One bill for the whole building tells you nothing about which riser, which floor, or which tenant. Per-panel metering makes the service charge defensible, exposes plant left running overnight, and traces power-factor penalties back to the asset causing them.",
-          machines: ["Air Handling Units", "Booster & Sump Pumps", "Lift Motor Rooms"],
-          signals: ["After-Hours Load", "Power Factor", "Phase Imbalance"],
+          machines: ["Air handling units", "Booster and sump pumps", "Lift motor rooms"],
+          signals: ["After-hours load", "Power factor", "Phase imbalance"],
         },
       ],
       grid: {
@@ -520,10 +344,6 @@ export const industriesPage = {
           },
         ],
       },
-      cta: {
-        title: "Your Building Already Draws the Data. Nobody Is Reading It.",
-        action: "Speak to an Engineer",
-      },
     },
   ],
 } as const;
@@ -536,12 +356,12 @@ export const aboutPage = {
   },
   story: {
     title: "Company Story",
-    aside: "Engineered in Kochi. Installed across the UAE and GCC.",
+    aside: "Engineered in Trivandrum. Installed across the UAE and GCC.",
     paragraphs: [
       "We spent years on factory floors before starting this, and the same thing kept happening. Nobody could say what any single machine cost to run. Maintenance found out about a bearing after it had already gone.",
       "The systems that fix this properly were built for plants ten times the size, and priced to match. So we built one that goes in during an afternoon, costs a fraction of that, and never touches your control system.",
       "The name comes from the Kuroshio Current, the warm current that runs north past Japan. You cannot see it from the shore. Everything downstream still depends on what it is doing.",
-      "The engineering happens in Kochi, Kerala. Installation and support run out of Ras Al Khaimah. That split is deliberate, and it is a large part of why the hardware costs what it does.",
+      "The engineering happens in Trivandrum, Kerala. Installation and support run out of Ras Al Khaimah. That split is deliberate, and it is a large part of why the hardware costs what it does.",
     ],
     calloutTitle: "Why Kuroshio",
     calloutBody:
@@ -555,51 +375,46 @@ export const aboutPage = {
   ],
   approach: [
     {
-      title: "No Client Network Access",
-      body: "We never connect to client networks - cellular uplink only",
-      icon: "radio",
+      title: "No client network access",
+      body: "Readings leave over our own cellular uplink, never through your network.",
     },
     {
-      title: "No Control System Access",
-      body: "We never touch client control systems - our own sensor layer",
-      icon: "shield",
+      title: "No control system access",
+      body: "We bring our own sensor layer and never touch your PLC or BMS.",
     },
     {
-      title: "UAE Data Residency",
-      body: "UAE data residency - Azure UAE North",
-      icon: "database",
+      title: "UAE data residency",
+      body: "Your data is stored in Azure UAE North.",
     },
     {
-      title: "Deploy in Hours",
-      body: "Deploy in hours - not months",
-      icon: "clock",
+      title: "Deployed in hours",
+      body: "An install takes an afternoon, not months, and the line keeps running.",
     },
     {
-      title: "Built for GCC",
-      body: "Built for GCC - Arabic language support planned",
-      icon: "globe",
+      title: "Built for the GCC",
+      body: "Priced against local tariffs. Arabic language support is planned.",
     },
   ],
   leadership: [
-    {
-      name: "Ajas Khan",
-      role: "Co-founder & CTO",
-      bio: "B.Tech EEE, TKM College of Engineering. IIT Madras Data Science. Prior experience as Electrical Engineer at MRF Tyres.",
-    },
     {
       name: "Noufal",
       role: "Co-founder & CEO",
       bio: "UAE operations, business development, client relationships.",
     },
     {
-      name: "Parthiv Roshan",
-      role: "IoT Engineer",
-      bio: "Hardware design, firmware development, edge device assembly.",
+      name: "Ajas Khan",
+      role: "Co-founder & CTO",
+      bio: "Electrical engineering, data science, technical direction. Previously at MRF Tyres.",
     },
     {
       name: "Sree Harinandan",
       role: "Full-Stack Developer",
       bio: "Platform development, cloud infrastructure, AI integration.",
+    },
+    {
+      name: "Parthiv Roshan",
+      role: "IoT Engineer",
+      bio: "Hardware design, firmware development, edge device assembly.",
     },
     {
       name: "Farzana",
@@ -629,16 +444,16 @@ export const aboutPage = {
 
 export const contactPage = {
   hero: {
-    title: "Let's Start with One Machine.",
+    title: "Tell us what you need.",
     description:
-      "Tell us what you want measured. An engineer reads every message that comes in here, and you will get a straight answer on whether we can help.",
+      "Machines to meter, certificates to track, or a job stuck in spreadsheets. An engineer reads every message that comes in here, and you will get a straight answer on whether we can help.",
   },
   fields: [
-    { id: "name", label: "Full Name", type: "text", required: true, placeholder: "Jane Smith" },
+    { id: "name", label: "Full name", type: "text", required: true, placeholder: "Jane Smith" },
     { id: "company", label: "Company", type: "text", required: true, placeholder: "Acme Industries LLC" },
-    { id: "role", label: "Job Role", type: "text", required: false, placeholder: "Operations Manager" },
-    { id: "email", label: "Work Email", type: "email", required: true, placeholder: "jane@acme.com" },
-    { id: "phone", label: "Phone Number", type: "tel", required: false, placeholder: "+971 50 000 0000" },
+    { id: "role", label: "Job role", type: "text", required: false, placeholder: "Operations Manager" },
+    { id: "email", label: "Work email", type: "email", required: true, placeholder: "jane@acme.com" },
+    { id: "phone", label: "Phone number", type: "tel", required: false, placeholder: "+971 50 000 0000" },
   ],
   regions: ["United Arab Emirates", "Saudi Arabia", "India", "United Kingdom", "United States", "Other"],
   // Grouped so a facilities manager can find themselves without reading past

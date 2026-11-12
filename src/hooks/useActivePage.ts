@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { PageId, RouteId } from "@/data/mockData";
 import { scrollToSection, scrollToTop } from "@/lib/smoothScroll";
 
-const pageIds: ReadonlyArray<PageId> = ["home", "platform", "industries", "about", "contact"];
+const pageIds: ReadonlyArray<PageId> = ["home", "products", "platform", "ktrack", "industries", "about", "contact"];
 
 function normalizePage(value: string): RouteId {
   const cleanValue = value.replace(/^#\/?/, "").replace(/^\//, "").trim();

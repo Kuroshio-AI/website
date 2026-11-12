@@ -41,13 +41,14 @@ function startDemoSnap(scroll) {
   const snapToDemo = () => {
     if (scroll.isStopped) return;
     const direction = wheelDelta;
-    const demo = document.querySelector("#walkthrough");
-    if (!demo?.querySelector(".demo-player") || window.innerWidth < 1024 || document.fullscreenElement) {
+    const demo = document.querySelector("figure.demo-player");
+    if (!demo || window.innerWidth < 1024 || document.fullscreenElement) {
       return;
     }
 
     // Use the live layout: the lazy player and viewport can change its position.
-    const top = document.querySelector("header").offsetHeight + 16;
+    // Its scroll-margin clears the sticky header and section rail.
+    const top = parseFloat(getComputedStyle(demo).scrollMarginTop) || 0;
     const rect = demo.getBoundingClientRect();
     const distance = rect.top - top;
     const target = scroll.actualScroll + distance;
@@ -57,9 +58,10 @@ function startDemoSnap(scroll) {
     const approachDistance = target - gestureStartY;
     if (rect.height > window.innerHeight - top - 16 || Math.abs(approachDistance) < 4 || approachDistance * direction <= 0) return;
     wheelDelta = 0;
+    // Ease out from the glide's own momentum so the settle reads as one long, soft stop.
     scroll.scrollTo(target, {
-      duration: 0.65,
-      easing: gsap.parseEase("power3.inOut"),
+      duration: 1.4,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       userData: { initiator: "demo-snap" },
     });
   };

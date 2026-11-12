@@ -1,206 +1,13 @@
-import { ArrowRight, ArrowUpRight } from "lucide-react";
-import { Suspense, lazy, useRef, useState } from "react";
+import { useRef } from "react";
 
-import { ChunkBoundary } from "@/components/kuroshio/ChunkBoundary";
-import { DemoPoster } from "@/components/kuroshio/DemoPoster";
-import { HardwareDiagram } from "@/components/kuroshio/HardwareDiagram";
-import { KuroshioIcon } from "@/components/kuroshio/IconMap";
-import { PageLink } from "@/components/kuroshio/PageLink";
-import { Band, SectionHead } from "@/components/kuroshio/Sections";
 import { HeroSection } from "@/components/kuroshio/home/HeroSection";
-import { PipelineSection } from "@/components/kuroshio/home/PipelineSection";
-import { homePage } from "@/data/mockData";
+import { PilotDialog } from "@/components/kuroshio/home/HomeSections";
+import { ProductPair } from "@/components/kuroshio/pages/ProductsPage";
 import type { PageId } from "@/data/mockData";
 import { usePageMotion } from "@/hooks/usePageMotion";
-import { ScrollTrigger } from "@/lib/motion";
-import { cn } from "@/lib/utils";
-
-// Remotion + the composition are ~40% of the bundle; keep them out of the
-// critical path and stream them in behind a reserved, correctly-sized frame.
-const PlatformDemo = lazy(() =>
-  import("@/components/kuroshio/PlatformDemo").then((module) => ({
-    default: module.PlatformDemo,
-  }))
-);
 
 interface PageProps {
   readonly onNavigate: (page: PageId) => void;
-}
-
-const CAPABILITY_META = [
-  { anchor: "energy-iq", metric: "40s", metricLabel: "sample interval" },
-  { anchor: "predictive-maintenance", metric: "12d", metricLabel: "typical lead time" },
-  { anchor: "digital-logbook", metric: "0", metricLabel: "paper logbooks" },
-  { anchor: "carbon-tracking", metric: "Scope 2", metricLabel: "audit ready" },
-];
-
-function ProblemList() {
-  return (
-    <ol className="mt-14 flex flex-col border-t border-hairline">
-      {homePage.problems.map((problem, index) => (
-        <li
-          className="group relative grid gap-4 border-b border-hairline py-8 md:grid-cols-[8rem_minmax(0,22rem)_minmax(0,1fr)] md:items-start md:gap-10 md:py-10"
-          data-reveal="up"
-          key={problem.title}
-        >
-          <span
-            aria-hidden="true"
-            className="absolute inset-x-0 -bottom-px h-px origin-left scale-x-0 bg-brand transition-transform duration-700 ease-out group-hover:scale-x-100"
-          />
-          <div className="flex items-center gap-4">
-            <span className="readout text-2xl leading-none text-ink-faint transition-colors duration-300 group-hover:text-brand">
-              {String(index + 1).padStart(2, "0")}
-            </span>
-            <KuroshioIcon
-              className="size-5 text-ink-faint transition-colors duration-300 group-hover:text-brand"
-              name={problem.icon}
-              strokeWidth={1.5}
-            />
-          </div>
-          <h3 className="display-md text-ink">{problem.title}</h3>
-          <p className="text-[0.9375rem] leading-relaxed text-ink-dim">{problem.body}</p>
-        </li>
-      ))}
-    </ol>
-  );
-}
-
-function Capabilities() {
-  const [active, setActive] = useState(0);
-  const listRef = useRef<HTMLDivElement>(null);
-
-  usePageMotion(listRef, (scope: HTMLElement) => {
-    scope.querySelectorAll<HTMLElement>("[data-capability]").forEach((node, index) => {
-      ScrollTrigger.create({
-        trigger: node,
-        start: "top 60%",
-        end: "bottom 55%",
-        onToggle: (self) => {
-          if (self.isActive) setActive(index);
-        },
-      });
-    });
-  });
-
-  return (
-    <div className="mt-16 grid gap-12 lg:grid-cols-[16rem_minmax(0,1fr)] lg:gap-20" ref={listRef}>
-      <nav aria-label="Capabilities" className="hidden lg:block">
-        <ol className="sticky top-32 flex flex-col gap-1">
-          {homePage.products.map((product, index) => (
-            <li key={product.tag}>
-              <a
-                aria-current={active === index ? "location" : undefined}
-                className={cn(
-                  "flex items-center gap-3 border-l py-3 pl-4 text-sm tracking-tight transition-colors",
-                  active === index
-                    ? "border-brand text-ink"
-                    : "border-hairline text-ink-faint hover:text-ink-dim"
-                )}
-                href={`#${CAPABILITY_META[index].anchor}`}
-              >
-                <span className="readout text-[0.6875rem]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-                {product.tag}
-              </a>
-            </li>
-          ))}
-        </ol>
-      </nav>
-
-      <div className="flex flex-col gap-6">
-        {homePage.products.map((product, index) => (
-          <article
-            className="panel corner-marks group grid gap-8 p-6 transition-colors duration-500 hover:border-hairline-strong md:grid-cols-[minmax(0,1fr)_15rem] md:p-9"
-            data-capability
-            data-reveal="up"
-            id={CAPABILITY_META[index].anchor}
-            key={product.tag}
-          >
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-3">
-                <span className="flex size-9 items-center justify-center border border-brand/40 bg-brand/8 text-brand">
-                  <KuroshioIcon className="size-4" name={product.icon} strokeWidth={1.75} />
-                </span>
-                <span className="tag-brand">{product.tag}</span>
-              </div>
-
-              <h3 className="display-md max-w-md text-ink">{product.title}</h3>
-
-              <ul className="flex flex-col gap-3">
-                {product.bullets.map((bullet) => (
-                  <li className="flex gap-3 text-[0.9375rem] leading-relaxed text-ink-dim" key={bullet}>
-                    <span
-                      aria-hidden="true"
-                      className="mt-[0.55em] size-1 shrink-0 bg-brand"
-                    />
-                    {bullet}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex flex-col justify-between gap-6 border-hairline md:border-l md:pl-8">
-              <div className="flex flex-col gap-1.5">
-                <span className="readout text-4xl leading-none text-brand">
-                  {CAPABILITY_META[index].metric}
-                </span>
-                <span className="tag">{CAPABILITY_META[index].metricLabel}</span>
-              </div>
-              <PageLink
-                className="flex w-fit items-center gap-2 text-sm font-medium tracking-tight text-ink-dim transition-colors hover:text-brand"
-                page="platform"
-              >
-                Technical detail
-                <ArrowUpRight aria-hidden="true" className="size-4" />
-              </PageLink>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-const PILOT_TERMS = [
-  ["Scope", "One machine, your choice"],
-  ["Duration", "Four weeks, start to report"],
-  ["Install", "3–4 hours, no stoppage"],
-  ["Your maximum risk", "AED 1,500"],
-  ["If you see no value", "75% of the fee refunded"],
-];
-
-function PilotOffer() {
-  return (
-    <div
-      className="mt-14 grid gap-px border border-hairline bg-hairline lg:grid-cols-[1fr_1.15fr]"
-      data-reveal="up"
-    >
-      <div className="flex flex-col gap-6 bg-panel p-7 md:p-9">
-        <span className="tag-brand">The pilot</span>
-        <dl className="flex flex-col divide-y divide-hairline border-y border-hairline">
-          {PILOT_TERMS.map(([label, value]) => (
-            <div className="flex flex-wrap items-baseline justify-between gap-3 py-4" key={label}>
-              <dt className="tag">{label}</dt>
-              <dd className="readout text-right text-sm text-ink">{value}</dd>
-            </div>
-          ))}
-        </dl>
-        <p className="text-sm leading-relaxed text-ink-dim">
-          You keep the report either way. If the numbers do not justify going
-          further, we refund three quarters of the fee and take the hardware back.
-        </p>
-      </div>
-
-      <div className="flex flex-col gap-5 bg-panel p-7 md:p-9">
-        <div className="flex items-baseline justify-between gap-4">
-          <span className="tag-brand">What gets installed</span>
-          <span className="tag">2 parts</span>
-        </div>
-        <HardwareDiagram className="w-full" />
-      </div>
-    </div>
-  );
 }
 
 export function HomePage({ onNavigate }: Readonly<PageProps>) {
@@ -211,135 +18,22 @@ export function HomePage({ onNavigate }: Readonly<PageProps>) {
     <main className="outline-none" ref={rootRef} tabIndex={-1}>
       <HeroSection />
 
-      {/* -------------------------------------------------- the walkthrough */}
-      <Band tone="canvas-sunk">
-        <div className="shell" id="walkthrough">
-          <h2 className="text-xl font-semibold leading-7 tracking-tight" data-reveal="up">
-            See Kuroshio <span className="text-brand">in action.</span>
-          </h2>
-
-          {/* Deliberately not [data-reveal]: this is the section's payload, not
-              decoration. Gating it behind a scroll trigger left its reserved
-              ~790px sitting empty until GSAP got around to fading it in. */}
-          <div className="mt-3 max-lg:mx-auto max-lg:max-w-[640px]">
-            <ChunkBoundary fallback={<DemoPoster failed />}>
-              <Suspense fallback={<DemoPoster />}>
-                <PlatformDemo />
-              </Suspense>
-            </ChunkBoundary>
+      <section className="band bg-canvas">
+        <div className="shell">
+          <div className="mb-12 grid gap-6 md:grid-cols-12 md:items-end md:gap-x-6">
+            <h2 className="display-lg md:col-span-7" data-reveal="up">
+              What we build
+            </h2>
+            <p className="lede max-w-[40ch] md:col-span-5" data-reveal="up">
+              Two products of our own, and custom tools for teams whose work does not fit
+              anyone else's software.
+            </p>
           </div>
-        </div>
-      </Band>
-
-      {/* ------------------------------------------------------ the problem */}
-      <Band>
-        <div className="shell">
-          <SectionHead
-            body="Every site we walk into has the same four blind spots, a press shop and a chiller plant alike. None of them are exotic. All of them are expensive."
-            eyebrow="What it costs you"
-            index="02"
-            title={
-              <>
-                Four things your site
-                <br />
-                cannot currently see.
-              </>
-            }
-          />
-          <ProblemList />
-        </div>
-      </Band>
-
-      {/* --------------------------------------------------- what you get */}
-      <Band tone="canvas-sunk">
-        <div className="shell">
-          <SectionHead
-            body="One platform, four working surfaces. Each one runs on the same measured signal, so energy, health, and history never disagree."
-            eyebrow="Capabilities"
-            index="03"
-            title={
-              <>
-                Measured signal in.
-                <br />
-                <span className="text-brand">Decisions</span> out.
-              </>
-            }
-          />
-          <Capabilities />
-        </div>
-      </Band>
-
-      <PipelineSection />
-
-      {/* -------------------------------------------------------- industries */}
-      <Band>
-        <div className="shell">
-          <SectionHead
-            body="Factory floor or plant room, the sensing layer is the same. These are the assets we already read."
-            eyebrow="Where it runs"
-            index="04"
-            title="Built around the machines you already own."
-          />
-
-          <ul className="mt-12 grid gap-px border border-hairline bg-hairline sm:grid-cols-2 lg:grid-cols-3" data-reveal="up">
-            {homePage.industries.map((industry) => (
-              <li
-                className="flex items-center gap-3 bg-panel px-5 py-4"
-                key={industry.title}
-              >
-                <KuroshioIcon
-                  className="size-4 shrink-0 text-brand"
-                  name={industry.icon}
-                  strokeWidth={1.6}
-                />
-                <span className="text-sm font-medium tracking-tight text-ink">
-                  {industry.title}
-                </span>
-              </li>
-            ))}
-          </ul>
-
-          <PageLink
-            className="mt-6 inline-flex items-center gap-2 text-sm font-medium tracking-tight text-brand hover:underline"
-            data-reveal="fade"
-            page="industries"
-          >
-            See what we read on each line
-            <ArrowUpRight aria-hidden="true" className="size-4" />
-          </PageLink>
-
-          <PilotOffer />
-        </div>
-      </Band>
-
-      {/* --------------------------------------------------------------- cta */}
-      <section className="relative overflow-hidden border-t border-hairline bg-canvas-deep">
-        <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-          <div className="grid-field-fine absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 bg-[radial-gradient(60%_70%_at_50%_110%,rgba(9,76,178,0.10),transparent_70%)]" />
-        </div>
-
-        <div className="shell relative flex flex-col items-start gap-8 py-24 md:py-32">
-          <span className="tag-brand" data-reveal="fade">
-            {homePage.cta.badge}
-          </span>
-          <h2 className="display-lg max-w-3xl" data-reveal="up">
-            {homePage.cta.title}
-          </h2>
-          <p className="lede max-w-2xl" data-reveal="up" data-reveal-delay="0.08">
-            One machine, four weeks, and a report you keep either way.
-          </p>
-          <div className="flex flex-wrap gap-3" data-reveal="up" data-reveal-delay="0.14">
-            <button className="btn-brand" onClick={() => onNavigate("contact")} type="button">
-              {homePage.cta.action}
-              <ArrowRight aria-hidden="true" className="size-4" />
-            </button>
-            <PageLink className="btn-ghost" page="platform">
-              Read the architecture
-            </PageLink>
-          </div>
+          <ProductPair headingLevel="h3" />
         </div>
       </section>
+
+      <PilotDialog onNavigate={onNavigate} />
     </main>
   );
 }

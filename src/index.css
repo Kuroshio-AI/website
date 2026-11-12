@@ -1,5 +1,5 @@
-@import "@fontsource-variable/bricolage-grotesque";
-@import "@fontsource-variable/instrument-sans";
+@import "@fontsource-variable/league-spartan";
+@import "@fontsource-variable/figtree";
 @import "@fontsource-variable/geist-mono";
 @import "tailwindcss";
 @import "tw-animate-css";
@@ -14,9 +14,9 @@
    ========================================================================== */
 
 @theme inline {
-  --font-display: "Bricolage Grotesque Variable", sans-serif;
-  --font-heading: "Bricolage Grotesque Variable", sans-serif;
-  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "League Spartan Variable", sans-serif;
+  --font-heading: var(--font-display);
+  --font-sans: "Figtree Variable", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono Variable", ui-monospace, "SFMono-Regular", monospace;
 
   /* shadcn bridge */
@@ -76,34 +76,35 @@
 :root {
   color-scheme: light;
 
-  --canvas: #fafafa;
-  --canvas-sunk: #f4f5f8;
-  --canvas-deep: #eef1f6;
-  --panel: #ffffff;
-  --panel-sunk: #f7f8fa;
+  /* Stone and blueprint: one stone ground, near-black ink, the dashboard's
+     own blue as the single accent. Surfaces step in tone, never by a line. */
+  --canvas: #dfdedb;
+  --canvas-sunk: #d3d2ce;
+  --canvas-deep: #c8c7c2;
+  --panel: #ebeae7;
+  --panel-sunk: #e4e3df;
 
-  /* the dashboard's own --brand-focus and friends */
   --brand: #094cb2;
   --brand-deep: #133976;
-  --brand-soft: #f0f5ff;
-  --brand-line: #dee8ff;
+  --brand-soft: #d6dff0;
+  --brand-line: #c3d1ec;
 
-  --flare: #8a5a00;
-  --flare-soft: #fdf8e8;
+  --flare: #7a4f00;
+  --flare-soft: #efe6cf;
   --fault: #a5241c;
-  --fault-soft: #fdeceb;
+  --fault-soft: #f1dcda;
   --ok: #1a6b47;
-  --ok-soft: #eefaf3;
+  --ok-soft: #d9e9df;
 
-  --ink: #27272a;
-  --ink-dim: #52525b;
-  --ink-faint: #6b6b73;
+  --ink: #26251e;
+  --ink-dim: #4f4d46;
+  --ink-faint: #57554e;
 
-  --hairline: rgba(39, 39, 42, 0.1);
-  --hairline-strong: rgba(39, 39, 42, 0.2);
+  --hairline: transparent;
+  --hairline-strong: rgba(38, 37, 30, 0.22);
 
-  --shadow-panel: 0 1px 2px rgba(39, 39, 42, 0.05);
-  --shadow-raised: 0 2px 6px rgba(39, 39, 42, 0.07);
+  --shadow-panel: none;
+  --shadow-raised: 0 12px 32px -12px rgba(38, 37, 30, 0.35);
 
   /* shadcn semantic map */
   --background: var(--canvas);
@@ -148,11 +149,13 @@
   h1,
   h2,
   h3,
-  h4 {
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
-    font-variation-settings: "wdth" 100, "opsz" 24;
+    font-weight: 700;
     letter-spacing: -0.035em;
-    line-height: 0.94;
+    line-height: 0.95;
     text-wrap: balance;
   }
 
@@ -167,9 +170,8 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--brand);
+    outline: 3px solid var(--brand);
     outline-offset: 3px;
-    border-radius: 2px;
   }
 
   ::selection {
@@ -199,7 +201,7 @@
 @layer components {
   /* ---- layout ---- */
   .shell {
-    @apply mx-auto w-full max-w-[1320px] px-5 sm:px-8 lg:px-12;
+    @apply mx-auto w-full max-w-[1440px] px-4 sm:px-8 lg:px-10;
   }
 
   .shell-tight {
@@ -207,11 +209,16 @@
   }
 
   .band {
-    @apply relative py-24 md:py-32;
+    @apply relative py-20 md:py-28;
   }
 
   #walkthrough {
-    scroll-margin-top: calc(69px + 1rem);
+    scroll-margin-top: calc(122px + 1rem); /* header + section rail */
+  }
+
+  /* Section-rail jumps land with the heading just under the sticky header and rail, not behind them. */
+  html:has(nav[aria-label="Platform sections"]) section[id] {
+    scroll-margin-top: calc(122px - 3rem);
   }
 
   .demo-stage {
@@ -220,8 +227,13 @@
 
   @media (min-width: 1024px) {
     .demo-player:not(:fullscreen) {
-      /* ponytail: 216px covers the header, compact title, controls and gaps; measure if that copy grows. */
-      width: min(100%, max(700px, calc((100dvh - 216px) * var(--demo-ratio))));
+      /* ponytail: 350px covers the header, section rail, one-line heading row, chapter steps, caption and gaps; measure if that copy grows. */
+      width: min(100%, max(560px, calc((100dvh - 350px) * var(--demo-ratio))));
+    }
+
+    /* Where the Lenis demo snap (lib/smoothScroll.js) parks the player: under the header and section rail. */
+    figure.demo-player:not(:fullscreen) {
+      scroll-margin-top: calc(122px + 1rem);
     }
   }
 
@@ -245,30 +257,27 @@
   .display-xl {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2.5rem, 5.6vw, 5.25rem);
-    line-height: 0.88;
+    font-size: clamp(2.75rem, 6.4vw, 6.25rem);
+    line-height: 0.9;
     letter-spacing: -0.045em;
-    font-variation-settings: "wdth" 100, "opsz" 48;
   }
 
   .display-lg {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(2rem, 4.1vw, 3.6rem);
+    font-size: clamp(2.25rem, 4.4vw, 4rem);
     line-height: 0.92;
     letter-spacing: -0.04em;
-    font-variation-settings: "wdth" 100, "opsz" 40;
   }
 
   .display-md {
     font-family: var(--font-display);
-    font-weight: 600;
-    font-size: clamp(1.6rem, 3vw, 2.35rem);
-    line-height: 1;
-    letter-spacing: -0.03em;
+    font-weight: 700;
+    font-size: clamp(1.625rem, 2.6vw, 2.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
   }
 
-  /* SplitText line wrapper: clip the reveal without cropping glyphs */
   .hero-line {
     overflow: hidden;
     padding-block: 0.16em;
@@ -276,147 +285,77 @@
   }
 
   .lede {
-    @apply text-[1.0625rem] leading-[1.62] text-ink-dim sm:text-[1.1875rem];
+    @apply text-[1.125rem] leading-[1.5] text-ink sm:text-[1.3125rem];
   }
 
+  /* Former mono eyebrows: now plain sentence-case notes in the text face. */
   .tag {
-    font-family: var(--font-mono);
-    @apply text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-ink-faint;
+    @apply text-[0.875rem] font-medium text-ink-faint;
   }
 
   .tag-brand {
-    font-family: var(--font-mono);
-    @apply text-[0.6875rem] font-medium uppercase tracking-[0.22em] text-brand;
+    @apply text-[0.875rem] font-semibold text-brand;
   }
 
   .readout {
-    font-family: var(--font-mono);
     @apply tabular-nums tracking-tight;
-    font-feature-settings: "ss01" 1;
   }
 
-  /* ---- instrument chrome ---- */
+  /* ---- surfaces: a tone step, no outline, no shadow ---- */
   .panel {
-    @apply relative border border-hairline bg-panel;
-    box-shadow: var(--shadow-panel);
+    @apply relative bg-panel;
   }
 
   .panel-sunk {
-    @apply relative border border-hairline bg-panel-sunk;
+    @apply relative bg-panel-sunk;
   }
 
-  .rule-t {
-    @apply border-t border-hairline;
-  }
-
-  .corner-marks::before,
-  .corner-marks::after {
-    content: "";
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    border: 1px solid var(--hairline-strong);
-    pointer-events: none;
-  }
-
-  .corner-marks::before {
-    top: -1px;
-    left: -1px;
-    border-right: 0;
-    border-bottom: 0;
-  }
-
-  .corner-marks::after {
-    right: -1px;
-    bottom: -1px;
-    border-left: 0;
-    border-top: 0;
-  }
-
-  /* ---- buttons ---- */
+  /* ---- buttons: flat, square, one fill ---- */
   .btn-brand {
-    @apply relative inline-flex min-h-11 items-center justify-center gap-2 overflow-hidden
-      bg-brand px-6 py-3 text-sm font-semibold tracking-tight text-white
-      transition-[transform,box-shadow,background-color] duration-200 ease-out;
-    border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(9, 76, 178, 0.18);
+    @apply relative inline-flex min-h-12 items-center justify-center gap-2
+      bg-brand px-6 py-3 text-[0.9375rem] font-semibold text-white
+      transition-[background-color,transform] duration-150 ease-out;
   }
 
   .btn-brand:hover {
     background: var(--brand-deep);
-    box-shadow: 0 6px 16px -6px rgba(9, 76, 178, 0.55);
-    transform: translateY(-1px);
   }
 
-  .btn-brand:active {
-    transform: translateY(0);
+  .btn-brand:active,
+  .btn-ghost:active {
+    transform: scale(0.97);
   }
 
-  /* Small instrument control that floats over the demo stage. Icon-only, so
-     the aria-label is the accessible name outright — no visible-text mismatch. */
+  .btn-ghost {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 bg-canvas-sunk px-6 py-3
+      text-[0.9375rem] font-semibold text-ink transition-[background-color,transform] duration-150
+      hover:bg-canvas-deep;
+  }
+
+  /* Small instrument control that floats over the demo stage. */
   .demo-control {
-    @apply inline-flex size-10 shrink-0 items-center justify-center border
-      border-hairline-strong bg-panel/90 text-ink-dim backdrop-blur-[2px]
-      transition-colors duration-200 hover:border-brand hover:text-brand;
-    border-radius: 2px;
-    box-shadow: var(--shadow-panel);
+    @apply inline-flex size-10 shrink-0 items-center justify-center bg-panel text-ink-dim
+      transition-colors duration-200 hover:text-brand;
   }
 
-  /* Nothing autoplays, so the control that starts it wears the brand fill
-     until the demo is actually running. */
   .demo-control[data-idle="true"] {
     background: var(--brand);
-    border-color: var(--brand);
     color: #fff;
   }
 
   .demo-control[data-idle="true"]:hover {
     background: var(--brand-deep);
-    border-color: var(--brand-deep);
-    color: #fff;
   }
 
-  .btn-ghost {
-    @apply inline-flex min-h-11 items-center justify-center gap-2 border border-hairline-strong
-      bg-panel px-6 py-3 text-sm font-semibold tracking-tight text-ink
-      transition-colors duration-200 hover:border-brand hover:text-brand;
-    border-radius: 2px;
-    box-shadow: var(--shadow-panel);
-  }
-
-  /* ---- backgrounds ---- */
-  .grid-field {
-    background-image:
-      linear-gradient(rgba(9, 76, 178, 0.07) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(9, 76, 178, 0.07) 1px, transparent 1px);
-    background-size: 72px 72px;
-    background-position: center;
-  }
-
-  .grid-field-fine {
-    background-image:
-      linear-gradient(rgba(9, 76, 178, 0.05) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(9, 76, 178, 0.05) 1px, transparent 1px);
-    background-size: 18px 18px;
-  }
-
+  /* Retired ornaments, kept as no-ops so older pages still compile. */
+  .grid-field,
+  .grid-field-fine,
   .vignette {
-    background: radial-gradient(120% 80% at 50% 0%, transparent 20%, var(--canvas) 80%);
+    background: none;
   }
 }
 
 @layer utilities {
-  .glow-brand {
-    box-shadow: 0 0 0 4px rgba(9, 76, 178, 0.12);
-  }
-
-  .mask-fade-b {
-    mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-  }
-
-  .mask-fade-x {
-    mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
-  }
 }
 
 @keyframes pulse-dot {
@@ -493,5 +432,68 @@ html.lenis body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* The how-it-works slider: solid track, passed part in the ground colour, square accent thumb. */
+.stage-range {
+  appearance: none;
+  height: 32px;
+  background: transparent;
+}
+
+.stage-range::-webkit-slider-runnable-track {
+  height: 8px;
+  background: linear-gradient(to right, var(--canvas) var(--pct), rgba(223, 222, 219, 0.3) var(--pct));
+}
+
+.stage-range::-moz-range-track {
+  height: 8px;
+  background: rgba(223, 222, 219, 0.3);
+}
+
+.stage-range::-moz-range-progress {
+  height: 8px;
+  background: var(--canvas);
+}
+
+.stage-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 32px;
+  height: 32px;
+  margin-top: -12px;
+  background: var(--brand);
+  border: 3px solid var(--canvas);
+  cursor: grab;
+  transition: transform 150ms ease-out;
+}
+
+.stage-range::-moz-range-thumb {
+  width: 32px;
+  height: 32px;
+  border-radius: 0;
+  background: var(--brand);
+  border: 3px solid var(--canvas);
+}
+
+.stage-range:active::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+@media (pointer: coarse) {
+  .stage-range::-webkit-slider-thumb {
+    width: 40px;
+    height: 40px;
+    margin-top: -16px;
+  }
+}
+
+/* Hero A: the current drifts very slowly, the one moving picture on the page. */
+@keyframes drift {
+  from {
+    transform: scale(1.06) translate(0, 0);
+  }
+  to {
+    transform: scale(1.14) translate(-3%, -2%);
   }
 }

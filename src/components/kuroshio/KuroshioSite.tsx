@@ -4,6 +4,8 @@ import { SiteShell } from "@/components/kuroshio/SiteShell";
 import { AboutPage } from "@/components/kuroshio/pages/AboutPage";
 import { ContactPage } from "@/components/kuroshio/pages/ContactPage";
 import { HomePage } from "@/components/kuroshio/pages/HomePage";
+import { KTrackPage } from "@/components/kuroshio/pages/KTrackPage";
+import { ProductsPage } from "@/components/kuroshio/pages/ProductsPage";
 import { IndustriesPage } from "@/components/kuroshio/pages/IndustriesPage";
 import { NotFoundPage } from "@/components/kuroshio/pages/NotFoundPage";
 import { PlatformPage } from "@/components/kuroshio/pages/PlatformPage";
@@ -14,7 +16,9 @@ import type { PageId, RouteId } from "@/data/mockData";
 
 const pages = {
   home: HomePage,
+  products: ProductsPage,
   platform: PlatformPage,
+  ktrack: KTrackPage,
   industries: IndustriesPage,
   about: AboutPage,
   contact: ContactPage,

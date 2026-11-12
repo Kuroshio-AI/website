@@ -32,9 +32,9 @@ export const C = {
 };
 
 export const F = {
-  display: '"Bricolage Grotesque Variable", "Archivo Variable", sans-serif',
-  sans: '"Instrument Sans Variable", system-ui, sans-serif',
-  mono: '"Geist Mono Variable", ui-monospace, monospace',
+  display: 'var(--font-display, "League Spartan Variable"), "League Spartan Variable", sans-serif',
+  sans: 'var(--font-sans, "DM Sans Variable"), "DM Sans Variable", system-ui, sans-serif',
+  mono: 'var(--font-mono, "Geist Mono Variable"), "Geist Mono Variable", ui-monospace, monospace',
 };
 
 /**
@@ -62,7 +62,7 @@ export const CHAPTERS = [
     id: "handoff",
     index: "03",
     label: "Maintenance history",
-    summary: "Link the warning to the repair and save the record.",
+    summary: "Digitise the repair sheet and save a linked maintenance record.",
     from: 480,
     duration: 240,
   },

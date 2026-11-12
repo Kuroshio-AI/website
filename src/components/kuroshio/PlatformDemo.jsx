@@ -3,6 +3,7 @@ import { Maximize2, Minimize2, Pause, Play, RotateCcw } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
 import { DemoPoster } from "@/components/kuroshio/DemoPoster";
+import { PageLink } from "@/components/kuroshio/PageLink";
 import { KuroshioDemo } from "@/remotion/KuroshioDemo";
 import { CHAPTERS, VIDEO } from "@/remotion/theme";
 import { cn } from "@/lib/utils";
@@ -13,7 +14,12 @@ function PlayerFailure({ onFailure }) {
   return null;
 }
 
-export function PlatformDemo() {
+// The energy scene counts its idle cost from local frame 76 to 132 (SceneEnergy's useRamp).
+const IDLE_COST = 16.5;
+const idleCostAt = (frame) => (frame === 0 ? 1 : Math.min(1, Math.max(0, (frame - 76) / 56))) * IDLE_COST;
+const clamp01 = (value) => Math.min(1, Math.max(0, value));
+
+export function PlatformDemo({ heading }) {
   const playerRef = useRef(null);
   const wrapperRef = useRef(null);
   const manuallyPausedRef = useRef(false);
@@ -138,7 +144,7 @@ export function PlatformDemo() {
       data-idle={idle}
       onClick={toggle}
       /* Align with the desktop scene heading in composition coordinates. */
-      style={compact ? undefined : { top: `${(100 / height) * 100}%`, right: `${(88 / width) * 100}%` }}
+      style={compact ? undefined : { top: `${(62 / height) * 100}%`, right: `${(88 / width) * 100}%` }}
       type="button"
     >
       <PlaybackIcon aria-hidden="true" className="size-4" />
@@ -159,6 +165,15 @@ export function PlatformDemo() {
 
   return (
     <figure className="demo-player m-0 lg:mx-auto" ref={wrapperRef} style={{ "--demo-ratio": width / height }}>
+      <div className="demo-details mb-6 flex flex-wrap items-end justify-between gap-x-10 gap-y-3">
+        {heading}
+        <p className="m-0 flex items-baseline gap-3">
+          <span className="text-sm text-ink-dim">Idle running found today</span>
+          <span className="font-display text-[clamp(1.75rem,2.6vw,2.5rem)] leading-none font-bold tracking-[-0.03em] text-flare tabular-nums">
+            AED {idleCostAt(frame).toFixed(2)}
+          </span>
+        </p>
+      </div>
       <div className="demo-stage panel relative overflow-hidden" aria-label="Product demo">
         <div aria-hidden="true">
           <Player
@@ -178,9 +193,20 @@ export function PlatformDemo() {
           />
         </div>
 
-        {overlayControls && playbackButton}
+        {ended && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-5 bg-canvas/95 px-6 text-center">
+            <h3 className="font-display text-[clamp(1.75rem,3.4vw,3rem)] leading-none font-bold tracking-[-0.03em] text-ink">
+              See this on your own machines.
+            </h3>
+            <p className="max-w-md text-base text-ink-dim">A four-week pilot on one line, read against your tariff and your shifts.</p>
+            <div className="flex flex-wrap justify-center gap-3">
+              <PageLink className="btn-brand" page="contact">Start a pilot</PageLink>
+              <button className="btn-ghost" onClick={toggle} type="button">Watch again</button>
+            </div>
+          </div>
+        )}
+        {overlayControls && !ended && playbackButton}
         {overlayControls && fullscreenButton}
-        <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-0.5 origin-left bg-brand" style={{ transform: "scaleX(" + frame / (VIDEO.durationInFrames - 1) + ")" }} />
       </div>
 
       {!overlayControls && (
@@ -190,25 +216,31 @@ export function PlatformDemo() {
         </div>
       )}
 
-      <nav aria-label="Demo chapters" className="demo-details mt-1 grid grid-cols-3 gap-1 border-b border-hairline">
+      <nav aria-label="Demo chapters" className="demo-details mt-1 grid grid-cols-3 gap-1">
         {CHAPTERS.map((chapter) => (
           <button
             aria-current={chapter.id === active.id ? "step" : undefined}
             className={cn(
-              "min-h-11 border-b-2 px-2 py-2 text-center text-[0.8125rem] font-medium leading-snug transition-colors sm:text-sm",
-              chapter.id === active.id ? "border-brand text-brand" : "border-transparent text-ink-dim hover:border-hairline-strong hover:text-ink"
+              "relative min-h-11 overflow-hidden bg-canvas px-2 pt-2 pb-3 text-center text-[0.8125rem] font-medium leading-snug transition-colors sm:text-sm",
+              chapter.id === active.id ? "text-brand" : "text-ink-dim hover:text-ink"
             )}
             key={chapter.id}
             onClick={() => seekChapter(chapter)}
             type="button"
           >
             {chapter.label}
+            {/* Each step fills as its part of the film plays; the poster frame counts as unstarted. */}
+            <span
+              aria-hidden="true"
+              className="absolute inset-x-0 bottom-0 h-1 origin-left bg-brand"
+              style={{ transform: `scaleX(${frame ? clamp01((frame - chapter.from) / chapter.duration) : 0})` }}
+            />
           </button>
         ))}
       </nav>
-      <figcaption className="demo-details mt-2 flex flex-col gap-2">
-        <p aria-live="polite" aria-atomic="true" className="sr-only">{active.summary}</p>
-        <p className="text-xs text-ink-faint">Illustrative data, not a specific customer.</p>
+      <figcaption className="demo-details mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs">
+        <p aria-live="polite" aria-atomic="true" className="m-0 text-ink-dim">{active.summary}</p>
+        <p className="m-0 text-ink-faint">Illustrative data, not a specific customer.</p>
         {fullscreenError && <p role="status" className="text-sm text-ink-dim">{fullscreenError}</p>}
       </figcaption>
     </figure>

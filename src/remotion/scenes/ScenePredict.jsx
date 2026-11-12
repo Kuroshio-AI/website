@@ -1,6 +1,6 @@
-import { interpolate, useCurrentFrame, useVideoConfig } from "remotion";
+import { useCurrentFrame, useVideoConfig } from "remotion";
 
-import { Body, Headline, Mono, Panel, Readout, Rise } from "../parts";
+import { AssetPanel, Body, Headline, Mono, Panel, Readout, Rise } from "../parts";
 import { useRamp } from "../timing";
 import { C, F } from "../theme";
 
@@ -24,6 +24,35 @@ const BANDS = Array.from({ length: 34 }, (_, i) => {
   return { i, base: Math.min(0.95, base), sideband: i === 17 || i === 23 };
 });
 
+/* The dial is width-starved in the compact column, so it can never fill the
+   card's height. The delta line lives in a footer strip under the SVG instead
+   of inside the arc: it takes up the slack and stays clear of the arc tips. */
+function HealthGauge({ compact, score, settle, degrade }) {
+  const angle = START_ANGLE + SWEEP * (score / 100) * settle;
+  const arcColor = degrade > 0.5 ? C.flare : C.brand;
+  return (
+    <div style={{ minHeight: 0, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: compact ? 10 : 12, background: C.panelSunk, border: `1px solid ${C.hairline}`, padding: compact ? 10 : 14 }}>
+      <svg viewBox="24 16 352 292" preserveAspectRatio="xMidYMid meet" style={{ width: "100%", maxWidth: 400, aspectRatio: "352 / 292", minHeight: 0, display: "block" }}>
+        <path d={arcPath(200, 190, 132, START_ANGLE, START_ANGLE + SWEEP)} fill="none" stroke={C.hairlineStrong} strokeWidth="14" strokeLinecap="butt" />
+        {Array.from({ length: 27 }).map((_, i) => {
+          const a = START_ANGLE + (SWEEP * i) / 26;
+          const [x1, y1] = polar(200, 190, 150, a);
+          const [x2, y2] = polar(200, 190, i % 5 === 0 ? 162 : 157, a);
+          return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={C.hairlineStrong} strokeWidth="1" />;
+        })}
+        {settle > 0.02 ? <path d={arcPath(200, 190, 132, START_ANGLE, angle)} fill="none" stroke={arcColor} strokeWidth="14" strokeLinecap="butt" /> : null}
+        <text x="200" y="182" textAnchor="middle" fill={arcColor} style={{ fontFamily: F.sans, fontSize: 82, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em" }}>{Math.round(score * settle)}</text>
+        <text x="200" y="216" textAnchor="middle" fill={C.inkFaint} style={{ fontFamily: F.sans, fontSize: compact ? 15 : 14, letterSpacing: 0 }}>health score / 100</text>
+      </svg>
+      <div style={{ width: "100%", maxWidth: 400, borderTop: `1px solid ${C.hairline}`, paddingTop: compact ? 9 : 10, textAlign: "center" }}>
+        <Mono size={compact ? 18 : 13} color={degrade > 0.5 ? C.flare : C.inkDim} style={{ letterSpacing: 0 }}>
+          {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
+        </Mono>
+      </div>
+    </div>
+  );
+}
+
 export function ScenePredict() {
   const frame = useCurrentFrame();
   const compact = useVideoConfig().width < 1000;
@@ -31,208 +60,96 @@ export function ScenePredict() {
   const degrade = useRamp(64, 140);
   const score = 96 - 25 * degrade;
   const alertIn = useRamp(120, 150);
-
-  const angle = START_ANGLE + SWEEP * (score / 100) * settle;
-  const tone = interpolate(degrade, [0, 0.55, 1], [0, 0, 1], { extrapolateRight: "clamp" });
-  const arcColor = tone > 0.5 ? C.flare : C.brand;
+  const sideband = useRamp(74, 128);
 
   return (
     <div
       style={{
         position: "absolute",
         inset: 0,
-        padding: compact ? "44px 40px 56px" : "32px 88px 96px",
+        padding: compact ? "34px 32px 54px" : "32px 88px 96px",
         display: "flex",
         flexDirection: "column",
-        gap: compact ? 34 : 24,
+        gap: compact ? 16 : 20,
       }}
     >
-      <div style={{ display: "flex", flexDirection: "column", gap: 14, paddingRight: compact ? 0 : 96 }}>
-        <Rise delay={0}>
-          <Mono color={C.brand} size={compact ? 24 : 14}>Predictive maintenance</Mono>
-        </Rise>
+      <div style={{ display: "flex", flexDirection: "column", gap: 8, paddingRight: compact ? 0 : 120 }}>
         <Rise delay={4}>
-          <Headline size={compact ? 56 : 62}>
-            We see the bearing fail <span style={{ color: C.flare }}>twelve days early.</span>
-          </Headline>
+          <Headline size={compact ? 44 : 56}>See wear before the stop.</Headline>
+        </Rise>
+        <Rise delay={10}>
+          <Body size={compact ? 28 : 19} color={C.inkDim}>A bearing signal becomes a planned shutdown, not a surprise.</Body>
         </Rise>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "1fr 470px 1fr", gridTemplateRows: compact ? "minmax(0, 1fr) auto" : undefined, gap: 20, flex: 1, minHeight: 0 }}>
-        {!compact && <Panel title="Current signature" meta="FFT · 0–600 Hz">
-          <div style={{ display: "flex", alignItems: "flex-end", gap: 4, height: "100%", minHeight: 220 }}>
-            {BANDS.map((band) => {
-              const grow = band.sideband ? band.base + 0.42 * degrade : band.base;
-              const wobble = 1 + Math.sin((frame + band.i * 11) * 0.09) * 0.05;
-              return (
-                <span
-                  key={band.i}
-                  style={{
-                    flex: 1,
-                    height: `${Math.min(100, grow * 100 * settle * wobble)}%`,
-                    background: band.sideband && degrade > 0.3 ? C.flare : C.brand,
-                    opacity: band.sideband && degrade > 0.3 ? 0.95 : 0.75,
-                  }}
-                />
-              );
-            })}
-          </div>
-          <div style={{ marginTop: 12, display: "flex", justifyContent: "space-between" }}>
-            <Mono size={11}>0 Hz</Mono>
-            <Mono size={11} color={degrade > 0.4 ? C.flare : C.inkFaint}>
-              sideband ×2 detected
-            </Mono>
-            <Mono size={11}>600 Hz</Mono>
-          </div>
-        </Panel>}
+      <div style={{ display: "grid", gridTemplateColumns: compact ? "1fr" : "390px minmax(0, 1fr)", gridTemplateRows: compact ? "154px minmax(0, 1fr)" : undefined, gap: compact ? 14 : 18, flex: 1, minHeight: 0 }}>
+        <AssetPanel compact={compact} status="watch" statusTone="#f4c46d" metric={{ label: "health", value: `${Math.round(score)}/100` }} />
 
-        <Panel
-          title={compact ? undefined : "Motor health"}
+          <Panel
+          compact={compact}
+          title="Condition monitor"
           meta="Extrusion Line 02"
           style={{ minHeight: 0 }}
-          bodyStyle={
-            compact
-              ? { display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 30, minHeight: 0, padding: "18px 14px 24px" }
-              : { display: "grid", placeItems: "center", minHeight: 0, padding: 18 }
-          }
+          bodyStyle={{ padding: compact ? 10 : 14, display: "flex", flexDirection: "column", gap: compact ? 10 : 12, minHeight: 0 }}
         >
-          {/* Compact crops the viewBox to the dial and lifts the delta into the
-              panel's own flow — sat inside the arc's mouth it had nowhere to
-              breathe, and no font size small enough to fit would still read. */}
-          <svg
-            viewBox={compact ? "0 22 400 270" : "0 0 400 340"}
-            style={{ width: "100%", maxWidth: 400, height: "100%", minHeight: 0, flex: compact ? "1 1 auto" : undefined }}
-          >
-            <path
-              d={arcPath(200, 190, 132, START_ANGLE, START_ANGLE + SWEEP)}
-              fill="none"
-              stroke={C.hairline}
-              strokeWidth={14}
-              strokeLinecap="butt"
-            />
-            {Array.from({ length: 27 }).map((_, i) => {
-              const a = START_ANGLE + (SWEEP * i) / 26;
-              const [x1, y1] = polar(200, 190, 150, a);
-              const [x2, y2] = polar(200, 190, i % 5 === 0 ? 162 : 157, a);
-              return (
-                <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke={C.hairlineStrong} strokeWidth={1} />
-              );
-            })}
-            {settle > 0.02 ? (
-              <path
-                d={arcPath(200, 190, 132, START_ANGLE, angle)}
-                fill="none"
-                stroke={arcColor}
-                strokeWidth={14}
-                strokeLinecap="butt"
-              />
-            ) : null}
-            <text
-              x={200}
-              y={198}
-              textAnchor="middle"
-              fill={arcColor}
-              style={{ fontFamily: F.mono, fontSize: 86, fontVariantNumeric: "tabular-nums", letterSpacing: "-0.04em" }}
-            >
-              {Math.round(score * settle)}
-            </text>
-            {/* At the compact type bump this label ran under the score and out
-                across both legs of the arc, so it buys its own room. */}
-            <text
-              x={200}
-              y={compact ? 244 : 230}
-              textAnchor="middle"
-              fill={C.inkFaint}
-              style={{ fontFamily: F.mono, fontSize: compact ? 18 : 14, letterSpacing: "0.22em", textTransform: "uppercase" }}
-            >
-              health score
-            </text>
-            {!compact && (
-              <text
-                x={200}
-                y={296}
-                textAnchor="middle"
-                fill={degrade > 0.5 ? C.flare : C.inkDim}
-                style={{ fontFamily: F.mono, fontSize: 15, letterSpacing: "0.14em", textTransform: "uppercase" }}
-              >
-                {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
-              </text>
-            )}
-          </svg>
-
-          {compact && (
-            <Mono size={22} color={degrade > 0.5 ? C.flare : C.inkDim} style={{ letterSpacing: "0.14em" }}>
-              {degrade > 0.5 ? "▼ 25 pts in 9 days" : "baseline nominal"}
-            </Mono>
-          )}
-        </Panel>
-
-        <div style={{ display: "flex", flexDirection: "column", gap: 16, justifyContent: "space-between" }}>
-          <div
-            style={{
-              opacity: alertIn,
-              transform: `translateX(${(1 - alertIn) * 24}px)`,
-              border: `1px solid rgba(255,148,72,0.48)`,
-              background: C.flareSoft,
-              padding: 18,
-              display: "flex",
-              flexDirection: "column",
-              gap: 12,
-            }}
-          >
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-              <span style={{ width: 8, height: 8, background: C.flare, borderRadius: 8 }} />
-              <Mono size={compact ? 22 : 12} color={C.flare}>Alert · high severity</Mono>
+          {compact ? (
+            <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 0.9fr) minmax(0, 1fr)", gap: 10, flex: 1, minHeight: 0 }}>
+              <HealthGauge compact score={score} settle={settle} degrade={degrade} />
+              <Rise delay={52} style={{ opacity: alertIn, translate: `${(1 - alertIn) * 20}px 0px`, minHeight: 0 }}>
+                <div style={{ height: "100%", border: "1px solid rgba(138,90,0,0.48)", background: C.flareSoft, padding: 16, display: "flex", flexDirection: "column", gap: 10 }}>
+                  <Mono size={22} color={C.flare} style={{ letterSpacing: 0 }}>Amber alert / high</Mono>
+                  <Readout size={33} color={C.ink}>Drive-end bearing</Readout>
+                  <div style={{ display: "flex", alignItems: "baseline", gap: 8, borderTop: `1px solid ${C.flare}55`, paddingTop: 10 }}>
+                    <Readout size={30} color={C.flare}>+41%</Readout>
+                    <Mono size={20} color={C.inkDim} style={{ letterSpacing: 0 }}>sideband</Mono>
+                  </div>
+                  <div style={{ marginTop: "auto", borderTop: `1px solid ${C.flare}55`, paddingTop: 10, display: "flex", flexDirection: "column", gap: 5 }}>
+                    <Readout size={38} color={C.flare}>12 days</Readout>
+                    <Mono size={20} color={C.inkDim} style={{ letterSpacing: 0 }}>next shutdown</Mono>
+                  </div>
+                </div>
+              </Rise>
             </div>
-            <Readout size={compact ? 32 : 24} color={C.ink}>Bearing wear, drive end</Readout>
-            <Body size={compact ? 30 : 17} color={C.inkDim}>
-              {compact ? "12-day warning. Schedule work at the next shutdown." : "Sideband energy at 2× line frequency has risen 41% against this motor's own 90-day baseline. Confidence 87%."}
-            </Body>
+          ) : (
+          <>
+          <div style={{ display: "grid", gridTemplateColumns: "minmax(0, 1fr) 320px", gap: 14, flex: 1, minHeight: 0 }}>
+            <HealthGauge compact={compact} score={score} settle={settle} degrade={degrade} />
+
+            <Rise delay={52} style={{ opacity: alertIn, translate: `${(1 - alertIn) * 20}px 0px`, minHeight: 0 }}>
+              <div style={{ height: "100%", border: "1px solid rgba(138,90,0,0.48)", background: C.flareSoft, padding: compact ? 16 : 18, display: "flex", flexDirection: "column", gap: compact ? 10 : 12 }}>
+                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }}>
+                  <Mono size={15} color={C.flare} style={{ letterSpacing: 0 }}>Amber alert / high</Mono>
+                  <Mono size={14} color={C.flare} style={{ letterSpacing: 0 }}>87% confidence</Mono>
+                </div>
+                <Readout size={28} color={C.ink}>Bearing wear, drive end</Readout>
+                <Body size={19} color={C.inkDim}>
+                  Sideband energy at 2× line frequency is 41% above this motor&apos;s own baseline.
+                </Body>
+                <div style={{ marginTop: "auto", borderTop: `1px solid ${C.flare}55`, paddingTop: 12, display: "flex", flexDirection: "column", gap: 7 }}>
+                  <Mono size={14} color={C.flare} style={{ letterSpacing: 0 }}>Predicted warning</Mono>
+                  <Readout size={38} color={C.flare}>12 days</Readout>
+                  <Mono size={16} color={C.inkDim} style={{ letterSpacing: 0 }}>Recommended: next shutdown</Mono>
+                </div>
+              </div>
+            </Rise>
           </div>
 
-          {!compact && <Panel title="Predicted threshold" meta="confidence band">
-            <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-              <div style={{ position: "relative", height: 56 }}>
-                <div style={{ position: "absolute", inset: "26px 0 auto", height: 2, background: C.hairline }} />
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "0%",
-                    top: 26,
-                    width: `${64 * alertIn}%`,
-                    height: 2,
-                    background: C.brand,
-                  }}
-                />
-                <div
-                  style={{
-                    position: "absolute",
-                    left: "56%",
-                    top: 14,
-                    width: "26%",
-                    height: 26,
-                    background: "#f5ecd0",
-                    border: `1px solid rgba(255,148,72,0.4)`,
-                    opacity: alertIn,
-                  }}
-                />
-                <div style={{ position: "absolute", left: 0, top: 40 }}>
-                  <Mono size={11}>today</Mono>
-                </div>
-                <div style={{ position: "absolute", left: "62%", top: 40 }}>
-                  <Mono size={11} color={C.flare}>day 12</Mono>
-                </div>
-                <div style={{ position: "absolute", right: 0, top: 40 }}>
-                  <Mono size={11}>day 21</Mono>
-                </div>
-              </div>
-              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <Mono size={12}>Recommended</Mono>
-                <Mono size={12} color={C.brand}>Schedule in next shutdown</Mono>
-              </div>
+          <div style={{ borderTop: `1px solid ${C.hairline}`, paddingTop: 10, minHeight: 102 }}>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12, marginBottom: 8 }}>
+              <Mono size={15} color={C.inkDim} style={{ letterSpacing: 0 }}>Signature / sideband energy</Mono>
+              <Mono size={14} color={C.flare} style={{ letterSpacing: 0 }}>2× line frequency</Mono>
             </div>
-          </Panel>}
-        </div>
+            <div style={{ height: 52, display: "flex", alignItems: "flex-end", gap: 4 }}>
+              {BANDS.map((band) => {
+                const grow = band.sideband ? band.base + 0.42 * sideband : band.base;
+                const wobble = 1 + Math.sin((frame + band.i * 11) * 0.09) * 0.05;
+                return <span key={band.i} style={{ flex: 1, height: `${Math.min(100, grow * 100 * settle * wobble)}%`, background: band.sideband && sideband > 0.25 ? C.flare : C.brand, opacity: band.sideband && sideband > 0.25 ? 0.95 : 0.72 }} />;
+              })}
+            </div>
+          </div>
+          </>
+          )}
+        </Panel>
       </div>
     </div>
   );

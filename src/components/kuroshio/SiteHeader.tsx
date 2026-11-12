@@ -37,10 +37,8 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
     <header className="sticky top-0 z-50">
       <div
         className={cn(
-          "border-b transition-colors duration-300",
-          isScrolled || isMenuOpen
-            ? "border-hairline bg-canvas/88 backdrop-blur-xl"
-            : "border-transparent bg-transparent"
+          "transition-colors duration-300",
+          isScrolled || isMenuOpen ? "bg-canvas" : "bg-transparent"
         )}
       >
         <div className="shell flex h-[68px] items-center justify-between gap-6">
@@ -50,12 +48,14 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
 
           <nav aria-label="Primary" className="hidden items-center md:flex">
             {navItems.map((item) => {
-              const isActive = activePage === item.id;
+              const isActive =
+                activePage === item.id ||
+                (item.id === "products" && (activePage === "platform" || activePage === "ktrack"));
               return (
                 <PageLink
                   aria-current={isActive ? "page" : undefined}
                   className={cn(
-                    "group relative px-4 py-2 text-sm font-medium tracking-tight transition-colors",
+                    "group relative px-4 py-2 text-[0.9375rem] font-medium transition-colors",
                     isActive ? "text-ink" : "text-ink-dim hover:text-ink"
                   )}
                   key={item.id}
@@ -65,7 +65,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
                   <span
                     aria-hidden="true"
                     className={cn(
-                      "absolute inset-x-3 -bottom-px h-px origin-left bg-brand transition-transform duration-300 ease-out",
+                      "absolute inset-x-4 bottom-0 h-[3px] origin-left bg-brand transition-transform duration-300 ease-out",
                       isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                     )}
                   />
@@ -75,7 +75,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
           </nav>
 
           <div className="flex items-center gap-3">
-            <PageLink className="btn-brand hidden text-[0.8125rem] sm:inline-flex" page="contact">
+            <PageLink className="btn-brand hidden min-h-11 px-5 sm:inline-flex" page="contact">
               Request a demo
             </PageLink>
 
@@ -83,7 +83,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
               aria-controls="mobile-navigation"
               aria-expanded={isMenuOpen}
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-              className="flex size-11 items-center justify-center border border-hairline-strong text-ink transition-colors hover:border-brand hover:text-brand md:hidden"
+              className="flex size-11 items-center justify-center bg-canvas-sunk text-ink transition-colors hover:text-brand md:hidden"
               onClick={() => setIsMenuOpen((open) => !open)}
               type="button"
             >
@@ -95,18 +95,18 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
 
       <div
         className={cn(
-          "fixed inset-x-0 top-[68px] bottom-0 z-40 border-t border-hairline bg-canvas/98 backdrop-blur-xl transition-[opacity,transform] duration-300 md:hidden",
-          isMenuOpen ? "translate-y-0 opacity-100" : "pointer-events-none -translate-y-2 opacity-0"
+          "fixed inset-x-0 top-[68px] bottom-0 z-40 bg-canvas transition-[opacity,transform,visibility] duration-300 md:hidden",
+          isMenuOpen ? "visible translate-y-0 opacity-100" : "pointer-events-none invisible -translate-y-2 opacity-0"
         )}
         id="mobile-navigation"
         inert={!isMenuOpen ? true : undefined}
       >
         <nav aria-label="Mobile" className="shell flex flex-col pt-6">
-          {navItems.map((item, index) => (
+          {navItems.map((item) => (
             <PageLink
               aria-current={activePage === item.id ? "page" : undefined}
               className={cn(
-                "flex items-baseline justify-between border-b border-hairline py-5 transition-colors",
+                "flex items-baseline justify-between py-4 transition-colors",
                 activePage === item.id ? "text-brand" : "text-ink hover:text-brand"
               )}
               key={item.id}
@@ -114,8 +114,7 @@ export function SiteHeader({ activePage }: Readonly<SiteHeaderProps>) {
               page={item.id}
               tabIndex={isMenuOpen ? 0 : -1}
             >
-              <span className="display-md">{item.label}</span>
-              <span className="tag">{String(index + 1).padStart(2, "0")}</span>
+              <span className="display-lg">{item.label}</span>
             </PageLink>
           ))}
           <PageLink
