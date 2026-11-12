@@ -178,7 +178,7 @@ function tracePath(kind: TraceKind): string {
   }).join("");
 }
 
-function MachineTrace({ machine }: Readonly<{ machine: Machine }>) {
+function MachineTrace({ machine, live }: Readonly<{ machine: Machine; live: boolean }>) {
   const ref = useRef<HTMLElement>(null);
   const path = useMemo(() => tracePath(machine.kind), [machine.kind]);
   const [from, to] = machine.span;
@@ -198,8 +198,8 @@ function MachineTrace({ machine }: Readonly<{ machine: Machine }>) {
 
   return (
     <figure
-      aria-live="polite"
-      className="flex h-full flex-col gap-6 bg-[#26251F] p-6 text-[#EDECE8] sm:p-10"
+      aria-live={live ? "polite" : "off"}
+      className="flex h-full flex-col gap-5 bg-[#26251F] p-6 text-[#EDECE8] sm:p-8"
       data-ui
       ref={ref}
     >
@@ -251,6 +251,8 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
   const rootRef = useRef<HTMLElement>(null);
   const [trackId, setTrackId] = useState<TrackId>(readTrack);
   const [picked, setPicked] = useState(0);
+  // The picker plays through the machines by itself until the visitor chooses one.
+  const [touring, setTouring] = useState(() => !prefersReducedMotion());
 
   usePageMotion(rootRef, (root: HTMLElement) => {
     if (prefersReducedMotion()) return;
@@ -272,6 +274,12 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
   const machines = MACHINES[track.id];
   const machine = machines[picked] ?? machines[0];
 
+  useEffect(() => {
+    if (!touring) return;
+    const id = setInterval(() => setPicked((index) => (index + 1) % machines.length), 5000);
+    return () => clearInterval(id);
+  }, [touring, machines.length]);
+
   const showTrack = useCallback((next: TrackId) => {
     setTrackId(next);
     setPicked(0);
@@ -287,6 +295,7 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
 
   const selectTrack = useCallback(
     (next: TrackId) => {
+      setTouring(false);
       showTrack(next);
       // replaceState, not the hash: assigning the hash fires the router's
       // hashchange handler, which would scroll the reader back to the top.
@@ -317,7 +326,7 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
   return (
     <main className="outline-none" ref={rootRef} tabIndex={-1}>
       {/* ------------------------------------------------------------- hero */}
-      <section className="shell grid gap-10 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+      <section className="shell grid gap-10 py-8 md:py-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="flex flex-col gap-6">
           <div className="flex flex-col gap-6" data-swap>
             <h1
@@ -331,7 +340,7 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
             </p>
           </div>
 
-          <div className="mt-2 flex max-w-xl flex-col gap-1 lg:mt-auto" data-reveal="up" data-reveal-delay="0.14">
+          <div className="mt-2 flex max-w-xl flex-col gap-1" data-reveal="up" data-reveal-delay="0.14">
             <TrackSwitch onChange={selectTrack} options={tracks} value={trackId} />
             <div aria-label="Choose a machine" className="grid grid-cols-2 gap-1" role="group">
               {machines.map((item, index) => (
@@ -345,7 +354,10 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
                       : "bg-canvas-sunk text-ink hover:bg-panel"
                   )}
                   key={item.name}
-                  onClick={() => setPicked(index)}
+                  onClick={() => {
+                    setTouring(false);
+                    setPicked(index);
+                  }}
                   type="button"
                 >
                   <span className="text-[1.0625rem] font-semibold tracking-tight">{item.name}</span>
@@ -359,7 +371,7 @@ export function IndustriesPage({ onNavigate }: Readonly<PageProps>) {
         </div>
 
         <div data-reveal="scale">
-          <MachineTrace machine={machine} />
+          <MachineTrace live={!touring} machine={machine} />
         </div>
       </section>
 
